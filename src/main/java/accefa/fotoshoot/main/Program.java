@@ -1,4 +1,4 @@
-package accefa.main;
+package accefa.fotoshoot.main;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
