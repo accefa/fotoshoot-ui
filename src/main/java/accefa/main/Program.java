@@ -32,7 +32,7 @@ public class Program extends Application {
          }
       });
 
-      final StackPane root = new StackPane();
+      final StackPane root = new StackPane(); 
       root.getChildren().add(btn);
 
       final Scene scene = new Scene(root, 300, 250);
