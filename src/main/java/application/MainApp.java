@@ -32,7 +32,7 @@ public class MainApp extends Application{
     
     @FXML private Label lblGradAnzeige = new Label();
     
-    Image KorbBild = new Image("file:test.png");
+    Image KorbBild = new Image("http://foto.mein-schoener-garten.de/userimages/3499/or/2038793/baum-location-scout-04323805788.jpg");
     @FXML private ImageView KorbView = new ImageView();
     
     //These work too, just in case
@@ -93,11 +93,11 @@ public class MainApp extends Application{
     
     public void loadImageView(){
         KorbView.setImage(KorbBild);
-        KorbView.setFitWidth(330);
-        KorbView.setPreserveRatio(true);
-        KorbView.setSmooth(true);
-        KorbView.setCache(true);
-        KorbView.setVisible(true);
+        //KorbView.setFitWidth(330);
+        //KorbView.setPreserveRatio(true);
+        //KorbView.setSmooth(true);
+        //KorbView.setCache(true);
+        //KorbView.setVisible(true);
     	
     }
 
