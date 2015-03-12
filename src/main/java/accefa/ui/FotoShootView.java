@@ -1,5 +1,8 @@
 package accefa.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -11,6 +14,10 @@ import accefa.ui.tabs.PiTab;
 
 public class FotoShootView extends Application {
 
+   private TabPane tabPane;
+
+   private List<Tab> tabs;
+
    public void show(final String[] args) {
       launch(args);
    }
@@ -19,19 +26,24 @@ public class FotoShootView extends Application {
    public void start(final Stage primaryStage) throws Exception {
       primaryStage.setTitle("Fotoshoot");
 
-      final TabPane tabPane = new TabPane();
+      tabPane = new TabPane();
+      tabs = new ArrayList<Tab>();
+      tabs.add(new PiTab());
+      tabs.add(new ImageConfigTab());
+      tabs.add(new EngineConfigTab());
 
-      final Tab tabPi = new PiTab();
-      final Tab tabImageConfig = new ImageConfigTab();
-      final Tab tagEngineConfig = new EngineConfigTab();
-
-      tabPane.getTabs().add(tabPi);
-      tabPane.getTabs().add(tabImageConfig);
-      tabPane.getTabs().add(tagEngineConfig);
+      configureTabs();
 
       final Scene scene = new Scene(tabPane, 600, 600);
       primaryStage.setScene(scene);
       primaryStage.show();
+   }
+
+   private void configureTabs() {
+      for (final Tab tab : tabs) {
+         tab.setClosable(false);
+         tabPane.getTabs().add(tab);
+      }
    }
 
 }
