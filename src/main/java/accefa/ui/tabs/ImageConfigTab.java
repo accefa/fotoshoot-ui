@@ -1,9 +1,6 @@
 package accefa.ui.tabs;
 
-import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -14,8 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 public class ImageConfigTab extends Tab {
 
@@ -35,19 +30,19 @@ public class ImageConfigTab extends Tab {
 	TextField txtZuschnittLinks = new TextField();
 	TextField txtPixelLinie = new TextField();
 
-	final Button btnSenden = new Button("Senden");
+	final Button senden = new Button("Senden");
 	GridPane gridPane = new GridPane();
-	ImageView ivKorbView = new ImageView();
-	Image iKorbBild;
+	ImageView korbView = new ImageView();
+	Image korbBild;
 	HBox hbox = new HBox();
 
 	// Konstruktor
 	public ImageConfigTab() {
 		super("Bilder");
 
-		btnSenden.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-		btnSenden.setMinSize(120, 40);
-		btnSenden.addEventHandler(MouseEvent.MOUSE_CLICKED,
+		senden.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+		senden.setMinSize(120, 40);
+		senden.addEventHandler(MouseEvent.MOUSE_CLICKED,
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(final MouseEvent e) {
@@ -69,7 +64,7 @@ public class ImageConfigTab extends Tab {
 		gridPane.add(lblZuschnittRechts, 0, 4);
 		gridPane.add(lblZuschnittLinks, 0, 5);
 		gridPane.add(lblPixelLinie, 0, 6);
-		gridPane.add(btnSenden, 0, 7);
+		gridPane.add(senden, 0, 7);
 
 		gridPane.add(txtKontrast, 1, 1);
 		gridPane.add(txtGraustufen, 1, 2);
@@ -81,26 +76,25 @@ public class ImageConfigTab extends Tab {
 
 		gridPane.setGridLinesVisible(true);
 
-		ivKorbView.setFitWidth(500);
-		ivKorbView.setPreserveRatio(true);
-		ivKorbView.setSmooth(true);
-		ivKorbView.setCache(true);
+		korbView.setFitWidth(500);
+		korbView.setPreserveRatio(true);
+		korbView.setSmooth(true);
+		korbView.setCache(true);
 
 		loadImage();
-		ivKorbView.setImage(iKorbBild);
+		korbView.setImage(korbBild);
 
-		hbox.getChildren().addAll(gridPane, ivKorbView);
+		hbox.getChildren().addAll(gridPane, korbView);
 		setContent(hbox);
 
 	}
 
 	public final void loadImage() {
-		iKorbBild = new Image(
+		korbBild = new Image(
 				"http://foto.mein-schoener-garten.de/userimages/3499/or/2038793/baum-location-scout-04323805788.jpg");
-		if (iKorbBild.isError()) {
+		if (korbBild.isError()) {
 			System.out.println("error");
-			iKorbBild = new Image(
-					"file:///C:/Users/Adrian/git/fotoshoot-ui/src/main/java/accefa/ui/tabs/test.png");
+			korbBild = new Image("file:///C:/Users/Adrian/git/fotoshoot-ui/src/main/java/accefa/ui/tabs/test.png");
 		} else {
 			System.out.println("no error");
 		}
