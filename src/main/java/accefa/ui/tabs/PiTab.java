@@ -6,15 +6,19 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import java.util.prefs.Preferences;
 
 public class PiTab extends Tab {
 
 	public PiTab() {
 		super("Pi");
 
+		final TextField txtURL = new TextField();
 		final Label lbl = new Label("00:00:00");
+		
 		final Button btnStarten = new Button("Starten");
 		btnStarten.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
 		btnStarten.setMinSize(120, 40);
@@ -46,6 +50,7 @@ public class PiTab extends Tab {
 		lbl.setStyle("-fx-font: 22 arial;");
 		hbox.getChildren().add(lbl);
 		hbox.getChildren().add(btnStoppen);
+		hbox.getChildren().add(txtURL);
 		hbox.setAlignment(Pos.CENTER);
 
 		setContent(hbox);
