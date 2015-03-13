@@ -11,42 +11,44 @@ import javafx.scene.layout.VBox;
 
 public class PiTab extends Tab {
 
-   public PiTab() {
-      super("Pi");
+	public PiTab() {
+		super("Pi");
 
-      final Label lbl = new Label("00:00:00");
-      final Button btnStarten = new Button("Starten");
-      btnStarten.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-      btnStarten.setMinSize(120, 120);
-      btnStarten.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-         @Override
-         public void handle(final MouseEvent e) {
-            for (int i = 0; i < 100; i++) {
-               Platform.runLater(new Runnable() {
-                  @Override
-                  public void run() {
-                     lbl.setText(String.valueOf(System.currentTimeMillis()));
-                  }
-               });
+		final Label lbl = new Label("00:00:00");
+		final Button btnStarten = new Button("Starten");
+		btnStarten.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+		btnStarten.setMinSize(120, 40);
+		btnStarten.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(final MouseEvent e) {
+						for (int i = 0; i < 100; i++) {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									lbl.setText(String.valueOf(System
+											.currentTimeMillis()));
+								}
+							});
+						}
+					}
+				});
 
-            }
-         }
-      });
+		final Button btnStoppen = new Button("Stoppen");
+		btnStoppen.setMinSize(120, 40);
+		btnStoppen.setStyle("-fx-font: 22 arial; -fx-base: #C0C0C0; width:500"); // Grau
+		// btnStoppen.setStyle("-fx-font: 22 arial; -fx-base: #ff0000; width:500");
+		// Rot
+		btnStoppen.setDisable(true);
+		final VBox hbox = new VBox(8);
+		hbox.getChildren().add(btnStarten);
 
-      final Button btnStoppen = new Button("Stoppen");
-      btnStoppen.setMinSize(120, 120);
-      btnStoppen.setStyle("-fx-font: 22 arial; -fx-base: #C0C0C0; width:500"); //Grau
-      //btnStoppen.setStyle("-fx-font: 22 arial; -fx-base: #ff0000; width:500"); Rot
-      btnStoppen.setDisable(true);
-      final VBox hbox = new VBox(8);
-      hbox.getChildren().add(btnStarten);
+		lbl.setStyle("-fx-font: 22 arial;");
+		hbox.getChildren().add(lbl);
+		hbox.getChildren().add(btnStoppen);
+		hbox.setAlignment(Pos.CENTER);
 
-      lbl.setStyle("-fx-font: 22 arial;");
-      hbox.getChildren().add(lbl);
-      hbox.getChildren().add(btnStoppen);
-      hbox.setAlignment(Pos.CENTER);
-
-      setContent(hbox);
-   }
+		setContent(hbox);
+	}
 
 }
