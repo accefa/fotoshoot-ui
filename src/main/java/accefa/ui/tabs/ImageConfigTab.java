@@ -93,10 +93,8 @@ public class ImageConfigTab extends Tab {
 		korbBild = new Image(
 				"http://foto.mein-schoener-garten.de/userimages/3499/or/2038793/baum-location-scout-04323805788.jpg");
 		if (korbBild.isError()) {
-			System.out.println("error");
-			korbBild = new Image("file:///C:/Users/Adrian/git/fotoshoot-ui/src/main/java/accefa/ui/tabs/test.png");
-		} else {
-			System.out.println("no error");
+			korbBild = new Image(this.getClass().getClassLoader()
+					.getResourceAsStream("404.jpg"));
 		}
 	}
 
