@@ -1,5 +1,6 @@
 package accefa.properties;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,6 +30,10 @@ public class FotoShootProperties {
 
    public void save() {
       try {
+         final File file = new File(FILENAME);
+         if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdir();
+         }
          final OutputStream out = new FileOutputStream(FILENAME);
          clientProperties.store(out, null);
       } catch (final IOException e) {
