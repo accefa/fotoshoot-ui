@@ -11,6 +11,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+
+import org.apache.commons.validator.routines.UrlValidator;
+
 import accefa.properties.FotoShootProperties;
 
 public class PiTab extends Tab {
@@ -49,7 +52,15 @@ public class PiTab extends Tab {
       btnSpeichern.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
          @Override
          public void handle(final MouseEvent e) {
-            properties.setUrl(txtURL.getText());
+            final String url = txtURL.getText();
+            final String[] schemas = { "http" };
+            final UrlValidator urlValidator = new UrlValidator(schemas);
+            if (urlValidator.isValid(url)) {
+               properties.setUrl(url);
+               txtURL.setStyle("-fx-base: #000000");
+            } else {
+               txtURL.setStyle("-fx-base: #ff0000");
+            }
             properties.save();
          }
       });
