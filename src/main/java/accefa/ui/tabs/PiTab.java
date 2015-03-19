@@ -54,7 +54,11 @@ public class PiTab extends Tab {
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(final MouseEvent e) {
-
+						try {
+							saveProperties(txtURL.getText());
+						} catch (IOException | URISyntaxException e1) {
+							e1.printStackTrace();
+						}
 					}
 				});
 
@@ -76,21 +80,14 @@ public class PiTab extends Tab {
 		hbox.setAlignment(Pos.CENTER);
 
 		setContent(hbox);
-
-		Properties();
+		txtURL.setText(loadProperties());
 	}
 
-	public final void Properties() throws IOException {
 
-		props.setProperty(
-				"URL",
-				"http://foto"
-						+ ".mein-schoener-garten.de/userimages/3499/or/2038793/baum-location-scout-04323805788.jpg");
-		System.out.println(props.getProperty("URL"));
-	}
-
-	public final void saveProperties() throws IOException, URISyntaxException {
+	public final void saveProperties(String value) throws IOException,
+			URISyntaxException {
 		try {
+			props.setProperty("URL", value);
 			URL out = getClass().getClassLoader().getResource("properties.txt");
 			FileWriter file = new FileWriter(new File(out.toURI()));
 			props.store(file, null);
@@ -99,15 +96,18 @@ public class PiTab extends Tab {
 		}
 	}
 
-	public final void loadProperties() throws IOException {
+	public final String loadProperties() throws IOException {
 		try {
 			InputStream in = getClass().getClassLoader().getResourceAsStream(
 					"properties.txt");
 			props.load(in);
 			in.close();
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return props.getProperty("URL");
 	}
 
 }
