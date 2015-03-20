@@ -1,4 +1,4 @@
-package accefa.properties;
+package accefa.util;
 
 import java.io.File;
 import java.io.FileInputStream;

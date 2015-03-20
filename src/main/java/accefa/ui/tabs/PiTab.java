@@ -20,7 +20,7 @@ import javafx.util.Duration;
 
 import org.apache.commons.validator.routines.UrlValidator;
 
-import accefa.properties.FotoShootProperties;
+import accefa.util.FotoShootProperties;
 
 public class PiTab extends Tab {
 
