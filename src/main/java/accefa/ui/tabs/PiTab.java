@@ -1,8 +1,8 @@
 package accefa.ui.tabs;
 
-import java.io.IOException;
-
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,7 +20,7 @@ public class PiTab extends Tab {
 
    private final FotoShootProperties properties;
 
-   public PiTab() throws IOException {
+   public PiTab() {
       super("Pi");
 
       properties = new FotoShootProperties();
@@ -32,6 +32,9 @@ public class PiTab extends Tab {
       final Button btnStarten = new Button("Starten");
       btnStarten.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
       btnStarten.setMinSize(120, 40);
+
+      final StringProperty prop = new SimpleStringProperty();
+      lbl.textProperty().bindBidirectional(prop);
       btnStarten.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
          @Override
          public void handle(final MouseEvent e) {
@@ -39,7 +42,13 @@ public class PiTab extends Tab {
                Platform.runLater(new Runnable() {
                   @Override
                   public void run() {
-                     lbl.setText(String.valueOf(System.currentTimeMillis()));
+                     try {
+                        Thread.sleep(1000);
+                        prop.set(String.valueOf(System.currentTimeMillis()));
+                     } catch (final InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                     }
                   }
                });
             }
@@ -85,5 +94,4 @@ public class PiTab extends Tab {
       setContent(hbox);
       txtURL.setText(properties.getUrl());
    }
-
 }
