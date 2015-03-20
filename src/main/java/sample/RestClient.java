@@ -9,17 +9,20 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 
+import accefa.jsonparser.DetectionParser;
+
 public class RestClient {
 	public static void main(String[] args) {
 		ClientConfig clientConfig = new ClientConfig();
 		Client client = ClientBuilder.newClient(clientConfig);
 		WebTarget target = client.target(getBaseURI());
-		System.out.println(target.request().get(String.class));
+		String json = target.request().get(String.class);
+		System.out.println(json);
 	}
 
 	private static URI getBaseURI() {
 
-		return UriBuilder.fromUri("http://localhost:8080/").build();
+		return UriBuilder.fromUri("http://localhost:8080/camera").build();
 
 	}
 }
