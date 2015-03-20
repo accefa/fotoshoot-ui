@@ -2,9 +2,8 @@ package accefa.ui.tabs;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -15,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -22,122 +22,136 @@ import org.apache.commons.validator.routines.UrlValidator;
 
 import accefa.util.FotoShootProperties;
 
+/**
+ * Pi Tab. Zuständig für den Start- und Stop des Ballwurfprozesses.
+ */
 public class PiTab extends Tab {
 
-	private final FotoShootProperties properties;
-	private Timeline timeline;
-	private final DoubleProperty timeSeconds = new SimpleDoubleProperty();
-	private Duration time = Duration.ZERO;
-	private final Button btnStoppen = new Button("Stoppen");
-	private final Button btnStarten = new Button("Starten");
-	private final Button btnSpeichern = new Button("Speichern");
+   private final FotoShootProperties properties;
 
-	public PiTab() {
-		super("Pi");
+   private final Button btnStart;
+   private final Label lblTimeMinutes;
+   private final Label lblTimeSeconds;
+   private final Label lblStopp;
 
-		setStartButton(true);
-		setSpeichernButton(true);
-		setStoppButton(false);
-				
-		properties = new FotoShootProperties();
-		properties.load();
+   private final TextField txtUrl;
+   private final Button btnSaveUrl;
 
-		final TextField txtURL = new TextField();
-		final Label lbl = new Label("0.0");
+   /**
+    * Definiert ob der Prozess läuft.
+    */
+   private final BooleanProperty processRunningProperty = new SimpleBooleanProperty(false);
 
-		lbl.textProperty().bind(timeSeconds.asString());
+   /**
+    * Url.
+    */
+   private final StringProperty urlProperty = new SimpleStringProperty();
 
-		btnStarten.addEventHandler(MouseEvent.MOUSE_CLICKED,
-				new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(final MouseEvent e) {
-						setStartButton(false);
-						if (timeline != null) {
-							time = Duration.ZERO;
-							timeSeconds.set(time.toSeconds());
-						} else {
-							timeline = new Timeline(new KeyFrame(Duration
-									.millis(100),
-									new EventHandler<ActionEvent>() {
-										@Override
-										public void handle(final ActionEvent t) {
-											final Duration duration = ((KeyFrame) t
-													.getSource()).getTime();
-											time = time.add(duration);
-											timeSeconds.set(time.toSeconds());
-										}
-									}));
-							timeline.setCycleCount(Timeline.INDEFINITE);
-							timeline.play();
-						}
-					}
-				});
+   /**
+    * Stoppuhr Minuten.
+    */
+   private final StringProperty stopWatchTimeMinutesProperty = new SimpleStringProperty("0m");
 
-		btnSpeichern.addEventHandler(MouseEvent.MOUSE_CLICKED,
-				new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(final MouseEvent e) {
-						final String url = txtURL.getText();
-						final String[] schemas = { "http" };
-						final UrlValidator urlValidator = new UrlValidator(
-								schemas);
-						if (urlValidator.isValid(url)) {
-							properties.setUrl(url);
-							properties.save();
-							txtURL.setStyle("-fx-base: #FFFFFF");
+   /**
+    * Stoppuhr Sekunden.
+    */
+   private final StringProperty stopWatchTimeSecondsProperty = new SimpleStringProperty("0s");
 
-						} else {
-							txtURL.setStyle("-fx-base: #ff0000");
-						}
+   public PiTab() {
+      super("Pi");
 
-					}
-				});
+      properties = new FotoShootProperties();
+      properties.load();
+      urlProperty.set(properties.getUrl());
 
-		final VBox hbox = new VBox(8);
-		hbox.getChildren().add(btnStarten);
-		lbl.setStyle("-fx-font: 22 arial;");
-		hbox.getChildren().add(lbl);
-		hbox.getChildren().add(btnStoppen);
-		hbox.getChildren().add(txtURL);
-		hbox.getChildren().add(btnSpeichern);
-		hbox.setAlignment(Pos.CENTER);
+      btnStart = createButton("Starten");
+      btnStart.disableProperty().bind(processRunningProperty);
 
-		setContent(hbox);
-		txtURL.setText(properties.getUrl());
-	}
+      btnSaveUrl = createButton("Url Speichern");
+      btnSaveUrl.disableProperty().bind(processRunningProperty);
 
-	public void setStartButton(boolean value) {
-		btnStarten.setMinSize(120, 40);
-		if (value) {// Enable
-			btnStarten.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-			btnStarten.setDisable(false);
-		} else {// Disable
-			btnStarten.setStyle("-fx-font: 22 arial; -fx-base: #C0C0C0;");
-			btnStarten.setDisable(true);
-		}
-	}
+      lblTimeMinutes = createLabel();
+      lblTimeMinutes.textProperty().bind(stopWatchTimeMinutesProperty);
 
-	public void setStoppButton(boolean value) {
-		btnStoppen.setMinSize(120, 40);
-		if (value) {// Enable
-			btnStoppen.setStyle("-fx-font: 22 arial; -fx-base: #ff0000;");
-			btnStoppen.setDisable(true);
-		} else {// Disable
-			btnStoppen
-					.setStyle("-fx-font: 22 arial; -fx-base: #C0C0C0; width:500");
-			btnStoppen.setDisable(true);
-		}
-	}
-	
-	public void setSpeichernButton(boolean value) {
-		btnSpeichern.setMinSize(120, 40);
-		if (value) {// Enable
-			btnSpeichern.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-			btnSpeichern.setDisable(false);
-		} else {// Disable
-			btnSpeichern
-					.setStyle("-fx-font: 22 arial; -fx-base: #C0C0C0; width:500");
-			btnSpeichern.setDisable(true);
-		}
-	}
+      lblTimeSeconds = createLabel();
+      lblTimeSeconds.textProperty().bind(stopWatchTimeSecondsProperty);
+
+      lblStopp = createLabel("Stopp");
+
+      txtUrl = new TextField();
+      txtUrl.disableProperty().bind(processRunningProperty);
+      txtUrl.textProperty().bindBidirectional(urlProperty);
+
+      setUpEventHandling();
+
+      final VBox vbox = new VBox(8);
+      vbox.getChildren().add(btnStart);
+      final HBox hbox = new HBox(8);
+      hbox.setAlignment(Pos.CENTER);
+      hbox.getChildren().add(lblTimeMinutes);
+      hbox.getChildren().add(lblTimeSeconds);
+      vbox.getChildren().add(hbox);
+      vbox.getChildren().add(lblStopp);
+      vbox.getChildren().add(txtUrl);
+      vbox.getChildren().add(btnSaveUrl);
+      vbox.setAlignment(Pos.CENTER);
+      setContent(vbox);
+   }
+
+   private Button createButton(final String title) {
+      final Button button = new Button(title);
+      button.setMinSize(120, 40);
+      button.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+      return button;
+   }
+
+   private Label createLabel() {
+      return createLabel(null);
+   }
+
+   private Label createLabel(final String title) {
+      final Label label = new Label(title);
+      label.setStyle("-fx-font: 22 arial; -fx-base: #ff00ff;");
+      return label;
+   }
+
+   private void setUpEventHandling() {
+      btnStart.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+         private Duration time = Duration.ZERO;
+
+         @Override
+         public void handle(final MouseEvent e) {
+            processRunningProperty.set(true);
+            final Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
+               @Override
+               public void handle(final ActionEvent t) {
+                  final Duration duration = ((KeyFrame) t.getSource()).getTime();
+                  time = time.add(duration);
+
+                  double timeInSeconds = time.toSeconds();
+                  timeInSeconds = timeInSeconds - ((long) ((timeInSeconds / 60)) * 60);
+                  stopWatchTimeMinutesProperty.set(String.valueOf((long) time.toMinutes()) + "m");
+                  stopWatchTimeSecondsProperty.set(String.format("%.1f", timeInSeconds) + "s");
+               }
+            }));
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+         }
+      });
+
+      btnSaveUrl.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+         @Override
+         public void handle(final MouseEvent e) {
+            final String[] schemas = { "http" };
+            final UrlValidator urlValidator = new UrlValidator(schemas);
+            if (urlValidator.isValid(urlProperty.get())) {
+               properties.setUrl(urlProperty.get());
+               properties.save();
+               txtUrl.setStyle("-fx-base: #ffffff");
+            } else {
+               txtUrl.setStyle("-fx-base: #ff0000");
+            }
+         }
+      });
+   }
 }
