@@ -86,12 +86,12 @@ public class ImageConfigTab extends Tab {
 
 		hbox.getChildren().addAll(gridPane, korbView);
 		setContent(hbox);
-
 	}
 
 	public final void loadImage() {
 		korbBild = new Image(
-				"http://foto.mein-schoener-garten.de/userimages/3499/or/2038793/baum-location-scout-04323805788.jpg");
+				"http://foto"
+				+ ".mein-schoener-garten.de/userimages/3499/or/2038793/baum-location-scout-04323805788.jpg");
 		if (korbBild.isError()) {
 			korbBild = new Image(this.getClass().getClassLoader()
 					.getResourceAsStream("404.jpg"));

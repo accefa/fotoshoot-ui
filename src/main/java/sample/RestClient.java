@@ -9,8 +9,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
 
-import accefa.jsonparser.DetectionParser;
-
 public class RestClient {
 	public static void main(String[] args) {
 		ClientConfig clientConfig = new ClientConfig();
