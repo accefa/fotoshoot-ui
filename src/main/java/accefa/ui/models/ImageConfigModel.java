@@ -2,8 +2,11 @@ package accefa.ui.models;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class ImageConfigModel {
 	private IntegerProperty lineY = new SimpleIntegerProperty();
@@ -13,6 +16,7 @@ public class ImageConfigModel {
 	private IntegerProperty quality = new SimpleIntegerProperty();
 	private IntegerProperty cropX = new SimpleIntegerProperty();
 	private IntegerProperty contrast = new SimpleIntegerProperty();
+	private StringProperty image = new SimpleStringProperty();
 
 	public int getLineY() {
 		return lineY.get();
@@ -96,6 +100,33 @@ public class ImageConfigModel {
 
 	public IntegerProperty contrastProperty() {
 		return contrast;
+	}
+	
+	public String getImage() {
+		return image.get();
+	}
+	
+	public void setImage(String image) {
+		this.image.set(image);
+	}
+	
+	public StringProperty imageProperty() {
+		return image;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Line Y: " + getLineY() + "\n");
+		stringBuilder.append("Line H: " + getLineH() + "\n");
+		stringBuilder.append("Greyscale Threshold: " + getGreyscaleThreshold()
+				+ "\n");
+		stringBuilder.append("Greyscale: " + isGreyscale() + "\n");
+		stringBuilder.append("Quality: " + getQuality() + "\n");
+		stringBuilder.append("Crop X: " + getCropX() + "\n");
+		stringBuilder.append("Contrast: " + getContrast() + "\n");
+		stringBuilder.append("Image: " + getImage() + "\n");
+		return stringBuilder.toString();
 	}
 
 }
