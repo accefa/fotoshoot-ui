@@ -3,53 +3,52 @@ package accefa.jsonparser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import accefa.config.DetectionConfig;
+import accefa.ui.models.ImageConfigModel;
 
 public class DetectionParser {
 
-	private static JSONObject parsedJson;
+    private static JSONObject parsedJson;
 
-	private DetectionParser() {
-	};
+    private static ImageConfigModel imageConfig = new ImageConfigModel();
 
-	public static DetectionConfig parseJSON(String rawJson) {
-		try {
-			parsedJson = new JSONObject(rawJson);
-			
-			if (!hasConfigKey()) {
-				throw new IllegalArgumentException("Kein Config Key gefunden");
-			}
+    private DetectionParser() {
+    };
 
-			JSONObject config = parsedJson
-					.optJSONObject(DetectionKeys.CONFIG_KEY.toString());
+    public static ImageConfigModel parseJSON(String rawJson) {
+	try {
+	    parsedJson = new JSONObject(rawJson);
 
-			return getDetectionConfig(config);
-		} catch (JSONException e) {
-			throw new IllegalArgumentException(e);
-		}
+	    if (!hasConfigKey()) {
+		throw new IllegalArgumentException("Kein Config Key gefunden");
+	    }
+
+	    JSONObject config = parsedJson
+		    .optJSONObject(DetectionKeys.CONFIG_KEY);
+
+	    return getDetectionConfig(config);
+	} catch (JSONException e) {
+	    throw new IllegalArgumentException(e);
 	}
-	
-	private static boolean hasConfigKey() {
-		return parsedJson.has(DetectionKeys.CONFIG_KEY.toString());
-	}
-	
-	private static DetectionConfig getDetectionConfig(JSONObject config) {
-		DetectionConfig detectionConfig = new DetectionConfig();
-		detectionConfig.setContrast(config.getInt(DetectionKeys.CONTRAST
-				.toString()));
-		detectionConfig.setCropX(config.getInt(DetectionKeys.CROP_X
-				.toString()));
-		detectionConfig.setGreyscale(config
-				.getBoolean(DetectionKeys.GREYSCALE.toString()));
-		detectionConfig.setGreyscaleThreshold(config
-				.getInt(DetectionKeys.GREYSCALE_THRESHOLD.toString()));
-		detectionConfig.setLineH(config.getInt(DetectionKeys.LINE_H
-				.toString()));
-		detectionConfig.setLineY(config.getInt(DetectionKeys.LINE_Y
-				.toString()));
-		detectionConfig.setQuality(config.getInt(DetectionKeys.QUALITY
-				.toString()));
-		return detectionConfig;
-	}
+    }
+
+    private static boolean hasConfigKey() {
+	return parsedJson.has(DetectionKeys.CONFIG_KEY);
+    }
+
+    private static ImageConfigModel getDetectionConfig(JSONObject config) {
+	imageConfig.setContrast(config.getInt(DetectionKeys.CONTRAST));
+	imageConfig.setCropX(config.getInt(DetectionKeys.CROP_X));
+	imageConfig.setGreyscale(config.getBoolean(DetectionKeys.GREYSCALE));
+	imageConfig.setGreyscaleThreshold(config
+		.getInt(DetectionKeys.GREYSCALE_THRESHOLD));
+	imageConfig.setLineH(config.getInt(DetectionKeys.LINE_H));
+	imageConfig.setLineY(config.getInt(DetectionKeys.LINE_Y));
+	imageConfig.setQuality(config.getInt(DetectionKeys.QUALITY));
+	return imageConfig;
+    }
+
+    public static void setImageConfig(ImageConfigModel imageConfig) {
+        DetectionParser.imageConfig = imageConfig;
+    }
 
 }
