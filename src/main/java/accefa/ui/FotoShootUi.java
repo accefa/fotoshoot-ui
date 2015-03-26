@@ -8,11 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import accefa.ui.models.ImageConfigModel;
+import accefa.service.RaspiService;
+import accefa.service.RaspiServiceImpl;
+import accefa.service.RaspiUrlBuilder;
 import accefa.ui.presenter.ImageConfigPresenter;
 import accefa.ui.tabs.EngineConfigTab;
 import accefa.ui.tabs.PiTab;
-import accefa.ui.view.ImageConfigView;
 
 public class FotoShootUi extends Application {
 
@@ -42,12 +43,12 @@ public class FotoShootUi extends Application {
    }
 
    private Tab createTabImageRecognition() {
-      final ImageConfigView view = new ImageConfigView();
-      final ImageConfigModel model = new ImageConfigModel();
-      final ImageConfigPresenter presenter = new ImageConfigPresenter(model, view);
+      final RaspiService service = new RaspiServiceImpl(new RaspiUrlBuilder("http://localhost:8080"));
+      final ImageConfigPresenter presenter = new ImageConfigPresenter(service);
       presenter.load();
+
       final Tab tab = new Tab("Bild-Erkennung");
-      tab.setContent(view.getNode());
+      tab.setContent(presenter.getView());
       return tab;
    }
 
