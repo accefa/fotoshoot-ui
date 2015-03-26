@@ -2,131 +2,130 @@ package accefa.ui.models;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class ImageConfigModel {
-	private IntegerProperty lineY = new SimpleIntegerProperty();
-	private IntegerProperty lineH = new SimpleIntegerProperty();
-	private IntegerProperty greyscaleThreshold = new SimpleIntegerProperty();
-	private BooleanProperty greyscale = new SimpleBooleanProperty();
-	private IntegerProperty quality = new SimpleIntegerProperty();
-	private IntegerProperty cropX = new SimpleIntegerProperty();
-	private IntegerProperty contrast = new SimpleIntegerProperty();
-	private StringProperty image = new SimpleStringProperty();
 
-	public int getLineY() {
-		return lineY.get();
-	}
+   private final IntegerProperty lineY = new SimpleIntegerProperty();
+   private final IntegerProperty lineH = new SimpleIntegerProperty();
+   private final IntegerProperty greyscaleThreshold = new SimpleIntegerProperty();
+   private final BooleanProperty greyscale = new SimpleBooleanProperty();
+   private final IntegerProperty quality = new SimpleIntegerProperty();
+   private final IntegerProperty cropX = new SimpleIntegerProperty();
+   private final IntegerProperty contrast = new SimpleIntegerProperty();
+   private final StringProperty image = new SimpleStringProperty();
 
-	public void setLineY(int lineY) {
-		this.lineY.set(lineY);
-	}
+   public int getLineY() {
+      return lineY.get();
+   }
 
-	public IntegerProperty lineYProperty() {
-		return lineY;
-	}
+   public void setLineY(final int lineY) {
+      this.lineY.set(lineY);
+   }
 
-	public int getLineH() {
-		return lineH.get();
-	}
+   public IntegerProperty lineYProperty() {
+      return lineY;
+   }
 
-	public void setLineH(int lineH) {
-		this.lineH.set(lineH);
-	}
+   public int getLineH() {
+      return lineH.get();
+   }
 
-	public IntegerProperty lineHProperty() {
-		return lineH;
-	}
+   public void setLineH(final int lineH) {
+      this.lineH.set(lineH);
+   }
 
-	public int getGreyscaleThreshold() {
-		return greyscaleThreshold.get();
-	}
+   public IntegerProperty lineHProperty() {
+      return lineH;
+   }
 
-	public void setGreyscaleThreshold(int greyscaleThreshold) {
-		this.greyscaleThreshold.set(greyscaleThreshold);
-	}
+   public int getGreyscaleThreshold() {
+      return greyscaleThreshold.get();
+   }
 
-	public IntegerProperty greyscaleThresholdProperty() {
-		return greyscaleThreshold;
-	}
+   public void setGreyscaleThreshold(final int greyscaleThreshold) {
+      this.greyscaleThreshold.set(greyscaleThreshold);
+   }
 
-	public boolean isGreyscale() {
-		return greyscale.get();
-	}
+   public IntegerProperty greyscaleThresholdProperty() {
+      return greyscaleThreshold;
+   }
 
-	public void setGreyscale(boolean greyscale) {
-		this.greyscale.set(greyscale);
-	}
+   public boolean isGreyscale() {
+      return greyscale.get();
+   }
 
-	public BooleanProperty greyscaleProperty() {
-		return greyscale;
-	}
+   public void setGreyscale(final boolean greyscale) {
+      this.greyscale.set(greyscale);
+   }
 
-	public int getQuality() {
-		return quality.get();
-	}
+   public BooleanProperty greyscaleProperty() {
+      return greyscale;
+   }
 
-	public void setQuality(int quality) {
-		this.quality.set(quality);
-	}
+   public int getQuality() {
+      return quality.get();
+   }
 
-	public IntegerProperty qualityProperty() {
-		return quality;
-	}
+   public void setQuality(final int quality) {
+      this.quality.set(quality);
+   }
 
-	public int getCropX() {
-		return cropX.get();
-	}
+   public IntegerProperty qualityProperty() {
+      return quality;
+   }
 
-	public void setCropX(int cropX) {
-		this.cropX.set(cropX);
-	}
+   public int getCropX() {
+      return cropX.get();
+   }
 
-	public IntegerProperty cropXProperty() {
-		return cropX;
-	}
+   public void setCropX(final int cropX) {
+      this.cropX.set(cropX);
+   }
 
-	public int getContrast() {
-		return contrast.get();
-	}
+   public IntegerProperty cropXProperty() {
+      return cropX;
+   }
 
-	public void setContrast(int contrast) {
-		this.contrast.set(contrast);
-	}
+   public int getContrast() {
+      return contrast.get();
+   }
 
-	public IntegerProperty contrastProperty() {
-		return contrast;
-	}
-	
-	public String getImage() {
-		return image.get();
-	}
-	
-	public void setImage(String image) {
-		this.image.set(image);
-	}
-	
-	public StringProperty imageProperty() {
-		return image;
-	}
+   public void setContrast(final int contrast) {
+      this.contrast.set(contrast);
+   }
 
-	@Override
-	public String toString() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("Line Y: " + getLineY() + "\n");
-		stringBuilder.append("Line H: " + getLineH() + "\n");
-		stringBuilder.append("Greyscale Threshold: " + getGreyscaleThreshold()
-				+ "\n");
-		stringBuilder.append("Greyscale: " + isGreyscale() + "\n");
-		stringBuilder.append("Quality: " + getQuality() + "\n");
-		stringBuilder.append("Crop X: " + getCropX() + "\n");
-		stringBuilder.append("Contrast: " + getContrast() + "\n");
-		stringBuilder.append("Image: " + getImage() + "\n");
-		return stringBuilder.toString();
-	}
+   public IntegerProperty contrastProperty() {
+      return contrast;
+   }
+
+   public String getImage() {
+      return image.get();
+   }
+
+   public void setImage(final String image) {
+      this.image.set(image);
+   }
+
+   public StringProperty imageProperty() {
+      return image;
+   }
+
+   @Override
+   public String toString() {
+      final StringBuilder stringBuilder = new StringBuilder();
+      stringBuilder.append("Line Y: " + getLineY() + "\n");
+      stringBuilder.append("Line H: " + getLineH() + "\n");
+      stringBuilder.append("Greyscale Threshold: " + getGreyscaleThreshold() + "\n");
+      stringBuilder.append("Greyscale: " + isGreyscale() + "\n");
+      stringBuilder.append("Quality: " + getQuality() + "\n");
+      stringBuilder.append("Crop X: " + getCropX() + "\n");
+      stringBuilder.append("Contrast: " + getContrast() + "\n");
+      stringBuilder.append("Image: " + getImage() + "\n");
+      return stringBuilder.toString();
+   }
 
 }
