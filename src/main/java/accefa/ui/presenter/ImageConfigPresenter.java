@@ -4,8 +4,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import accefa.service.RaspiService;
+import accefa.service.RaspiServiceException;
 import accefa.ui.models.ImageConfigModel;
 import accefa.ui.view.ImageConfigView;
+import accefa.util.AlertException;
 
 public class ImageConfigPresenter {
 
@@ -55,16 +57,25 @@ public class ImageConfigPresenter {
     * Lädt Daten von Server.
     */
    private void loadData() {
-      model = raspiService.readImageConfigModel();
-      // TODO Eventuell Bestehende Bindings unbinden (vom alten Model)
-      bindProperties();
+      try {
+         model = raspiService.readImageConfigModel();
+         // TODO Eventuell Bestehende Bindings unbinden (vom alten Model)
+         bindProperties();
+      } catch (final RaspiServiceException e) {
+         new AlertException(e).show();
+      }
    }
 
    /**
     * Sendet die Daten an den Server.
     */
    private void saveData() {
-      raspiService.saveImageConfigModel(model);
+      try {
+         System.out.println("save model " + model);
+         raspiService.saveImageConfigModel(model);
+      } catch (final RaspiServiceException e) {
+         new AlertException(e).show();
+      }
    }
 
 }

@@ -21,6 +21,12 @@ public class FotoShootUi extends Application {
 
    private List<Tab> tabs;
 
+   private final RaspiService service;
+
+   public FotoShootUi() {
+      this.service = new RaspiServiceImpl(new RaspiUrlBuilder("http://localhost:8080"));
+   }
+
    public void show() {
       launch();
    }
@@ -43,7 +49,6 @@ public class FotoShootUi extends Application {
    }
 
    private Tab createTabImageRecognition() {
-      final RaspiService service = new RaspiServiceImpl(new RaspiUrlBuilder("http://localhost:8080"));
       final ImageConfigPresenter presenter = new ImageConfigPresenter(service);
       presenter.load();
 
