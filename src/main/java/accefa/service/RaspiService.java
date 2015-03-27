@@ -14,13 +14,13 @@ public interface RaspiService {
     * @param model
     *           Bild Konfiguration.
     */
-   void saveImageConfigModel(ImageConfigModel model);
+   void saveImageConfigModel(ImageConfigModel model) throws RaspiServiceException;
 
    /**
     * Lädt die aktuelle Bild Konfiguration.
     *
     * @return Bild Konfiguration.
     */
-   ImageConfigModel readImageConfigModel();
+   ImageConfigModel readImageConfigModel() throws RaspiServiceException;
 
 }

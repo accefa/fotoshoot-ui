@@ -21,22 +21,40 @@ public class RaspiServiceImpl implements RaspiService {
 
    @Override
    public void saveImageConfigModel(final ImageConfigModel model) {
-      // TODO Auto-generated method stub
+      return;
+      /*
+       * try { final WebTarget target = createWebTarget(urlBuilder.camera());
+       * target
+       * .request(MediaType.APPLICATION_JSON_TYPE).put(ClientResponse.class,
+       * model); final Response response = getJson(target); final
+       * ImageConfigModel imageConfigModel =
+       * response.readEntity(ImageConfigModel.class); response.close(); //
+       * return imageConfigModel; } catch (final RuntimeException e) { throw new
+       * RaspiServiceException(e); }
+       */
    }
 
    @Override
-   public ImageConfigModel readImageConfigModel() {
-      // TODO Exception Handling
-      final WebTarget target = createWebTarget(urlBuilder.camera());
-      final Response response = getJson(target);
-      final ImageConfigModel imageConfigModel = response.readEntity(ImageConfigModel.class);
-      response.close();
-      return imageConfigModel;
+   public ImageConfigModel readImageConfigModel() throws RaspiServiceException {
+      try {
+         final WebTarget target = createWebTarget(urlBuilder.camera());
+         final Response response = getJson(target);
+         final ImageConfigModel imageConfigModel = response.readEntity(ImageConfigModel.class);
+         response.close();
+         return imageConfigModel;
+      } catch (final RuntimeException e) {
+         throw new RaspiServiceException(e);
+      }
+   }
+
+   private Client createClient() {
+      final ClientConfig clientConfig = new ClientConfig().register(new JacksonFeature());
+      final Client client = ClientBuilder.newClient(clientConfig);
+      return client;
    }
 
    private WebTarget createWebTarget(final String url) {
-      final ClientConfig clientConfig = new ClientConfig().register(new JacksonFeature());
-      final Client client = ClientBuilder.newClient(clientConfig);
+      final Client client = createClient();
       return client.target(url);
    }
 
