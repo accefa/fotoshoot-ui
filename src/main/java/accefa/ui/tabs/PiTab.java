@@ -11,6 +11,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -33,6 +35,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.apache.commons.validator.routines.UrlValidator;
 
+import accefa.util.AlertException;
 import accefa.util.FotoShootProperties;
 import accefa.ui.models.ImageConfigModel;
 
@@ -133,22 +136,19 @@ public class PiTab extends Tab {
 	}
 
 	private void startwebservice(String URL, String Befehl) {
-		try {
-			String url = URL + Befehl;
-			ClientConfig clientConfig = new ClientConfig()
-					.register(new JacksonFeature());
-			Client client = ClientBuilder.newClient(clientConfig);
-			WebTarget target = client.target(url);
-			Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
-					.get();
-			ImageConfigModel imageConfigModel = response
-					.readEntity(ImageConfigModel.class);
+		String url = URL + Befehl;
+		ClientConfig clientConfig = new ClientConfig()
+				.register(new JacksonFeature());
+		Client client = ClientBuilder.newClient(clientConfig);
+		WebTarget target = client.target(url);
+		Response response = target.request(MediaType.APPLICATION_JSON_TYPE)
+				.get();
+		ImageConfigModel imageConfigModel = response
+				.readEntity(ImageConfigModel.class);
 
-			System.out.println(imageConfigModel);
-			System.out.println("Aufgerufen");
-			response.close();
-		} catch (Exception e) {
-		}
+		System.out.println(imageConfigModel);
+		System.out.println("Aufgerufen");
+		response.close();
 
 	}
 
@@ -159,33 +159,46 @@ public class PiTab extends Tab {
 
 					@Override
 					public void handle(final MouseEvent e) {
+						try {
+							startwebservice("http://localhost:8080/", "camera");
 
-						startwebservice("http://localhost:8080/", "camera");
+							processRunningProperty.set(true);
+							final Timeline timeline = new Timeline(
+									new KeyFrame(Duration.millis(100),
+											new EventHandler<ActionEvent>() {
+												@Override
+												public void handle(
+														final ActionEvent t) {
+													final Duration duration = ((KeyFrame) t
+															.getSource())
+															.getTime();
+													time = time.add(duration);
 
-						processRunningProperty.set(true);
-						final Timeline timeline = new Timeline(new KeyFrame(
-								Duration.millis(100),
-								new EventHandler<ActionEvent>() {
-									@Override
-									public void handle(final ActionEvent t) {
-										final Duration duration = ((KeyFrame) t
-												.getSource()).getTime();
-										time = time.add(duration);
+													double timeInSeconds = time
+															.toSeconds();
+													timeInSeconds = timeInSeconds
+															- ((long) ((timeInSeconds / 60)) * 60);
+													stopWatchTimeMinutesProperty.set(String
+															.valueOf((long) time
+																	.toMinutes())
+															+ "m");
+													stopWatchTimeSecondsProperty.set(String
+															.format("%.1f",
+																	timeInSeconds)
+															+ "s");
+												}
+											}));
+							timeline.setCycleCount(Timeline.INDEFINITE);
+							timeline.play();
+						} catch (Exception ex) {
+							
+							Alert alert = new Alert(AlertType.WARNING);
+							alert.setTitle("Warnung");
+							alert.setHeaderText("Fehler aufgetreten!");
+							alert.setContentText("Es konnte keine Verbindung hergestellt werden!");
 
-										double timeInSeconds = time.toSeconds();
-										timeInSeconds = timeInSeconds
-												- ((long) ((timeInSeconds / 60)) * 60);
-										stopWatchTimeMinutesProperty.set(String
-												.valueOf((long) time
-														.toMinutes())
-												+ "m");
-										stopWatchTimeSecondsProperty.set(String
-												.format("%.1f", timeInSeconds)
-												+ "s");
-									}
-								}));
-						timeline.setCycleCount(Timeline.INDEFINITE);
-						timeline.play();
+							alert.showAndWait();
+						}
 					}
 				});
 
