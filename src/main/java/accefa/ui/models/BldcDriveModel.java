@@ -62,4 +62,14 @@ public class BldcDriveModel {
 		return rpm;
 	}
 
+	@Override
+	public String toString() {
+		final StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("On: " + isOn() + "\n");
+		stringBuilder.append("Off: " + isOff() + "\n");
+		stringBuilder.append("Reset: " + isReset() + "\n");
+		stringBuilder.append("Rpm: " + getRpm() + "\n");
+		return stringBuilder.toString();
+	}
+
 }

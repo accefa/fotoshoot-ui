@@ -68,4 +68,9 @@ public class BldcDriveModelTest {
 		assertThat(model.rpmProperty(), instanceOf(IntegerProperty.class));
 	}
 
+	@Test
+	public void testTotString() {
+		assertThat(model.toString(), instanceOf(String.class));
+	}
+
 }

@@ -20,8 +20,8 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetLineY() {
-		model.setLineY(DetectionDefault.LINE_Y);
-		assertEquals(DetectionDefault.LINE_Y, model.getLineY());
+		model.setLineY(ImageConfigDefault.LINE_Y);
+		assertEquals(ImageConfigDefault.LINE_Y, model.getLineY());
 	}
 
 	@Test
@@ -31,8 +31,8 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetLineH() {
-		model.setLineH(DetectionDefault.LINE_H);
-		assertEquals(DetectionDefault.LINE_H, model.getLineH());
+		model.setLineH(ImageConfigDefault.LINE_H);
+		assertEquals(ImageConfigDefault.LINE_H, model.getLineH());
 	}
 
 	@Test
@@ -42,8 +42,8 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetGreyscaleThreshold() {
-		model.setGreyscaleThreshold(DetectionDefault.GREYSCALE_THRESHOLD);
-		assertEquals(DetectionDefault.GREYSCALE_THRESHOLD,
+		model.setGreyscaleThreshold(ImageConfigDefault.GREYSCALE_THRESHOLD);
+		assertEquals(ImageConfigDefault.GREYSCALE_THRESHOLD,
 				model.getGreyscaleThreshold());
 	}
 
@@ -55,8 +55,8 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetGreyscale() {
-		model.setGreyscale(DetectionDefault.GREYSCALE);
-		assertEquals(DetectionDefault.GREYSCALE, model.isGreyscale());
+		model.setGreyscale(ImageConfigDefault.GREYSCALE);
+		assertEquals(ImageConfigDefault.GREYSCALE, model.isGreyscale());
 	}
 
 	@Test
@@ -66,8 +66,8 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetQuality() {
-		model.setQuality(DetectionDefault.QUALITY);
-		assertEquals(DetectionDefault.QUALITY, model.getQuality());
+		model.setQuality(ImageConfigDefault.QUALITY);
+		assertEquals(ImageConfigDefault.QUALITY, model.getQuality());
 	}
 
 	@Test
@@ -77,8 +77,8 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetCropX() {
-		model.setCropX(DetectionDefault.CROP_X);
-		assertEquals(DetectionDefault.CROP_X, model.getCropX());
+		model.setCropX(ImageConfigDefault.CROP_X);
+		assertEquals(ImageConfigDefault.CROP_X, model.getCropX());
 	}
 
 	@Test
@@ -88,13 +88,29 @@ public class ImageConfigModelTest {
 
 	@Test
 	public void testSetGetContrast() {
-		model.setContrast(DetectionDefault.CONTRAST);
-		assertEquals(DetectionDefault.CONTRAST, model.getContrast());
+		model.setContrast(ImageConfigDefault.CONTRAST);
+		assertEquals(ImageConfigDefault.CONTRAST, model.getContrast());
 	}
 
 	@Test
 	public void testContrastProperty() {
 		assertThat(model.contrastProperty(), instanceOf(IntegerProperty.class));
+	}
+
+	@Test
+	public void testSetGetImage() {
+		model.setImage(ImageConfigDefault.IMAGE);
+		assertEquals(ImageConfigDefault.IMAGE, model.getImage());
+	}
+
+	@Test
+	public void testImageProperty() {
+		assertThat(model.imageProperty(), instanceOf(String.class));
+	}
+
+	@Test
+	public void testTotString() {
+		assertThat(model.toString(), instanceOf(String.class));
 	}
 
 }
