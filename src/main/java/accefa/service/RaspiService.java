@@ -23,4 +23,10 @@ public interface RaspiService {
     */
    ImageConfigModel readImageConfigModel() throws RaspiServiceException;
 
+   /**
+    * Startet den Ballabwurf Prozesse.
+    *
+    */
+   void startProcess() throws RaspiServiceException;
+
 }
