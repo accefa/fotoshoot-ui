@@ -1,6 +1,6 @@
 package accefa.ui.models;
 
-public interface DetectionDefault {
+public interface ImageConfigDefault {
 	int LINE_Y = 23;
 	int LINE_H = 5;
 	int GREYSCALE_THRESHOLD = 50;
@@ -8,4 +8,5 @@ public interface DetectionDefault {
 	int QUALITY = 90;
 	int CROP_X = 12;
 	int CONTRAST = 10;
+	String IMAGE = "/path/to/ümlaut";
 }
