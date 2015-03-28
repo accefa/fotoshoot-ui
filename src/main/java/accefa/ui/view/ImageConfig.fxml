@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accefa.ui.view.ImageConfigController">
+   <children>
+      <TitledPane fx:id="titledPaneConfiguration" text="Konfiguration">
+         <content>
+            <GridPane alignment="CENTER" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="lblKontrast" text="Kontrast" />
+                  <Label fx:id="lblGreyscale" text="Graustufen" GridPane.rowIndex="1" />
+                  <Label fx:id="lblGreyscaleThreshold" text="Graustufen Schwellwert" GridPane.rowIndex="2" />
+                  <Label fx:id="lblQuality" text="Qualität" GridPane.rowIndex="3" />
+                  <Label fx:id="lblCropX" text="Zuschnitt X" GridPane.rowIndex="4" />
+                  <Label fx:id="lblLineY" text="Linie Y" GridPane.rowIndex="5" />
+                  <Label fx:id="lblLineH" text="Linie H" GridPane.rowIndex="6" />
+                  <Slider fx:id="sliderContrast" majorTickUnit="20.0" min="-100.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" />
+                  <Slider fx:id="sliderGreyscaleThreshold" majorTickUnit="20.0" max="255.0" showTickLabels="true" showTickMarks="true" value="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Slider fx:id="sliderQuality" majorTickUnit="20.0" showTickLabels="true" showTickMarks="true" value="80.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Slider fx:id="sliderCropX" majorTickUnit="50.0" max="500.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Slider fx:id="sliderLineY" majorTickUnit="50.0" max="800.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" value="400.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Slider fx:id="sliderLineH" majorTickUnit="5.0" max="50.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" value="5.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Button fx:id="btnReloadImage" mnemonicParsing="false" text="Speichern" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                  <CheckBox fx:id="toogleGreyscale" mnemonicParsing="false" text="Aktiviert" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </GridPane>
+         </content>
+      </TitledPane>
+      <TitledPane fx:id="titledPaneImage" text="Bild" VBox.vgrow="ALWAYS">
+         <content>
+            <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D width="600.0" />
+               </viewport>
+            </ImageView>
+         </content>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TitledPane>
+   </children>
+</VBox>

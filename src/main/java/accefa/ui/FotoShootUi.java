@@ -1,67 +1,96 @@
 package accefa.ui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import accefa.service.RaspiService;
-import accefa.service.RaspiServiceImpl;
-import accefa.service.RaspiUrlBuilder;
-import accefa.ui.presenter.ImageConfigPresenter;
+import accefa.service.RaspiServiceRest;
 import accefa.ui.tabs.EngineConfigTab;
 import accefa.ui.tabs.PiTab;
+import accefa.ui.view.ImageConfigController;
+import accefa.util.FotoShootProperties;
 
 public class FotoShootUi extends Application {
 
-   private TabPane tabPane;
+	private TabPane tabPane;
 
-   private List<Tab> tabs;
+	private List<Tab> tabs;
 
-   private final RaspiService service;
+	private final RaspiService raspiService;
 
-   public FotoShootUi() {
-      this.service = new RaspiServiceImpl(new RaspiUrlBuilder("http://localhost:8080"));
-   }
+	private final ExecutorService executorService = Executors
+			.newSingleThreadExecutor();
 
-   public void show() {
-      launch();
-   }
+	@Override
+	public void stop() {
+		executorService.shutdownNow();
+	}
 
-   @Override
-   public void start(final Stage primaryStage) throws Exception {
-      primaryStage.setTitle("Fotoshoot");
+	public FotoShootUi() {
+		final FotoShootProperties properties = new FotoShootProperties();
+		properties.load();
+		this.raspiService = new RaspiServiceRest(properties.getUrl());
+		// this.raspiService = new RaspiServiceMock();
+	}
 
-      tabPane = new TabPane();
-      tabs = new ArrayList<Tab>();
-      tabs.add(new PiTab());
-      tabs.add(createTabImageRecognition());
-      tabs.add(new EngineConfigTab());
+	public void show() {
+		launch();
+	}
 
-      configureTabs();
+	@Override
+	public void start(final Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Fotoshoot");
 
-      final Scene scene = new Scene(tabPane, 1000, 600);
-      primaryStage.setScene(scene);
-      primaryStage.show();
-   }
+		tabPane = new TabPane();
+		tabs = new ArrayList<Tab>();
+		tabs.add(new PiTab());
+		tabs.add(createTabImageRecognition());
+		tabs.add(new EngineConfigTab());
 
-   private Tab createTabImageRecognition() {
-      final ImageConfigPresenter presenter = new ImageConfigPresenter(service);
-      presenter.load();
+		configureTabs();
 
-      final Tab tab = new Tab("Bild-Erkennung");
-      tab.setContent(presenter.getView());
-      return tab;
-   }
+		final Scene scene = new Scene(tabPane, 600, 800);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
-   private void configureTabs() {
-      for (final Tab tab : tabs) {
-         tab.setClosable(false);
-         tabPane.getTabs().add(tab);
-      }
-   }
+	private Tab createTabImageRecognition() {
+		final Tab tab = new Tab("Bild-Erkennung");
+		tab.setContent(createImageConfig());
+		return tab;
+	}
+
+	private Parent createImageConfig() {
+		try {
+			final FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(ImageConfigController.class
+					.getResource("ImageConfig.fxml"));
+			final Parent parent = loader.load();
+			final ImageConfigController controller = loader.getController();
+			controller.setRaspiService(raspiService);
+			controller.setExecutorService(executorService);
+			controller.loadData();
+			return parent;
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void configureTabs() {
+		for (final Tab tab : tabs) {
+			tab.setClosable(false);
+			tabPane.getTabs().add(tab);
+		}
+	}
 
 }

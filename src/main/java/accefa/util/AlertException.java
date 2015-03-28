@@ -12,50 +12,50 @@ import javafx.scene.layout.Priority;
 
 public class AlertException {
 
-   private final String title = "Fehler";
+	private final String title = "Fehler";
 
-   private final String headerText = "Es ist ein Fehler aufgetreten.";
+	private final String headerText = "Es ist ein Fehler aufgetreten.";
 
-   private String contentText = "";
+	private String contentText = "";
 
-   private final Exception exception;
+	private final Throwable throwable;
 
-   public AlertException(final Exception exception) {
-      this.exception = exception;
-      this.contentText = exception.getMessage();
-   }
+	public AlertException(final Throwable throwable) {
+		this.throwable = throwable;
+		this.contentText = throwable.getMessage();
+	}
 
-   public void show() {
-      final Alert alert = new Alert(AlertType.ERROR);
-      alert.setTitle(title);
-      alert.setHeaderText(headerText);
-      alert.setContentText(contentText);
+	public void show() {
+		final Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(title);
+		alert.setHeaderText(headerText);
+		alert.setContentText(contentText);
 
-      // Create expandable Exception.
-      final StringWriter sw = new StringWriter();
-      final PrintWriter pw = new PrintWriter(sw);
-      exception.printStackTrace(pw);
-      final String exceptionText = sw.toString();
+		// Create expandable Exception.
+		final StringWriter sw = new StringWriter();
+		final PrintWriter pw = new PrintWriter(sw);
+		throwable.printStackTrace(pw);
+		final String exceptionText = sw.toString();
 
-      final Label label = new Label("Detailierte Fehlermeldung:");
+		final Label label = new Label("Detailierte Fehlermeldung:");
 
-      final TextArea textArea = new TextArea(exceptionText);
-      textArea.setEditable(false);
-      textArea.setWrapText(true);
+		final TextArea textArea = new TextArea(exceptionText);
+		textArea.setEditable(false);
+		textArea.setWrapText(true);
 
-      textArea.setMaxWidth(Double.MAX_VALUE);
-      textArea.setMaxHeight(Double.MAX_VALUE);
-      GridPane.setVgrow(textArea, Priority.ALWAYS);
-      GridPane.setHgrow(textArea, Priority.ALWAYS);
+		textArea.setMaxWidth(Double.MAX_VALUE);
+		textArea.setMaxHeight(Double.MAX_VALUE);
+		GridPane.setVgrow(textArea, Priority.ALWAYS);
+		GridPane.setHgrow(textArea, Priority.ALWAYS);
 
-      final GridPane expContent = new GridPane();
-      expContent.setMaxWidth(Double.MAX_VALUE);
-      expContent.add(label, 0, 0);
-      expContent.add(textArea, 0, 1);
+		final GridPane expContent = new GridPane();
+		expContent.setMaxWidth(Double.MAX_VALUE);
+		expContent.add(label, 0, 0);
+		expContent.add(textArea, 0, 1);
 
-      alert.getDialogPane().setExpandableContent(expContent);
+		alert.getDialogPane().setExpandableContent(expContent);
 
-      alert.showAndWait();
-   }
+		alert.showAndWait();
+	}
 
 }

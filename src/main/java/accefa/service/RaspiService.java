@@ -8,25 +8,33 @@ import accefa.ui.models.ImageConfigModel;
  */
 public interface RaspiService {
 
-   /**
-    * Speichert die Bild Konfiguration.
-    *
-    * @param model
-    *           Bild Konfiguration.
-    */
-   void saveImageConfigModel(ImageConfigModel model) throws RaspiServiceException;
+	/**
+	 * Speichert die Bild Konfiguration.
+	 *
+	 * @param model
+	 *            Bild Konfiguration.
+	 */
+	void saveImageConfigModel(ImageConfigModel model)
+			throws RaspiServiceException;
 
-   /**
-    * L�dt die aktuelle Bild Konfiguration.
-    *
-    * @return Bild Konfiguration.
-    */
-   ImageConfigModel readImageConfigModel() throws RaspiServiceException;
+	/**
+	 * Lädt die aktuelle Bild Konfiguration.
+	 *
+	 * @return Bild Konfiguration.
+	 */
+	ImageConfigModel readImageConfigModel() throws RaspiServiceException;
 
-   /**
-    * Startet den Ballabwurf Prozesse.
-    *
-    */
-   void startProcess() throws RaspiServiceException;
+	/**
+	 * Startet den Ballabwurf Prozesse.
+	 *
+	 */
+	void startProcess() throws RaspiServiceException;
+
+	/**
+	 * Gibt die URL des Bildes zurück.
+	 *
+	 * @return Bild Url.
+	 */
+	String getImageUrl();
 
 }
