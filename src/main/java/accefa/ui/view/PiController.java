@@ -2,6 +2,7 @@ package accefa.ui.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -53,10 +54,10 @@ public class PiController {
 		urlProperty.set(properties.getUrl());
 		btnStart.disableProperty().bind(processRunningProperty);
 		btnSaveUrl.disableProperty().bind(processRunningProperty);
-		// lblTimeMinutes.textProperty().bind(stopWatchTimeMinutesProperty);
-		// lblTimeSeconds.textProperty().bind(stopWatchTimeSecondsProperty);
+		lblTime.textProperty().bind(
+				Bindings.concat(stopWatchTimeMinutesProperty).concat(" ")
+						.concat(stopWatchTimeSecondsProperty));
 		txtUrl.textProperty().bindBidirectional(urlProperty);
-
 		setUpEventHandling();
 	}
 
@@ -86,75 +87,76 @@ public class PiController {
 	private void setUpEventHandling() {
 		btnStart.addEventHandler(MouseEvent.MOUSE_CLICKED,
 				new EventHandler<MouseEvent>() {
-			private Duration time = Duration.ZERO;
+					private Duration time = Duration.ZERO;
 
-			@Override
-			public void handle(final MouseEvent e) {
-				try {
-					startwebservice("http://localhost:8080/", "camera");
+					@Override
+					public void handle(final MouseEvent e) {
+						try {
+							// startwebservice("http://localhost:8080/",
+					// "camera");
 
-					processRunningProperty.set(true);
-					final Timeline timeline = new Timeline(
-							new KeyFrame(Duration.millis(100),
-									new EventHandler<ActionEvent>() {
-								@Override
-								public void handle(
-										final ActionEvent t) {
-									final Duration duration = ((KeyFrame) t
-											.getSource())
-											.getTime();
-									time = time.add(duration);
+							processRunningProperty.set(true);
+							final Timeline timeline = new Timeline(
+									new KeyFrame(Duration.millis(100),
+											new EventHandler<ActionEvent>() {
+												@Override
+												public void handle(
+														final ActionEvent t) {
+													final Duration duration = ((KeyFrame) t
+															.getSource())
+															.getTime();
+													time = time.add(duration);
 
-									double timeInSeconds = time
-											.toSeconds();
-									timeInSeconds = timeInSeconds
-											- ((long) ((timeInSeconds / 60)) * 60);
-									stopWatchTimeMinutesProperty.set(String
-											.valueOf((long) time
-													.toMinutes())
-													+ "m");
-									stopWatchTimeSecondsProperty.set(String
-											.format("%.1f",
-													timeInSeconds)
-													+ "s");
-								}
-							}));
-					timeline.setCycleCount(Timeline.INDEFINITE);
-					timeline.play();
-				} catch (final Exception ex) {
+													double timeInSeconds = time
+															.toSeconds();
+													timeInSeconds = timeInSeconds
+															- ((long) ((timeInSeconds / 60)) * 60);
+													stopWatchTimeMinutesProperty.set(String
+															.valueOf((long) time
+																	.toMinutes())
+															+ "m");
+													stopWatchTimeSecondsProperty.set(String
+															.format("%.1f",
+																	timeInSeconds)
+															+ "s");
+												}
+											}));
+							timeline.setCycleCount(Timeline.INDEFINITE);
+							timeline.play();
+						} catch (final Exception ex) {
 
-							final Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Warnung");
-					alert.setHeaderText("Fehler aufgetreten!");
-					alert.setContentText("Es konnte keine Verbindung hergestellt werden!");
+					final Alert alert = new Alert(AlertType.WARNING);
+							alert.setTitle("Warnung");
+							alert.setHeaderText("Fehler aufgetreten!");
+							alert.setContentText("Es konnte keine Verbindung hergestellt werden!");
 
-					alert.showAndWait();
-				}
-			}
-		});
+							alert.showAndWait();
+						}
+					}
+				});
 
 		btnSaveUrl.addEventHandler(MouseEvent.MOUSE_CLICKED,
 				new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(final MouseEvent e) {
-				final String[] schemas = { "http" };
-				final UrlValidator urlValidator = new UrlValidator(
-						schemas);
-				if (urlValidator.isValid(urlProperty.get())) {
-					properties.setUrl(urlProperty.get());
-					properties.save();
-					txtUrl.setStyle("-fx-base: #ffffff");
-				} else {
-					txtUrl.setStyle("-fx-base: #ff0000");
-				}
-			}
-		});
+					@Override
+					public void handle(final MouseEvent e) {
+						final String[] schemas = { "http" };
+						final UrlValidator urlValidator = new UrlValidator(
+								schemas);
+						if (urlValidator.isValid(urlProperty.get())) {
+							properties.setUrl(urlProperty.get());
+							properties.save();
+							txtUrl.setStyle("-fx-base: #ffffff");
+						} else {
+							txtUrl.setStyle("-fx-base: #ff0000");
+						}
+					}
+				});
 	}
 
 	private void startwebservice(final String URL, final String Befehl) {
 		final String url = URL + Befehl;
 		final ClientConfig clientConfig = new ClientConfig()
-		.register(new JacksonFeature());
+				.register(new JacksonFeature());
 		final Client client = ClientBuilder.newClient(clientConfig);
 		final WebTarget target = client.target(url);
 		final Response response = target.request(
