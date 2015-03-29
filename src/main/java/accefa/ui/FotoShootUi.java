@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 import accefa.service.RaspiService;
 import accefa.service.RaspiServiceRest;
 import accefa.ui.tabs.EngineConfigTab;
-import accefa.ui.tabs.PiTab;
 import accefa.ui.view.ImageConfigController;
+import accefa.ui.view.PiController;
 import accefa.util.FotoShootProperties;
 
 public class FotoShootUi extends Application {
@@ -53,7 +53,7 @@ public class FotoShootUi extends Application {
 
 		tabPane = new TabPane();
 		tabs = new ArrayList<Tab>();
-		tabs.add(new PiTab());
+		tabs.add(createTabPi());
 		tabs.add(createTabImageRecognition());
 		tabs.add(new EngineConfigTab());
 
@@ -64,10 +64,32 @@ public class FotoShootUi extends Application {
 		primaryStage.show();
 	}
 
+	private Tab createTabPi() {
+		final Tab tab = new Tab("Pi");
+		tab.setContent(createPi());
+		return tab;
+	}
+
 	private Tab createTabImageRecognition() {
 		final Tab tab = new Tab("Bild-Erkennung");
 		tab.setContent(createImageConfig());
 		return tab;
+	}
+
+	private Parent createPi() {
+		try {
+			final FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(ImageConfigController.class
+					.getResource("Pi.fxml"));
+			final Parent parent = loader.load();
+			final PiController controller = loader.getController();
+			// controller.setRaspiService(raspiService);
+			// controller.setExecutorService(executorService);
+			// controller.loadData();
+			return parent;
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private Parent createImageConfig() {
