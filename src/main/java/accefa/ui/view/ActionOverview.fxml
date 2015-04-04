@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accefa.ui.view.ActionOverviewController">
+   <center>
+      <TableView fx:id="tableActions" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="colTime" prefWidth="150.0" text="Zeitpunkt" />
+          <TableColumn fx:id="colMessage" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="-1.0" text="Nachricht" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

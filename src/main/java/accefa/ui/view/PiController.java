@@ -95,7 +95,12 @@ public class PiController {
             try {
                processRunningProperty.set(true);
                time = Duration.ZERO;
-               eventBus.post(new ProcessStartedEvent());
+               Platform.runLater(new Runnable() {
+                  @Override
+                  public void run() {
+                     eventBus.post(new ProcessStartedEvent());
+                  }
+               });
 
                stopWatchTimeline = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
                   @Override

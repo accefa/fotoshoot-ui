@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import accefa.event.ErrorEvent;
+import accefa.event.InfoEvent;
 import accefa.service.RaspiService;
 import accefa.service.RaspiServiceException;
 import accefa.ui.models.ImageConfigModel;
@@ -142,6 +143,7 @@ public class ImageConfigController {
                      imageConfigModel = model;
                      bindProperties(model);
                      loadImage(service.getImageUrl());
+                     eventBus.post(new InfoEvent("Konfiguration wurde geladen."));
                   }
                }
             });
@@ -208,6 +210,7 @@ public class ImageConfigController {
                @Override
                public void run() {
                   titledPaneConfiguration.setDisable(false);
+                  eventBus.post(new InfoEvent("Konfiguration wurde gespeichert"));
                }
             });
          }

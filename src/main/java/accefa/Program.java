@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import accefa.guice.FotoShootModule;
 import accefa.guice.FotoShootModuleFactory;
 import accefa.server.RestServerController;
+import accefa.ui.view.ActionOverviewController;
 import accefa.ui.view.ImageConfigController;
 import accefa.ui.view.PiController;
 import accefa.ui.view.RootLayoutController;
@@ -72,11 +73,16 @@ public class Program extends Application {
       return new ApplicationFxmlLoader().createLoader(injector, PiController.class, "Pi.fxml");
    }
 
+   private Parent createActionLog() {
+      return new ApplicationFxmlLoader().createLoader(injector, ActionOverviewController.class, "ActionOverview.fxml");
+   }
+
    private TabPane createTabPane() {
       final TabPane tabPane = new TabPane();
       final List<Tab> tabs = new ArrayList<Tab>();
       tabs.add(createTabPi());
       tabs.add(createTabImageRecognition());
+      tabs.add(createTabActionLog());
       for (final Tab tab : tabs) {
          tab.setClosable(false);
          tabPane.getTabs().add(tab);
@@ -93,6 +99,12 @@ public class Program extends Application {
    private Tab createTabImageRecognition() {
       final Tab tab = new Tab("Bild-Erkennung");
       tab.setContent(createImageConfig());
+      return tab;
+   }
+
+   private Tab createTabActionLog() {
+      final Tab tab = new Tab("Aktions-Log");
+      tab.setContent(createActionLog());
       return tab;
    }
 
