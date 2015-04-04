@@ -4,14 +4,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import accefa.server.RestServerController;
-import accefa.service.RaspiService;
 import accefa.util.ApplicationProperties;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
-import com.google.inject.Injector;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.spi.InjectionListener;
@@ -31,7 +27,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
     *           Injector.
     * @return Konkrete RaspiService-Instanz.
     */
-   protected abstract RaspiService provideRaspiService(Injector injector);
+   protected abstract void configureRaspiService();
 
    @Override
    protected void configure() {
@@ -42,6 +38,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
       bind(EventBus.class).toInstance(globalEventBus);
 
       bind(RestServerController.class).asEagerSingleton();
+      bind(ApplicationProperties.class).asEagerSingleton();
 
       // Alle Controller registrieren. Damit müssen sich die Controller nicht
       // mehr selber registrieren. Es werden alle Objekte registriert, welche
@@ -57,12 +54,8 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
             });
          }
       });
-   }
 
-   @Provides
-   @Singleton
-   private ApplicationProperties provideFotoShootProperties() {
-      return new ApplicationProperties();
+      configureRaspiService();
    }
 
 }
