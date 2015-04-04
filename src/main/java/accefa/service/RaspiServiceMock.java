@@ -36,7 +36,7 @@ public class RaspiServiceMock implements RaspiService {
    @Override
    public void startProcess() throws RaspiServiceException {
       try {
-         Thread.sleep(6543);
+         Thread.sleep(4343);
          try {
             final URL myURL = new URL("http://localhost:8080/stopp");
             final URLConnection myURLConnection = myURL.openConnection();

@@ -15,18 +15,26 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import accefa.event.ErrorEvent;
 import accefa.service.RaspiService;
 import accefa.service.RaspiServiceException;
 import accefa.ui.models.ImageConfigModel;
-import accefa.util.AlertException;
+
+import com.google.common.eventbus.EventBus;
+import com.google.inject.Inject;
 
 public class ImageConfigController {
 
-   private RaspiService raspiService;
+   @Inject
+   private RaspiService service;
+
+   @Inject
+   private ExecutorService executor;
+
+   @Inject
+   private EventBus eventBus;
 
    private ImageConfigModel imageConfigModel;
-
-   private ExecutorService executorService;
 
    @FXML
    private TitledPane titledPaneImage;
@@ -82,19 +90,24 @@ public class ImageConfigController {
    @FXML
    private ImageView imageView;
 
-   public void setRaspiService(final RaspiService service) {
-      this.raspiService = service;
+   @FXML
+   private void initialize() {
+      loadData();
    }
 
-   public void setExecutorService(final ExecutorService service) {
-      this.executorService = service;
-   }
-
-   public void loadData() {
+   private void loadData() {
       imageConfigModel = new ImageConfigModel();
       bindProperties(imageConfigModel);
       loadImageConfigModel();
       imageView.setImage(getDefaultImage());
+
+      btnReloadImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+         @Override
+         public void handle(final MouseEvent event) {
+            saveImageConfigModel();
+            loadImageConfigModel();
+         }
+      });
    }
 
    private void loadImage(final String url) {
@@ -113,14 +126,10 @@ public class ImageConfigController {
     * Lädt Daten von Server.
     */
    private void loadImageConfigModel() {
-      if (raspiService == null || executorService == null) {
-         return;
-      }
-
       final Task<ImageConfigModel> task = new Task<ImageConfigModel>() {
          @Override
          protected ImageConfigModel call() throws RaspiServiceException {
-            return raspiService.readImageConfigModel();
+            return service.readImageConfigModel();
          }
 
          @Override
@@ -132,13 +141,13 @@ public class ImageConfigController {
                   if (valueProperty().get() != null) {
                      imageConfigModel = model;
                      bindProperties(model);
-                     loadImage(raspiService.getImageUrl());
+                     loadImage(service.getImageUrl());
                   }
                }
             });
          }
       };
-      executorService.execute(task);
+      executor.execute(task);
    }
 
    private void bindProperties(final ImageConfigModel model) {
@@ -150,7 +159,7 @@ public class ImageConfigController {
 
       lblGreyscaleThreshold.textProperty().bind(
             Bindings.concat("Graustufen Schwellwert (").concat(model.greyscaleThresholdProperty().asString())
-            .concat(")"));
+                  .concat(")"));
       sliderGreyscaleThreshold.valueProperty().bindBidirectional(model.greyscaleThresholdProperty());
 
       lblQuality.textProperty().bind(
@@ -168,39 +177,26 @@ public class ImageConfigController {
       sliderLineH.valueProperty().bindBidirectional(model.lineHProperty());
    }
 
-   @FXML
-   private void initialize() {
-      btnReloadImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-         @Override
-         public void handle(final MouseEvent event) {
-            saveImageConfigModel();
-            loadImageConfigModel();
-         }
-      });
-   }
-
    /**
     * Sendet die Daten an den Server.
     */
    private void saveImageConfigModel() {
-      if (raspiService == null || executorService == null) {
-         return;
-      }
       titledPaneConfiguration.setDisable(true);
       final Task<Void> task = new Task<Void>() {
          @Override
          protected Void call() throws RaspiServiceException {
-            raspiService.saveImageConfigModel(imageConfigModel);
+            service.saveImageConfigModel(imageConfigModel);
             return null;
          }
 
          @Override
          protected void failed() {
-            super.failed();
             Platform.runLater(new Runnable() {
                @Override
                public void run() {
-                  new AlertException(exceptionProperty().get()).show();
+                  eventBus.post(new ErrorEvent("Es ist ein Fehler aufgetreten: "
+                        + exceptionProperty().get().getMessage()));
+                  exceptionProperty().get().printStackTrace();
                   titledPaneConfiguration.setDisable(false);
                }
             });
@@ -208,7 +204,6 @@ public class ImageConfigController {
 
          @Override
          protected void succeeded() {
-            super.failed();
             Platform.runLater(new Runnable() {
                @Override
                public void run() {
@@ -217,7 +212,7 @@ public class ImageConfigController {
             });
          }
       };
-      executorService.execute(task);
+      executor.execute(task);
    }
 
 }

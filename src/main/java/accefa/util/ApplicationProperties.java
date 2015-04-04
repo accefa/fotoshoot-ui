@@ -8,42 +8,27 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-public class FotoShootProperties {
+public class ApplicationProperties {
 
    private static final String PROPERTY_RASPI_URL = "RASPI_URL";
 
    private static final String PROPERTY_WEBSERVER_URL = "WEBSERVER_URL";
 
-   private static final String FILE_RUNTIME = "runtime/fotoshoot-ui.properties";
+   private static final String FILE_RUNTIME = "runtime/application.properties";
 
-   private static final String FILE_DEFAULT = "default.fotoshoot-ui.properties";
+   private static final String FILE_DEFAULT = "default.application.properties";
 
    private Properties clientProperties;
 
-   private FotoShootProperties() {
-
-   }
-
-   private static FotoShootProperties instance;
-
-   private static Object lock = new Object();
-
-   public static FotoShootProperties getInstance() {
-      synchronized (lock) {
-         FotoShootProperties properties = instance;
-         if (instance == null) {
-            properties = new FotoShootProperties();
-            properties.load();
-         }
-         return properties;
-      }
+   public ApplicationProperties() {
+      load();
    }
 
    /**
     * Lädt die Werte aus den Dateien. Falls keine Runtime-Properties existieren,
     * werden die Default Properties geladen.
     */
-   public void load() {
+   private void load() {
       clientProperties = new Properties();
       try {
          InputStream stream = null;
@@ -63,7 +48,7 @@ public class FotoShootProperties {
    /**
     * Persitiert die Werte.
     */
-   public void save() {
+   private void save() {
       try {
          final File file = new File(FILE_RUNTIME);
          if (!file.getParentFile().exists()) {
@@ -82,6 +67,7 @@ public class FotoShootProperties {
 
    public void setRaspiUrl(final String url) {
       clientProperties.setProperty(PROPERTY_RASPI_URL, url);
+      save();
    }
 
    public String getWebserverUrl() {
@@ -90,6 +76,7 @@ public class FotoShootProperties {
 
    public void setWebserverUrl(final String url) {
       clientProperties.setProperty(PROPERTY_WEBSERVER_URL, url);
+      save();
    }
 
 }

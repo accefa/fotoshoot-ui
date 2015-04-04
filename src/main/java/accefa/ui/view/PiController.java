@@ -22,16 +22,31 @@ import javafx.util.Duration;
 
 import org.apache.commons.validator.routines.UrlValidator;
 
+import accefa.event.ErrorEvent;
+import accefa.event.InfoEvent;
+import accefa.event.ProcessStartedEvent;
+import accefa.event.ProcessStoppedEvent;
 import accefa.service.RaspiService;
 import accefa.service.RaspiServiceException;
-import accefa.util.AlertException;
-import accefa.util.FotoShootProperties;
+import accefa.util.ApplicationProperties;
+
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import com.google.inject.Inject;
 
 public class PiController {
 
-   private RaspiService raspiService;
+   @Inject
+   private RaspiService service;
 
-   private ExecutorService executorService;
+   @Inject
+   private ExecutorService executor;
+
+   @Inject
+   private ApplicationProperties properties;
+
+   @Inject
+   private EventBus eventBus;
 
    @FXML
    private Button btnStart;
@@ -57,7 +72,7 @@ public class PiController {
 
    @FXML
    private void initialize() {
-      urlProperty.set(FotoShootProperties.getInstance().getRaspiUrl());
+      urlProperty.set(properties.getRaspiUrl());
       btnStart.disableProperty().bind(processRunningProperty);
       btnSaveUrl.disableProperty().bind(processRunningProperty);
       lblTime.textProperty().bind(
@@ -71,14 +86,6 @@ public class PiController {
       setUpEventHandling();
    }
 
-   public void setRaspiService(final RaspiService service) {
-      this.raspiService = service;
-   }
-
-   public void setExecutorService(final ExecutorService service) {
-      this.executorService = service;
-   }
-
    private void setUpEventHandling() {
       btnStart.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
          private Duration time = Duration.ZERO;
@@ -88,6 +95,7 @@ public class PiController {
             try {
                processRunningProperty.set(true);
                time = Duration.ZERO;
+               eventBus.post(new ProcessStartedEvent());
 
                stopWatchTimeline = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
                   @Override
@@ -107,25 +115,32 @@ public class PiController {
                final Task<Void> task = new Task<Void>() {
                   @Override
                   protected Void call() throws RaspiServiceException {
-                     raspiService.startProcess();
+                     service.startProcess();
                      return null;
                   }
 
                   @Override
                   protected void failed() {
-                     super.failed();
                      Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                           new AlertException(exceptionProperty().get()).show();
+                           eventBus.post(new ErrorEvent("Es ist ein Fehler aufgetreten: "
+                                 + exceptionProperty().get().getMessage()));
+                           exceptionProperty().get().printStackTrace();
                         }
                      });
                   }
                };
-               executorService.execute(task);
+               executor.execute(task);
             } catch (final Exception ex) {
                // TODO Reset UI in this case
-               new AlertException(ex).show();
+               Platform.runLater(new Runnable() {
+                  @Override
+                  public void run() {
+                     eventBus.post(new ErrorEvent("Es ist ein Fehler aufgetreten: " + ex.getMessage()));
+                     ex.printStackTrace();
+                  }
+               });
             }
          }
       });
@@ -136,17 +151,19 @@ public class PiController {
             final String[] schemas = { "http" };
             final UrlValidator urlValidator = new UrlValidator(schemas);
             if (urlValidator.isValid(urlProperty.get())) {
-               FotoShootProperties.getInstance().setRaspiUrl(urlProperty.get());
-               FotoShootProperties.getInstance().save();
+               properties.setRaspiUrl(urlProperty.get());
                txtUrl.setStyle("-fx-base: #ffffff");
+               eventBus.post(new InfoEvent("Die URL wurde gespeichert."));
             } else {
                txtUrl.setStyle("-fx-base: #ff0000");
+               eventBus.post(new ErrorEvent("Die eingetragenen URL entspricht keinem gültigen URL-Format."));
             }
          }
       });
    }
 
-   public void stoppProcess() {
+   @Subscribe
+   public void recordProcessStoppedEvent(final ProcessStoppedEvent event) {
       if (stopWatchTimeline != null) {
          stopWatchTimeline.stop();
       }

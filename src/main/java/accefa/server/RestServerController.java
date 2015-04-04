@@ -8,32 +8,33 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import accefa.ui.view.PiController;
-import accefa.util.FotoShootProperties;
+import accefa.util.ApplicationProperties;
 
+import com.google.common.eventbus.EventBus;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.sun.net.httpserver.HttpServer;
 
 public class RestServerController {
 
-   private HttpServer server;
+   @Inject
+   private ApplicationProperties properties;
 
-   private final PiController piController;
+   @Inject
+   private Injector injector;
+
+   private HttpServer server;
 
    private ExecutorService executorService;
 
-   public RestServerController(final PiController piController) {
-      this.piController = piController;
-   }
-
    public void start() {
       if (server == null) {
-         final String url = FotoShootProperties.getInstance().getWebserverUrl();
-
+         final String url = properties.getWebserverUrl();
          final ResourceConfig config = new ResourceConfig().packages(RestServer.class.getPackage().getName());
          config.register(new AbstractBinder() {
             @Override
             protected void configure() {
-               bind(piController).to(PiController.class);
+               bind(injector.getInstance(EventBus.class)).to(EventBus.class);
             }
          });
 
