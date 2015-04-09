@@ -4,8 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import accefa.ui.models.BldcDriveModel;
 
 public class DriveController {
+
+   private BldcDriveModel bldcDriveModel;
 
    @FXML
    private Slider sliderBldc;
@@ -36,6 +39,19 @@ public class DriveController {
 
    @FXML
    private Button btnStpReset;
+
+   @FXML
+   private void initialize() {
+      createModels();
+      bindBldcProperties();
+   }
+
+   private void createModels() {
+      bldcDriveModel = new BldcDriveModel();
+   }
+
+   private void bindBldcProperties() {
+   }
 
    @FXML
    void btnBldcOnAction(final ActionEvent event) {
