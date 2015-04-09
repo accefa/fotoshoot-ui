@@ -8,13 +8,7 @@ import javafx.scene.control.Slider;
 public class DriveController {
 
    @FXML
-   private Button btnDcForward;
-
-   @FXML
-   private Button btnStpStart;
-
-   @FXML
-   private Slider sliderStp;
+   private Slider sliderBldc;
 
    @FXML
    private Button btnBldcOn;
@@ -26,16 +20,22 @@ public class DriveController {
    private Button btnBldcReset;
 
    @FXML
-   private Slider sliderBldc;
-
-   @FXML
-   private Button btnStpReset;
+   private Button btnDcForward;
 
    @FXML
    private Button btnDcReverse;
 
    @FXML
    private Button btnDcReset;
+
+   @FXML
+   private Slider sliderStp;
+
+   @FXML
+   private Button btnStpStart;
+
+   @FXML
+   private Button btnStpReset;
 
    @FXML
    void btnBldcOnAction(final ActionEvent event) {
