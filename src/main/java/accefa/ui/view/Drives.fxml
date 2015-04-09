@@ -20,11 +20,11 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button minWidth="50.0" mnemonicParsing="false" text="An" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Aus" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btnBldcOn" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcOnAction" text="An" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btnBldcOff" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcOffAction" text="Aus" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btnBldcReset" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Label text="RPM" />
-                  <Slider majorTickUnit="500.0" max="12000.0" min="7000.0" minorTickCount="100" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Slider fx:id="sliderBldc" majorTickUnit="500.0" max="12000.0" min="7000.0" minorTickCount="100" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                </children>
             </GridPane>
          </content>
@@ -41,9 +41,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Vorwärts" GridPane.halignment="CENTER" />
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Rückwärts" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                  <Button minWidth="80.0" mnemonicParsing="false" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                  <Button fx:id="btnDcForward" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcForwardAction" text="Vorwärts" GridPane.halignment="CENTER" />
+                  <Button fx:id="btnDcReverse" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcReverseAction" text="Rückwärts" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Button fx:id="btnDcReset" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
          </content>
@@ -61,10 +61,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Start" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button minWidth="50.0" mnemonicParsing="false" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btnStpStart" minWidth="50.0" mnemonicParsing="false" onAction="#btnStpStartAction" text="Start" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btnStpReset" minWidth="50.0" mnemonicParsing="false" onAction="#btnStpResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Label text="Schritte" />
-                  <Slider min="-100.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Slider fx:id="sliderStp" min="-100.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                </children>
             </GridPane>
          </content>
