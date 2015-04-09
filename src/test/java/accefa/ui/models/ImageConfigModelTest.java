@@ -10,6 +10,8 @@ import javafx.beans.property.StringProperty;
 import org.junit.Before;
 import org.junit.Test;
 
+import accefa.ui.model.ImageConfigModel;
+
 public class ImageConfigModelTest {
 
    private ImageConfigModel model;

@@ -19,7 +19,7 @@ import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
 import accefa.service.RaspiService;
 import accefa.service.RaspiServiceException;
-import accefa.ui.models.ImageConfigModel;
+import accefa.ui.model.ImageConfigModel;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;

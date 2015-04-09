@@ -1,6 +1,6 @@
 package accefa.service;
 
-import accefa.ui.models.ImageConfigModel;
+import accefa.ui.model.ImageConfigModel;
 
 /**
  * Zentrale Schnittstelle um vom UI auf die Services zuzugreifen.

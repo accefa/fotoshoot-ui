@@ -9,6 +9,8 @@ import javafx.beans.property.IntegerProperty;
 import org.junit.Before;
 import org.junit.Test;
 
+import accefa.ui.model.StpDriveModel;
+
 public class StpDriveModelTest {
 
 	private StpDriveModel model;

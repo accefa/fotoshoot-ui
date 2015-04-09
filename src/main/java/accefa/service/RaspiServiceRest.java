@@ -8,8 +8,8 @@ import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
-import accefa.ui.models.ImageConfigModel;
-import accefa.ui.models.StartSignalModel;
+import accefa.ui.model.ImageConfigModel;
+import accefa.ui.model.StartSignalModel;
 import accefa.util.ApplicationProperties;
 
 import com.google.inject.Inject;

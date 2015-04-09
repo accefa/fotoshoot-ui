@@ -8,6 +8,8 @@ import javafx.beans.property.BooleanProperty;
 import org.junit.Before;
 import org.junit.Test;
 
+import accefa.ui.model.DcDriveModel;
+
 public class DcDriveModelTest {
 
 	private DcDriveModel model;

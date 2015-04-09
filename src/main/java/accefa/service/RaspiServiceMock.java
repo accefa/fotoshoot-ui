@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import accefa.ui.models.ImageConfigModel;
+import accefa.ui.model.ImageConfigModel;
 
 // TODO Eigentlich sollte nicht im /src/main/java sein - da nur Testmock Implemenation.
 public class RaspiServiceMock implements RaspiService {

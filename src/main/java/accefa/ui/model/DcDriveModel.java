@@ -1,4 +1,4 @@
-package accefa.ui.models;
+package accefa.ui.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

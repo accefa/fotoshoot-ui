@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import accefa.ui.models.BldcDriveModel;
+import accefa.ui.model.BldcDriveModel;
 
 public class DriveController {
 
