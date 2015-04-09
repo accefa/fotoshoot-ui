@@ -18,6 +18,7 @@ import accefa.guice.FotoShootModule;
 import accefa.guice.FotoShootModuleFactory;
 import accefa.server.RestServerController;
 import accefa.ui.view.ActionOverviewController;
+import accefa.ui.view.DriveController;
 import accefa.ui.view.ImageConfigController;
 import accefa.ui.view.PiController;
 import accefa.ui.view.RootLayoutController;
@@ -32,6 +33,17 @@ import com.google.inject.Injector;
  */
 public class Program extends Application {
 
+   private static final String DRIVES_LAYOUT = "Drives.fxml";
+   private static final String DRIVES_TITLE = "Motoren";
+   private static final String ACTION_LOG_LAYOUT = "ActionOverview.fxml";
+   private static final String ACTION_LOG_TITLE = "Aktions-Log";
+   private static final String IMAGE_CONFIG_LAYOUT = "ImageConfig.fxml";
+   private static final String IMAGE_CONFIG_TITLE = "Bild-Erkennung";
+   private static final String PI_LAYOUT = "Pi.fxml";
+   private static final String PI_TITLE = "Pi";
+   private static final String ROOT_LAYOUT = "RootLayout.fxml";
+   private static final String ROOT_TITLE = "Foto-Shoot";
+
    private static Injector injector;
 
    public static void main(final String[] args) {
@@ -45,7 +57,7 @@ public class Program extends Application {
    public void start(final Stage primaryStage) {
       final BorderPane rootLayout = createRootlayout();
       rootLayout.setCenter(createTabPane());
-      primaryStage.setTitle("Foto-Shoot");
+      primaryStage.setTitle(ROOT_TITLE);
       primaryStage.setScene(new Scene(rootLayout));
       maximize(primaryStage);
       primaryStage.show();
@@ -61,20 +73,7 @@ public class Program extends Application {
    }
 
    private BorderPane createRootlayout() {
-      return (BorderPane) new ApplicationFxmlLoader().createLoader(injector, RootLayoutController.class,
-            "RootLayout.fxml");
-   }
-
-   private Parent createImageConfig() {
-      return new ApplicationFxmlLoader().createLoader(injector, ImageConfigController.class, "ImageConfig.fxml");
-   }
-
-   private Parent createPi() {
-      return new ApplicationFxmlLoader().createLoader(injector, PiController.class, "Pi.fxml");
-   }
-
-   private Parent createActionLog() {
-      return new ApplicationFxmlLoader().createLoader(injector, ActionOverviewController.class, "ActionOverview.fxml");
+      return (BorderPane) new ApplicationFxmlLoader().createLoader(injector, RootLayoutController.class, ROOT_LAYOUT);
    }
 
    private TabPane createTabPane() {
@@ -83,6 +82,7 @@ public class Program extends Application {
       tabs.add(createTabPi());
       tabs.add(createTabImageRecognition());
       tabs.add(createTabActionLog());
+      tabs.add(createTabDrives());
       for (final Tab tab : tabs) {
          tab.setClosable(false);
          tabPane.getTabs().add(tab);
@@ -91,21 +91,43 @@ public class Program extends Application {
    }
 
    private Tab createTabPi() {
-      final Tab tab = new Tab("Pi");
-      tab.setContent(createPi());
+      final Tab tab = new Tab(PI_TITLE);
+      tab.setContent(createNodePi());
       return tab;
    }
 
    private Tab createTabImageRecognition() {
-      final Tab tab = new Tab("Bild-Erkennung");
-      tab.setContent(createImageConfig());
+      final Tab tab = new Tab(IMAGE_CONFIG_TITLE);
+      tab.setContent(createNodeImageConfig());
       return tab;
    }
 
    private Tab createTabActionLog() {
-      final Tab tab = new Tab("Aktions-Log");
-      tab.setContent(createActionLog());
+      final Tab tab = new Tab(ACTION_LOG_TITLE);
+      tab.setContent(createNodeActionLog());
       return tab;
+   }
+
+   private Tab createTabDrives() {
+      final Tab tab = new Tab(DRIVES_TITLE);
+      tab.setContent(createNodeDrives());
+      return tab;
+   }
+
+   private Parent createNodeImageConfig() {
+      return new ApplicationFxmlLoader().createLoader(injector, ImageConfigController.class, IMAGE_CONFIG_LAYOUT);
+   }
+
+   private Parent createNodePi() {
+      return new ApplicationFxmlLoader().createLoader(injector, PiController.class, PI_LAYOUT);
+   }
+
+   private Parent createNodeActionLog() {
+      return new ApplicationFxmlLoader().createLoader(injector, ActionOverviewController.class, ACTION_LOG_LAYOUT);
+   }
+
+   private Parent createNodeDrives() {
+      return new ApplicationFxmlLoader().createLoader(injector, DriveController.class, DRIVES_LAYOUT);
    }
 
    private void maximize(final Stage stage) {
