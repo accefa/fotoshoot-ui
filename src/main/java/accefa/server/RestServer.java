@@ -14,8 +14,12 @@ import com.google.common.eventbus.EventBus;
 @Path("stopp")
 public class RestServer {
 
+   private final EventBus eventBus;
+
    @Inject
-   private EventBus eventBus;
+   public RestServer(final EventBus eventBus) {
+      this.eventBus = eventBus;
+   }
 
    @GET
    @Produces("text/plain")

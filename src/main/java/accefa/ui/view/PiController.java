@@ -36,17 +36,13 @@ import com.google.inject.Inject;
 
 public class PiController {
 
-   @Inject
-   private RaspiService service;
+   private final RaspiService service;
 
-   @Inject
-   private ExecutorService executor;
+   private final ExecutorService executor;
 
-   @Inject
-   private ApplicationProperties properties;
+   private final ApplicationProperties properties;
 
-   @Inject
-   private EventBus eventBus;
+   private final EventBus eventBus;
 
    @FXML
    private Button btnStart;
@@ -69,6 +65,15 @@ public class PiController {
    private final StringProperty stopWatchTimeSecondsProperty = new SimpleStringProperty("0s");
 
    private Timeline stopWatchTimeline;
+
+   @Inject
+   public PiController(final RaspiService service, final ExecutorService executor,
+         final ApplicationProperties properties, final EventBus eventBus) {
+      this.service = service;
+      this.executor = executor;
+      this.properties = properties;
+      this.eventBus = eventBus;
+   }
 
    @FXML
    private void initialize() {

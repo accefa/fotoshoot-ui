@@ -20,8 +20,12 @@ public class RaspiServiceRest implements RaspiService {
 
    private static final String RESOURCE_START = "start";
 
+   private final ApplicationProperties properties;
+
    @Inject
-   private ApplicationProperties properties;
+   public RaspiServiceRest(final ApplicationProperties properties) {
+      this.properties = properties;
+   }
 
    @Override
    public void startProcess() throws RaspiServiceException {

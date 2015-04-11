@@ -26,14 +26,11 @@ import com.google.inject.Inject;
 
 public class ImageConfigController {
 
-   @Inject
-   private RaspiService service;
+   private final RaspiService service;
 
-   @Inject
-   private ExecutorService executor;
+   private final ExecutorService executor;
 
-   @Inject
-   private EventBus eventBus;
+   private final EventBus eventBus;
 
    private ImageConfigModel imageConfigModel;
 
@@ -90,6 +87,13 @@ public class ImageConfigController {
 
    @FXML
    private ImageView imageView;
+
+   @Inject
+   public ImageConfigController(final RaspiService service, final ExecutorService executor, final EventBus eventBus) {
+      this.service = service;
+      this.executor = executor;
+      this.eventBus = eventBus;
+   }
 
    @FXML
    private void initialize() {

@@ -10,86 +10,90 @@ import com.google.inject.Inject;
 
 public class DriveController {
 
-    @Inject
-    private BldcDriveService bldcDriveService;
+   private final BldcDriveService bldcDriveService;
 
-    @FXML
-    private Slider sliderBldc;
+   @FXML
+   private Slider sliderBldc;
 
-    @FXML
-    private Button btnBldcOn;
+   @FXML
+   private Button btnBldcOn;
 
-    @FXML
-    private Button btnBldcOff;
+   @FXML
+   private Button btnBldcOff;
 
-    @FXML
-    private Button btnBldcReset;
+   @FXML
+   private Button btnBldcReset;
 
-    @FXML
-    private Button btnDcForward;
+   @FXML
+   private Button btnDcForward;
 
-    @FXML
-    private Button btnDcReverse;
+   @FXML
+   private Button btnDcReverse;
 
-    @FXML
-    private Button btnDcReset;
+   @FXML
+   private Button btnDcReset;
 
-    @FXML
-    private Slider sliderStp;
+   @FXML
+   private Slider sliderStp;
 
-    @FXML
-    private Button btnStpStart;
+   @FXML
+   private Button btnStpStart;
 
-    @FXML
-    private Button btnStpReset;
+   @FXML
+   private Button btnStpReset;
 
-    @FXML
-    private void initialize() {
-    }
+   @Inject
+   public DriveController(final BldcDriveService bldcDriveService) {
+      this.bldcDriveService = bldcDriveService;
+   }
 
-    @FXML
-    void btnBldcOnAction(final ActionEvent event) {
-        bldcDriveService.start((int) sliderBldc.getValue());
-    }
+   @FXML
+   private void initialize() {
+   }
 
-    @FXML
-    void btnBldcOffAction(final ActionEvent event) {
-        bldcDriveService.stop();
-    }
+   @FXML
+   void btnBldcOnAction(final ActionEvent event) {
+      bldcDriveService.start((int) sliderBldc.getValue());
+   }
 
-    @FXML
-    void btnBldcResetAction(final ActionEvent event) {
-        bldcDriveService.reset();
-    }
+   @FXML
+   void btnBldcOffAction(final ActionEvent event) {
+      bldcDriveService.stop();
+   }
 
-    @FXML
-    void btnDcForwardAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
+   @FXML
+   void btnBldcResetAction(final ActionEvent event) {
+      bldcDriveService.reset();
+   }
 
-    }
+   @FXML
+   void btnDcForwardAction(final ActionEvent event) {
+      System.out.println(event.getSource().toString());
 
-    @FXML
-    void btnDcReverseAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
+   }
 
-    }
+   @FXML
+   void btnDcReverseAction(final ActionEvent event) {
+      System.out.println(event.getSource().toString());
 
-    @FXML
-    void btnDcResetAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
+   }
 
-    }
+   @FXML
+   void btnDcResetAction(final ActionEvent event) {
+      System.out.println(event.getSource().toString());
 
-    @FXML
-    void btnStpStartAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
+   }
 
-    }
+   @FXML
+   void btnStpStartAction(final ActionEvent event) {
+      System.out.println(event.getSource().toString());
 
-    @FXML
-    void btnStpResetAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
+   }
 
-    }
+   @FXML
+   void btnStpResetAction(final ActionEvent event) {
+      System.out.println(event.getSource().toString());
+
+   }
 
 }
