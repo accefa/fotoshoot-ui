@@ -29,7 +29,7 @@ public class DriveController {
     private Button btnDcForward;
 
     @FXML
-    private Button btnDcReverse;
+    private Button btnDcBackward;
 
     @FXML
     private Button btnDcReset;
@@ -81,9 +81,8 @@ public class DriveController {
         dcTaskExecutor.forward();
     }
 
-    // TODO Rename to backward
     @FXML
-    void btnDcReverseAction(final ActionEvent event) {
+    void btnDcBackwardAction(final ActionEvent event) {
         dcTaskExecutor.backward();
     }
 

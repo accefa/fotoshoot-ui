@@ -41,7 +41,7 @@
               </rowConstraints>
                <children>
                   <Button fx:id="btnDcForward" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcForwardAction" text="Vorwärts" GridPane.halignment="CENTER" />
-                  <Button fx:id="btnDcReverse" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcReverseAction" text="Rückwärts" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Button fx:id="btnDcBackward" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcBackwardAction" text="Rückwärts" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                   <Button fx:id="btnDcReset" minWidth="80.0" mnemonicParsing="false" onAction="#btnDcResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                </children>
             </GridPane>
