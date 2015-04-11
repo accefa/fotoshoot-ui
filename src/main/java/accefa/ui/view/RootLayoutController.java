@@ -1,5 +1,6 @@
 package accefa.ui.view;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -24,16 +25,27 @@ public class RootLayoutController {
 
    @Subscribe
    public void recordErrorEvent(final ErrorEvent event) {
-      final String labelText = new StringBuilder().append("Es ist ein Fehler aufgetreten: ").append(event.getMessage())
-            .toString();
-      stateLabel.setTextFill(Color.RED);
-      stateLabel.setText(labelText);
+      Platform.runLater(new Runnable() {
+         @Override
+         public void run() {
+            final String labelText = new StringBuilder().append("Es ist ein Fehler aufgetreten: ")
+                  .append(event.getMessage()).toString();
+            stateLabel.setTextFill(Color.RED);
+            stateLabel.setText(labelText);
+         }
+      });
    }
 
    @Subscribe
    public void recordInfoEvent(final InfoEvent event) {
-      stateLabel.setTextFill(Color.BLACK);
-      stateLabel.setText(event.getMessage());
+      Platform.runLater(new Runnable() {
+         @Override
+         public void run() {
+            stateLabel.setTextFill(Color.BLACK);
+            stateLabel.setText(event.getMessage());
+         }
+      });
+
    }
 
    @Subscribe
