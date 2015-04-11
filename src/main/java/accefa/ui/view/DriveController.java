@@ -49,16 +49,23 @@ public class DriveController {
 
    @FXML
    private void initialize() {
+      btnBldcOff.setDisable(true);
    }
 
    @FXML
    void btnBldcOnAction(final ActionEvent event) {
       bldcDriveService.start((int) sliderBldc.getValue());
+      btnBldcOn.setDisable(true);
+      btnBldcOff.setDisable(false);
+      btnBldcReset.setDisable(true);
    }
 
    @FXML
    void btnBldcOffAction(final ActionEvent event) {
       bldcDriveService.stop();
+      btnBldcOn.setDisable(false);
+      btnBldcOff.setDisable(true);
+      btnBldcReset.setDisable(false);
    }
 
    @FXML
