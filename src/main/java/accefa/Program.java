@@ -18,10 +18,10 @@ import accefa.guice.FotoShootModule;
 import accefa.guice.FotoShootModuleFactory;
 import accefa.server.RestServerController;
 import accefa.ui.view.ActionOverviewController;
-import accefa.ui.view.DriveController;
 import accefa.ui.view.ImageConfigController;
 import accefa.ui.view.PiController;
 import accefa.ui.view.RootLayoutController;
+import accefa.ui.view.drive.DriveController;
 import accefa.util.ApplicationCliParser;
 import accefa.util.ApplicationFxmlLoader;
 

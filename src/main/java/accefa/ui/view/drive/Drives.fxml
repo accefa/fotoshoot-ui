@@ -4,8 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-
-<VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accefa.ui.view.DriveController">
+<VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accefa.ui.view.drive.DriveController">
    <children>
       <TitledPane animated="false" text="BLDC">
          <content>
