@@ -13,6 +13,8 @@ public class DriveController {
 
     private final DcTaskExecutor dcTaskExecutor;
 
+    private final StpTaskExecutor stpTaskExecutor;
+
     @FXML
     private Slider sliderBldc;
 
@@ -45,9 +47,10 @@ public class DriveController {
 
     @Inject
     public DriveController(final BldcTaskExecutor bldcTaskExecutor,
-            final DcTaskExecutor dcTaskExecutor) {
+            final DcTaskExecutor dcTaskExecutor, final StpTaskExecutor stpTaskExecutor) {
         this.bldcTaskExecutor = bldcTaskExecutor;
         this.dcTaskExecutor = dcTaskExecutor;
+        this.stpTaskExecutor = stpTaskExecutor;
     }
 
     @FXML
@@ -93,14 +96,12 @@ public class DriveController {
 
     @FXML
     void btnStpStartAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
-
+        stpTaskExecutor.start((int) sliderStp.getValue());
     }
 
     @FXML
     void btnStpResetAction(final ActionEvent event) {
-        System.out.println(event.getSource().toString());
-
+        stpTaskExecutor.reset();
     }
 
 }

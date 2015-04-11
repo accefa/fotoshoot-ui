@@ -25,6 +25,8 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
 
     protected abstract void configureDcDriveService();
 
+    protected abstract void configureStpDriveService();
+
     @Override
     protected void configure() {
         bind(ExecutorService.class).toInstance(Executors.newSingleThreadExecutor());
@@ -55,6 +57,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
         configureRaspiService();
         configureBldcDriveService();
         configureDcDriveService();
+        configureStpDriveService();
     }
 
 }

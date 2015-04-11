@@ -1,7 +1,7 @@
 /**
  *
  */
-package accefa.service.drive.bldc;
+package accefa.service.drive.stp;
 
 import accefa.event.InfoEvent;
 
@@ -12,43 +12,36 @@ import com.google.inject.Inject;
  * @author Fabian Wüthrich
  *
  */
-public class BldcDriveServiceStub implements BldcDriveService {
+public class StpDriveServiceStub implements StpDriveService {
 
     private static final int SLEEP_TIME = 3000;
 
+    private final EventBus eventBus;
+
     @Inject
-    private EventBus eventBus;
+    public StpDriveServiceStub(final EventBus eventBus) {
+        this.eventBus = eventBus;
+    }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see accefa.service.drive.bldc.BldcDriveService#start(int)
+     *
+     * @see accefa.service.drive.stp.StpDriveService#start(int)
      */
     @Override
-    public void start(final int rpm) {
-        postInfoEvent("BLDC gestartet mit " + rpm + " RPM");
+    public void start(final int steps) {
+        postInfoEvent("STP dreht " + steps + " Schritte");
         sleep();
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see accefa.service.drive.bldc.BldcDriveService#stop()
-     */
-    @Override
-    public void stop() {
-        postInfoEvent("BLDC gestoppt");
-        sleep();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see accefa.service.drive.bldc.BldcDriveService#reset()
+     *
+     * @see accefa.service.drive.stp.StpDriveService#reset()
      */
     @Override
     public void reset() {
-        postInfoEvent("BLDC geresetet");
+        postInfoEvent("STP wurde geresetet");
         sleep();
     }
 

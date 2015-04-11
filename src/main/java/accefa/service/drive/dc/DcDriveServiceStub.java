@@ -30,8 +30,8 @@ public class DcDriveServiceStub implements DcDriveService {
      */
     @Override
     public void forward() {
-        sleep();
         postInfoEvent("DC dreht vorwärts");
+        sleep();
     }
 
     /*
@@ -41,8 +41,8 @@ public class DcDriveServiceStub implements DcDriveService {
      */
     @Override
     public void backward() {
-        sleep();
         postInfoEvent("DC dreht rückwärts");
+        sleep();
     }
 
     /*
@@ -52,8 +52,8 @@ public class DcDriveServiceStub implements DcDriveService {
      */
     @Override
     public void reset() {
-        sleep();
         postInfoEvent("DC wurde geresetet");
+        sleep();
     }
 
     private void sleep() {
