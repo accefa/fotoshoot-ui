@@ -15,47 +15,49 @@ import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
 /**
- * Google Guice Module. Hier sind alle Bindings definiert, welche für alle
- * Umgebungen gleich sind.
+ * Google Guice Module. Hier sind alle Bindings definiert, welche für alle Umgebungen gleich sind.
  */
 public abstract class AbstractFotoShootModule extends AbstractModule {
 
-   /**
-    * Provider für den RaspiService.
-    *
-    * @param injector
-    *           Injector.
-    * @return Konkrete RaspiService-Instanz.
-    */
-   protected abstract void configureRaspiService();
+    /**
+     * Provider für den RaspiService.
+     *
+     * @param injector Injector.
+     * @return Konkrete RaspiService-Instanz.
+     */
+    protected abstract void configureRaspiService();
 
-   @Override
-   protected void configure() {
-      bind(ExecutorService.class).toInstance(Executors.newSingleThreadExecutor());
+    protected abstract void configureBldcDriveService();
 
-      // Einen globalen Eventbus registrieren
-      final EventBus globalEventBus = new EventBus("Global Event Bus");
-      bind(EventBus.class).toInstance(globalEventBus);
+    @Override
+    protected void configure() {
+        bind(ExecutorService.class).toInstance(Executors.newSingleThreadExecutor());
 
-      bind(RestServerController.class).asEagerSingleton();
-      bind(ApplicationProperties.class).asEagerSingleton();
+        // Einen globalen Eventbus registrieren
+        final EventBus globalEventBus = new EventBus("Global Event Bus");
+        bind(EventBus.class).toInstance(globalEventBus);
 
-      // Alle Controller registrieren. Damit müssen sich die Controller nicht
-      // mehr selber registrieren. Es werden alle Objekte registriert, welche
-      // über Guice erzeugt werden. Die Controller sind dabei der Fall.
-      bindListener(Matchers.any(), new TypeListener() {
-         @Override
-         public <I> void hear(final TypeLiteral<I> typeLiteral, final TypeEncounter<I> typeEncounter) {
-            typeEncounter.register(new InjectionListener<I>() {
-               @Override
-               public void afterInjection(final I object) {
-                  globalEventBus.register(object);
-               }
-            });
-         }
-      });
+        bind(RestServerController.class).asEagerSingleton();
+        bind(ApplicationProperties.class).asEagerSingleton();
 
-      configureRaspiService();
-   }
+        // Alle Controller registrieren. Damit müssen sich die Controller nicht
+        // mehr selber registrieren. Es werden alle Objekte registriert, welche
+        // über Guice erzeugt werden. Die Controller sind dabei der Fall.
+        bindListener(Matchers.any(), new TypeListener() {
+            @Override
+            public <I> void hear(final TypeLiteral<I> typeLiteral,
+                    final TypeEncounter<I> typeEncounter) {
+                typeEncounter.register(new InjectionListener<I>() {
+                    @Override
+                    public void afterInjection(final I object) {
+                        globalEventBus.register(object);
+                    }
+                });
+            }
+        });
+
+        configureRaspiService();
+        configureBldcDriveService();
+    }
 
 }
