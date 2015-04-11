@@ -12,81 +12,75 @@ import com.google.inject.Inject;
 
 public class BldcTaskExecutor {
 
-   private final BldcDriveService bldcDriveService;
+    private final BldcDriveService bldcDriveService;
 
-   private final ExecutorService executor;
+    private final ExecutorService executor;
 
-   private final EventBus eventBus;
+    private final EventBus eventBus;
 
-   @Inject
-   public BldcTaskExecutor(final BldcDriveService bldcDriveService, final ExecutorService executor,
-         final EventBus eventBus) {
-      this.bldcDriveService = bldcDriveService;
-      this.executor = executor;
-      this.eventBus = eventBus;
-   }
+    @Inject
+    public BldcTaskExecutor(final BldcDriveService bldcDriveService,
+            final ExecutorService executor, final EventBus eventBus) {
+        this.bldcDriveService = bldcDriveService;
+        this.executor = executor;
+        this.eventBus = eventBus;
+    }
 
-   void startBldcDrive(final int rpm) {
-      final Task<Void> task = new Task<Void>() {
-         @Override
-         protected Void call() {
-            bldcDriveService.start(rpm);
-            return null;
-         }
+    void start(final int rpm) {
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                bldcDriveService.start(rpm);
+                return null;
+            }
 
-         @Override
-         protected void failed() {
-            Platform.runLater(new Runnable() {
-               @Override
-               public void run() {
-                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
-               }
-            });
-         }
-      };
-      executor.execute(task);
-   }
+            @Override
+            protected void failed() {
+                postErrorEvent(exceptionProperty().get().getMessage());
+            }
+        };
+        executor.execute(task);
+    }
 
-   void stopBldcDrive() {
-      final Task<Void> task = new Task<Void>() {
-         @Override
-         protected Void call() {
-            bldcDriveService.stop();
-            return null;
-         }
+    void stop() {
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                bldcDriveService.stop();
+                return null;
+            }
 
-         @Override
-         protected void failed() {
-            Platform.runLater(new Runnable() {
-               @Override
-               public void run() {
-                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
-               }
-            });
-         }
-      };
-      executor.execute(task);
-   }
+            @Override
+            protected void failed() {
+                postErrorEvent(exceptionProperty().get().getMessage());
+            }
+        };
+        executor.execute(task);
+    }
 
-   void resetBldcDrive() {
-      final Task<Void> task = new Task<Void>() {
-         @Override
-         protected Void call() {
-            bldcDriveService.reset();
-            return null;
-         }
+    void reset() {
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                bldcDriveService.reset();
+                return null;
+            }
 
-         @Override
-         protected void failed() {
-            Platform.runLater(new Runnable() {
-               @Override
-               public void run() {
-                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
-               }
-            });
-         }
-      };
-      executor.execute(task);
-   }
+            @Override
+            protected void failed() {
+                postErrorEvent(exceptionProperty().get().getMessage());
+            }
+        };
+        executor.execute(task);
+    }
+
+    private void postErrorEvent(final String message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                eventBus.post(new ErrorEvent(message));
+            }
+        });
+    }
 
 }
