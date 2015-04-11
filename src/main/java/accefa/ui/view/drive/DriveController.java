@@ -9,97 +9,99 @@ import com.google.inject.Inject;
 
 public class DriveController {
 
-   private final BldcTaskExecutor bldcTaskExecutor;
+    private final BldcTaskExecutor bldcTaskExecutor;
 
-   @FXML
-   private Slider sliderBldc;
+    private final DcTaskExecutor dcTaskExecutor;
 
-   @FXML
-   private Button btnBldcOn;
+    @FXML
+    private Slider sliderBldc;
 
-   @FXML
-   private Button btnBldcOff;
+    @FXML
+    private Button btnBldcOn;
 
-   @FXML
-   private Button btnBldcReset;
+    @FXML
+    private Button btnBldcOff;
 
-   @FXML
-   private Button btnDcForward;
+    @FXML
+    private Button btnBldcReset;
 
-   @FXML
-   private Button btnDcReverse;
+    @FXML
+    private Button btnDcForward;
 
-   @FXML
-   private Button btnDcReset;
+    @FXML
+    private Button btnDcReverse;
 
-   @FXML
-   private Slider sliderStp;
+    @FXML
+    private Button btnDcReset;
 
-   @FXML
-   private Button btnStpStart;
+    @FXML
+    private Slider sliderStp;
 
-   @FXML
-   private Button btnStpReset;
+    @FXML
+    private Button btnStpStart;
 
-   @Inject
-   public DriveController(final BldcTaskExecutor bldcTaskExecutor) {
-      this.bldcTaskExecutor = bldcTaskExecutor;
-   }
+    @FXML
+    private Button btnStpReset;
 
-   @FXML
-   private void initialize() {
-      btnBldcOff.setDisable(true);
-   }
+    @Inject
+    public DriveController(final BldcTaskExecutor bldcTaskExecutor,
+            final DcTaskExecutor dcTaskExecutor) {
+        this.bldcTaskExecutor = bldcTaskExecutor;
+        this.dcTaskExecutor = dcTaskExecutor;
+    }
 
-   @FXML
-   void btnBldcOnAction(final ActionEvent event) {
-      bldcTaskExecutor.startBldcDrive((int) sliderBldc.getValue());
-      btnBldcOn.setDisable(true);
-      btnBldcOff.setDisable(false);
-      btnBldcReset.setDisable(true);
-   }
+    @FXML
+    private void initialize() {
+        btnBldcOff.setDisable(true);
+    }
 
-   @FXML
-   void btnBldcOffAction(final ActionEvent event) {
-      bldcTaskExecutor.stopBldcDrive();
-      btnBldcOn.setDisable(false);
-      btnBldcOff.setDisable(true);
-      btnBldcReset.setDisable(false);
-   }
+    @FXML
+    void btnBldcOnAction(final ActionEvent event) {
+        bldcTaskExecutor.start((int) sliderBldc.getValue());
+        btnBldcOn.setDisable(true);
+        btnBldcOff.setDisable(false);
+        btnBldcReset.setDisable(true);
+    }
 
-   @FXML
-   void btnBldcResetAction(final ActionEvent event) {
-      bldcTaskExecutor.resetBldcDrive();
-   }
+    @FXML
+    void btnBldcOffAction(final ActionEvent event) {
+        bldcTaskExecutor.stop();
+        btnBldcOn.setDisable(false);
+        btnBldcOff.setDisable(true);
+        btnBldcReset.setDisable(false);
+    }
 
-   @FXML
-   void btnDcForwardAction(final ActionEvent event) {
-      System.out.println(event.getSource().toString());
+    @FXML
+    void btnBldcResetAction(final ActionEvent event) {
+        bldcTaskExecutor.reset();
+    }
 
-   }
+    @FXML
+    void btnDcForwardAction(final ActionEvent event) {
+        dcTaskExecutor.forward();
+    }
 
-   @FXML
-   void btnDcReverseAction(final ActionEvent event) {
-      System.out.println(event.getSource().toString());
+    // TODO Rename to backward
+    @FXML
+    void btnDcReverseAction(final ActionEvent event) {
+        dcTaskExecutor.backward();
+    }
 
-   }
+    @FXML
+    void btnDcResetAction(final ActionEvent event) {
+        dcTaskExecutor.reset();
+    }
 
-   @FXML
-   void btnDcResetAction(final ActionEvent event) {
-      System.out.println(event.getSource().toString());
+    @FXML
+    void btnStpStartAction(final ActionEvent event) {
+        System.out.println(event.getSource().toString());
 
-   }
+    }
 
-   @FXML
-   void btnStpStartAction(final ActionEvent event) {
-      System.out.println(event.getSource().toString());
+    @FXML
+    void btnStpResetAction(final ActionEvent event) {
+        System.out.println(event.getSource().toString());
 
-   }
-
-   @FXML
-   void btnStpResetAction(final ActionEvent event) {
-      System.out.println(event.getSource().toString());
-
-   }
+    }
 
 }

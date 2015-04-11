@@ -19,15 +19,11 @@ import com.google.inject.spi.TypeListener;
  */
 public abstract class AbstractFotoShootModule extends AbstractModule {
 
-    /**
-     * Provider für den RaspiService.
-     *
-     * @param injector Injector.
-     * @return Konkrete RaspiService-Instanz.
-     */
     protected abstract void configureRaspiService();
 
     protected abstract void configureBldcDriveService();
+
+    protected abstract void configureDcDriveService();
 
     @Override
     protected void configure() {
@@ -58,6 +54,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
 
         configureRaspiService();
         configureBldcDriveService();
+        configureDcDriveService();
     }
 
 }
