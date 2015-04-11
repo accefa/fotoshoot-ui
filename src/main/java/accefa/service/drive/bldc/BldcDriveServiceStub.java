@@ -26,8 +26,8 @@ public class BldcDriveServiceStub implements BldcDriveService {
      */
     @Override
     public void start(final int rpm) {
-        sleep();
         postInfoEvent("BLDC gestartet mit " + rpm + " RPM");
+        sleep();
     }
 
     /*
@@ -37,8 +37,8 @@ public class BldcDriveServiceStub implements BldcDriveService {
      */
     @Override
     public void stop() {
-        sleep();
         postInfoEvent("BLDC gestoppt");
+        sleep();
     }
 
     /*
@@ -48,8 +48,8 @@ public class BldcDriveServiceStub implements BldcDriveService {
      */
     @Override
     public void reset() {
-        sleep();
         postInfoEvent("BLDC geresetet");
+        sleep();
     }
 
     private void sleep() {
