@@ -1,16 +1,26 @@
 package accefa.ui.view;
 
+import java.util.concurrent.ExecutorService;
+
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import accefa.event.ErrorEvent;
 import accefa.service.drive.bldc.BldcDriveService;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 
 public class DriveController {
 
    private final BldcDriveService bldcDriveService;
+
+   private final ExecutorService executor;
+
+   private final EventBus eventBus;
 
    @FXML
    private Slider sliderBldc;
@@ -43,8 +53,11 @@ public class DriveController {
    private Button btnStpReset;
 
    @Inject
-   public DriveController(final BldcDriveService bldcDriveService) {
+   public DriveController(final BldcDriveService bldcDriveService, final ExecutorService executor,
+         final EventBus eventBus) {
       this.bldcDriveService = bldcDriveService;
+      this.executor = executor;
+      this.eventBus = eventBus;
    }
 
    @FXML
@@ -54,7 +67,7 @@ public class DriveController {
 
    @FXML
    void btnBldcOnAction(final ActionEvent event) {
-      bldcDriveService.start((int) sliderBldc.getValue());
+      startBldcDrive((int) sliderBldc.getValue());
       btnBldcOn.setDisable(true);
       btnBldcOff.setDisable(false);
       btnBldcReset.setDisable(true);
@@ -62,7 +75,7 @@ public class DriveController {
 
    @FXML
    void btnBldcOffAction(final ActionEvent event) {
-      bldcDriveService.stop();
+      stopBldcDrive();
       btnBldcOn.setDisable(false);
       btnBldcOff.setDisable(true);
       btnBldcReset.setDisable(false);
@@ -70,7 +83,7 @@ public class DriveController {
 
    @FXML
    void btnBldcResetAction(final ActionEvent event) {
-      bldcDriveService.reset();
+      resetBldcDrive();
    }
 
    @FXML
@@ -101,6 +114,69 @@ public class DriveController {
    void btnStpResetAction(final ActionEvent event) {
       System.out.println(event.getSource().toString());
 
+   }
+
+   private void startBldcDrive(final int rpm) {
+      final Task<Void> task = new Task<Void>() {
+         @Override
+         protected Void call() {
+            bldcDriveService.start(rpm);
+            return null;
+         }
+
+         @Override
+         protected void failed() {
+            Platform.runLater(new Runnable() {
+               @Override
+               public void run() {
+                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
+               }
+            });
+         }
+      };
+      executor.execute(task);
+   }
+
+   private void stopBldcDrive() {
+      final Task<Void> task = new Task<Void>() {
+         @Override
+         protected Void call() {
+            bldcDriveService.stop();
+            return null;
+         }
+
+         @Override
+         protected void failed() {
+            Platform.runLater(new Runnable() {
+               @Override
+               public void run() {
+                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
+               }
+            });
+         }
+      };
+      executor.execute(task);
+   }
+
+   private void resetBldcDrive() {
+      final Task<Void> task = new Task<Void>() {
+         @Override
+         protected Void call() {
+            bldcDriveService.reset();
+            return null;
+         }
+
+         @Override
+         protected void failed() {
+            Platform.runLater(new Runnable() {
+               @Override
+               public void run() {
+                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
+               }
+            });
+         }
+      };
+      executor.execute(task);
    }
 
 }
