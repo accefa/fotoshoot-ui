@@ -3,6 +3,7 @@ package accefa.ui.view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
 import accefa.event.ProcessStartedEvent;
@@ -23,11 +24,15 @@ public class RootLayoutController {
 
    @Subscribe
    public void recordErrorEvent(final ErrorEvent event) {
-      stateLabel.setText(event.getMessage());
+      final String labelText = new StringBuilder().append("Es ist ein Fehler aufgetreten: ").append(event.getMessage())
+            .toString();
+      stateLabel.setTextFill(Color.RED);
+      stateLabel.setText(labelText);
    }
 
    @Subscribe
    public void recordInfoEvent(final InfoEvent event) {
+      stateLabel.setTextFill(Color.BLACK);
       stateLabel.setText(event.getMessage());
    }
 

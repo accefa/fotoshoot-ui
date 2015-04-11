@@ -134,8 +134,7 @@ public class PiController {
                      Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                           eventBus.post(new ErrorEvent("Es ist ein Fehler aufgetreten: "
-                                 + exceptionProperty().get().getMessage()));
+                           eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
                            exceptionProperty().get().printStackTrace();
                         }
                      });
@@ -147,7 +146,7 @@ public class PiController {
                Platform.runLater(new Runnable() {
                   @Override
                   public void run() {
-                     eventBus.post(new ErrorEvent("Es ist ein Fehler aufgetreten: " + ex.getMessage()));
+                     eventBus.post(new ErrorEvent(ex.getMessage()));
                      ex.printStackTrace();
                   }
                });
