@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.*?>
 
 <VBox alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="accefa.ui.view.PiController">
    <children>
@@ -24,25 +22,28 @@
             </VBox>
          </content>
       </TitledPane>
-      <TitledPane  text="Verbindungseinstellung">
+      <TitledPane text="Verbindungseinstellung">
          <content>
-            <HBox alignment="BOTTOM_CENTER" spacing="5.0">
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Label alignment="TOP_CENTER" minWidth="30.0" text="Url">
-                     <HBox.margin>
-                        <Insets bottom="4.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="txtUrl" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSaveUrl" maxWidth="80.0" minWidth="80.0" mnemonicParsing="false" text="Speichern" />
+                  <Label text="Raspi URL" />
+                  <Label text="Webserver URL" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtRaspiUrl" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <TextField fx:id="txtWebserverUrl" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                  <Button fx:id="btnSaveRaspiUrl" mnemonicParsing="false" onAction="#saveRaspiUrl" text="Speichern" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                  <Button fx:id="btnSaveWebserverUrl" mnemonicParsing="false" onAction="#saveWebserverUrl" text="Speichern" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                </children>
-               <opaqueInsets>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
+            </GridPane>
          </content>
       </TitledPane>
    </children>

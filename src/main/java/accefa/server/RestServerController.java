@@ -8,7 +8,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import accefa.util.ApplicationProperties;
+import accefa.util.ApplicationPreferences;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
@@ -18,7 +18,7 @@ import com.sun.net.httpserver.HttpServer;
 public class RestServerController {
 
    @Inject
-   private ApplicationProperties properties;
+   private ApplicationPreferences properties;
 
    @Inject
    private Injector injector;

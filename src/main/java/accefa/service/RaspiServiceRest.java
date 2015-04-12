@@ -10,7 +10,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 
 import accefa.ui.model.ImageConfigModel;
 import accefa.ui.model.StartSignalModel;
-import accefa.util.ApplicationProperties;
+import accefa.util.ApplicationPreferences;
 
 import com.google.inject.Inject;
 
@@ -20,10 +20,10 @@ public class RaspiServiceRest implements RaspiService {
 
    private static final String RESOURCE_START = "start";
 
-   private final ApplicationProperties properties;
+   private final ApplicationPreferences properties;
 
    @Inject
-   public RaspiServiceRest(final ApplicationProperties properties) {
+   public RaspiServiceRest(final ApplicationPreferences properties) {
       this.properties = properties;
    }
 

@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import accefa.server.RestServerController;
-import accefa.util.ApplicationProperties;
+import accefa.util.ApplicationPreferences;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
@@ -36,7 +36,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
         bind(EventBus.class).toInstance(globalEventBus);
 
         bind(RestServerController.class).asEagerSingleton();
-        bind(ApplicationProperties.class).asEagerSingleton();
+        bind(ApplicationPreferences.class).asEagerSingleton();
 
         // Alle Controller registrieren. Damit müssen sich die Controller nicht
         // mehr selber registrieren. Es werden alle Objekte registriert, welche
