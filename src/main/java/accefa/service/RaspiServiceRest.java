@@ -3,6 +3,9 @@ package accefa.service;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.Response.StatusType;
 
 import accefa.guice.annotations.RaspiTarget;
 import accefa.ui.model.ImageConfigModel;
@@ -32,8 +35,10 @@ public class RaspiServiceRest implements RaspiService {
             final StartSignalModel model = new StartSignalModel();
             model.setUrl(properties.getWebserverUrl() + "stopp");
 
-            raspiTarget.path(RESOURCE_START).request(MediaType.TEXT_PLAIN_TYPE)
+            final Response response = raspiTarget.path(RESOURCE_START)
+                    .request(MediaType.TEXT_PLAIN_TYPE)
                     .put(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
+            handleStatusInfo(response.getStatusInfo());
         } catch (final RuntimeException e) {
             throw new RaspiServiceException(e);
         }
@@ -42,8 +47,10 @@ public class RaspiServiceRest implements RaspiService {
     @Override
     public void saveImageConfigModel(final ImageConfigModel model) throws RaspiServiceException {
         try {
-            raspiTarget.path(RESOURCE_CAMERA).request(MediaType.TEXT_PLAIN_TYPE)
+            final Response response = raspiTarget.path(RESOURCE_CAMERA)
+                    .request(MediaType.TEXT_PLAIN_TYPE)
                     .put(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
+            handleStatusInfo(response.getStatusInfo());
         } catch (final RuntimeException e) {
             throw new RaspiServiceException(e);
         }
@@ -52,8 +59,10 @@ public class RaspiServiceRest implements RaspiService {
     @Override
     public ImageConfigModel readImageConfigModel() throws RaspiServiceException {
         try {
-            return raspiTarget.path(RESOURCE_CAMERA).request(MediaType.APPLICATION_JSON_TYPE).get()
-                    .readEntity(ImageConfigModel.class);
+            final Response response = raspiTarget.path(RESOURCE_CAMERA)
+                    .request(MediaType.APPLICATION_JSON_TYPE).get();
+            handleStatusInfo(response.getStatusInfo());
+            return response.readEntity(ImageConfigModel.class);
         } catch (final RuntimeException e) {
             throw new RaspiServiceException(e);
         }
@@ -62,6 +71,13 @@ public class RaspiServiceRest implements RaspiService {
     @Override
     public String getImageUrl() {
         return properties.getRaspiUrl() + "/static/detected.jpg";
+    }
+
+    private void handleStatusInfo(final StatusType status) {
+        final int statusCode = status.getStatusCode();
+        if (statusCode != Status.OK.getStatusCode()) {
+            throw new RuntimeException("Error " + statusCode + " - " + status.getReasonPhrase());
+        }
     }
 
 }

@@ -6,6 +6,9 @@ package accefa.service.drive.bldc;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.Response.StatusType;
 
 import accefa.guice.annotations.RaspiTarget;
 import accefa.ui.model.BldcDriveModel;
@@ -39,9 +42,10 @@ public class BldcDriveServiceRest implements BldcDriveService {
         final BldcDriveModel model = new BldcDriveModel();
         model.setRpm(rpm);
 
-        raspiTarget.path(RESOURCE_START).request(MediaType.APPLICATION_JSON_TYPE)
+        final Response response = raspiTarget.path(RESOURCE_START)
+                .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
-        // TODO Error Handling
+        handleStatusInfo(response.getStatusInfo());
     }
 
     /*
@@ -51,7 +55,9 @@ public class BldcDriveServiceRest implements BldcDriveService {
      */
     @Override
     public void stop() {
-        raspiTarget.path(RESOURCE_STOP).request(MediaType.APPLICATION_JSON_TYPE).post(null);
+        final Response response = raspiTarget.path(RESOURCE_STOP)
+                .request(MediaType.APPLICATION_JSON_TYPE).post(null);
+        handleStatusInfo(response.getStatusInfo());
     }
 
     /*
@@ -61,6 +67,15 @@ public class BldcDriveServiceRest implements BldcDriveService {
      */
     @Override
     public void reset() {
-        raspiTarget.path(RESOURCE_RESET).request(MediaType.APPLICATION_JSON_TYPE).post(null);
+        final Response response = raspiTarget.path(RESOURCE_RESET)
+                .request(MediaType.APPLICATION_JSON_TYPE).post(null);
+        handleStatusInfo(response.getStatusInfo());
+    }
+
+    private void handleStatusInfo(final StatusType status) {
+        final int statusCode = status.getStatusCode();
+        if (statusCode != Status.OK.getStatusCode()) {
+            throw new RuntimeException("Error " + statusCode + " - " + status.getReasonPhrase());
+        }
     }
 }
