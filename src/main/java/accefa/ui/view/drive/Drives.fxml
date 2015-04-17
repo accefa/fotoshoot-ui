@@ -23,7 +23,7 @@
                   <Button fx:id="btnBldcOff" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcOffAction" text="Aus" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Button fx:id="btnBldcReset" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Label text="RPM" />
-                  <Slider fx:id="sliderBldc" majorTickUnit="500.0" max="12000.0" min="7000.0" minorTickCount="100" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Slider fx:id="sliderBldc" majorTickUnit="1000.0" max="20000.0" minorTickCount="100" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                </children>
             </GridPane>
          </content>
