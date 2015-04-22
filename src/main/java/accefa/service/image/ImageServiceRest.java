@@ -17,6 +17,7 @@ public class ImageServiceRest implements ImageService {
 
     private static final String RESOURCE_CAMERA = "camera";
     private static final String RESOURCE_START = "start";
+    private static final Object RESOURCE_IMAGE = "static/detected.jpg";
 
     private final ApplicationPreferences properties;
     private final RaspiClientFactory clientFactory;
@@ -69,7 +70,14 @@ public class ImageServiceRest implements ImageService {
 
     @Override
     public String getImageUrl() {
-        return properties.getRaspiUrl() + "/static/detected.jpg";
+        final StringBuilder imageUrl = new StringBuilder();
+        final String raspiUrl = properties.getRaspiUrl();
+        imageUrl.append(raspiUrl);
+        if (!raspiUrl.endsWith("/")) {
+            imageUrl.append("/");
+        }
+        imageUrl.append(RESOURCE_IMAGE);
+        return imageUrl.toString();
     }
 
     private void handleStatusInfo(final StatusType status) {
