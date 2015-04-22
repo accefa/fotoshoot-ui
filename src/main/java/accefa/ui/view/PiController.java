@@ -26,8 +26,8 @@ import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
 import accefa.event.ProcessStartedEvent;
 import accefa.event.ProcessStoppedEvent;
-import accefa.service.RaspiService;
-import accefa.service.RaspiServiceException;
+import accefa.service.image.ImageService;
+import accefa.service.image.ImageServiceException;
 import accefa.util.ApplicationPreferences;
 
 import com.google.common.eventbus.EventBus;
@@ -36,7 +36,7 @@ import com.google.inject.Inject;
 
 public class PiController {
 
-    private final RaspiService service;
+    private final ImageService service;
 
     private final ExecutorService executor;
 
@@ -75,7 +75,7 @@ public class PiController {
     private Timeline stopWatchTimeline;
 
     @Inject
-    public PiController(final RaspiService service, final ExecutorService executor,
+    public PiController(final ImageService service, final ExecutorService executor,
             final ApplicationPreferences properties, final EventBus eventBus) {
         this.service = service;
         this.executor = executor;
@@ -149,7 +149,7 @@ public class PiController {
 
                     final Task<Void> task = new Task<Void>() {
                         @Override
-                        protected Void call() throws RaspiServiceException {
+                        protected Void call() throws ImageServiceException {
                             service.startProcess();
                             return null;
                         }

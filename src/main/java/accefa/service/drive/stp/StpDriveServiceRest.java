@@ -4,13 +4,12 @@
 package accefa.service.drive.stp;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
 
-import accefa.guice.annotations.RaspiTarget;
+import accefa.service.RaspiClientFactory;
 import accefa.ui.model.StpDriveModel;
 
 import com.google.inject.Inject;
@@ -24,11 +23,11 @@ public class StpDriveServiceRest implements StpDriveService {
     private static final String RESOURCE_START = "drive/stp/start";
     private static final String RESOURCE_RESET = "drive/stp/reset";
 
-    private final WebTarget raspiTarget;
+    private final RaspiClientFactory clientFactory;
 
     @Inject
-    public StpDriveServiceRest(@RaspiTarget final WebTarget raspiTarget) {
-        this.raspiTarget = raspiTarget;
+    public StpDriveServiceRest(final RaspiClientFactory raspiService) {
+        this.clientFactory = raspiService;
     }
 
     /*
@@ -41,7 +40,7 @@ public class StpDriveServiceRest implements StpDriveService {
         final StpDriveModel model = new StpDriveModel();
         model.setSteps(steps);
 
-        final Response response = raspiTarget.path(RESOURCE_START)
+        final Response response = clientFactory.getRaspiTarget().path(RESOURCE_START)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));
         handleStatusInfo(response.getStatusInfo());
@@ -54,7 +53,7 @@ public class StpDriveServiceRest implements StpDriveService {
      */
     @Override
     public void reset() {
-        final Response response = raspiTarget.path(RESOURCE_RESET)
+        final Response response = clientFactory.getRaspiTarget().path(RESOURCE_RESET)
                 .request(MediaType.APPLICATION_JSON_TYPE).post(null);
         handleStatusInfo(response.getStatusInfo());
     }

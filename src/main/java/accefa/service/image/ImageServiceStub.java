@@ -1,4 +1,4 @@
-package accefa.service;
+package accefa.service.image;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,17 +7,17 @@ import java.net.URLConnection;
 import accefa.ui.model.ImageConfigModel;
 
 // TODO Eigentlich sollte nicht im /src/main/java sein - da nur Testmock Implemenation.
-public class RaspiServiceMock implements RaspiService {
+public class ImageServiceStub implements ImageService {
 
     private static final int SLEEP_TIME = 3000;
 
     @Override
-    public void saveImageConfigModel(final ImageConfigModel model) throws RaspiServiceException {
+    public void saveImageConfigModel(final ImageConfigModel model) throws ImageServiceException {
         sleep();
     }
 
     @Override
-    public ImageConfigModel readImageConfigModel() throws RaspiServiceException {
+    public ImageConfigModel readImageConfigModel() throws ImageServiceException {
         sleep();
         final ImageConfigModel model = new ImageConfigModel();
         model.setContrast(80);
@@ -27,7 +27,7 @@ public class RaspiServiceMock implements RaspiService {
     }
 
     @Override
-    public void startProcess() throws RaspiServiceException {
+    public void startProcess() throws ImageServiceException {
         sleep();
         try {
             final URL myURL = new URL("http://localhost:8080/stopp");

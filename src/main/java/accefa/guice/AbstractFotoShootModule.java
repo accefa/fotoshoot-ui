@@ -3,15 +3,8 @@ package accefa.guice;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.jackson.JacksonFeature;
-
-import accefa.guice.annotations.RaspiTarget;
 import accefa.server.RestServerController;
+import accefa.service.RaspiClientFactory;
 import accefa.util.ApplicationPreferences;
 
 import com.google.common.eventbus.EventBus;
@@ -45,8 +38,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
 
         bind(RestServerController.class).asEagerSingleton();
         bind(ApplicationPreferences.class).asEagerSingleton();
-
-        configureWebtarget();
+        bind(RaspiClientFactory.class).asEagerSingleton();
 
         // Alle Controller registrieren. Damit müssen sich die Controller nicht
         // mehr selber registrieren. Es werden alle Objekte registriert, welche
@@ -70,10 +62,4 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
         configureStpDriveService();
     }
 
-    private void configureWebtarget() {
-        final ClientConfig clientConfig = new ClientConfig().register(new JacksonFeature());
-        final Client client = ClientBuilder.newClient(clientConfig);
-        final WebTarget raspiTarget = client.target(new ApplicationPreferences().getRaspiUrl());
-        bind(WebTarget.class).annotatedWith(RaspiTarget.class).toInstance(raspiTarget);
-    }
 }

@@ -1,4 +1,4 @@
-package accefa.service;
+package accefa.service.image;
 
 import accefa.ui.model.ImageConfigModel;
 
@@ -6,7 +6,7 @@ import accefa.ui.model.ImageConfigModel;
  * Zentrale Schnittstelle um vom UI auf die Services zuzugreifen.
  *
  */
-public interface RaspiService {
+public interface ImageService {
 
 	/**
 	 * Speichert die Bild Konfiguration.
@@ -15,20 +15,20 @@ public interface RaspiService {
 	 *            Bild Konfiguration.
 	 */
 	void saveImageConfigModel(ImageConfigModel model)
-			throws RaspiServiceException;
+			throws ImageServiceException;
 
 	/**
 	 * Lädt die aktuelle Bild Konfiguration.
 	 *
 	 * @return Bild Konfiguration.
 	 */
-	ImageConfigModel readImageConfigModel() throws RaspiServiceException;
+	ImageConfigModel readImageConfigModel() throws ImageServiceException;
 
 	/**
 	 * Startet den Ballabwurf Prozesse.
 	 *
 	 */
-	void startProcess() throws RaspiServiceException;
+	void startProcess() throws ImageServiceException;
 
 	/**
 	 * Gibt die URL des Bildes zurück.

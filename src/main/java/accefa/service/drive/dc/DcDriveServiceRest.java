@@ -3,13 +3,12 @@
  */
 package accefa.service.drive.dc;
 
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
 
-import accefa.guice.annotations.RaspiTarget;
+import accefa.service.RaspiClientFactory;
 
 import com.google.inject.Inject;
 
@@ -23,45 +22,45 @@ public class DcDriveServiceRest implements DcDriveService {
     private static final String RESOURCE_BACKWARD = "drive/dc/backward";
     private static final String RESOURCE_RESET = "drive/dc/reset";
 
-    private final WebTarget raspiTarget;
+    private final RaspiClientFactory clientFactory;
 
     @Inject
-    public DcDriveServiceRest(@RaspiTarget final WebTarget raspiTarget) {
-        this.raspiTarget = raspiTarget;
+    public DcDriveServiceRest(final RaspiClientFactory raspiService) {
+        this.clientFactory = raspiService;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see accefa.service.drive.dc.DcDriveService#forward()
      */
     @Override
     public void forward() {
-        final Response response = raspiTarget.path(RESOURCE_FORWARD)
+        final Response response = clientFactory.getRaspiTarget().path(RESOURCE_FORWARD)
                 .request(MediaType.APPLICATION_JSON_TYPE).post(null);
         handleStatusInfo(response.getStatusInfo());
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see accefa.service.drive.dc.DcDriveService#backward()
      */
     @Override
     public void backward() {
-        final Response response = raspiTarget.path(RESOURCE_BACKWARD)
+        final Response response = clientFactory.getRaspiTarget().path(RESOURCE_BACKWARD)
                 .request(MediaType.APPLICATION_JSON_TYPE).post(null);
         handleStatusInfo(response.getStatusInfo());
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see accefa.service.drive.dc.DcDriveService#reset()
      */
     @Override
     public void reset() {
-        final Response response = raspiTarget.path(RESOURCE_RESET)
+        final Response response = clientFactory.getRaspiTarget().path(RESOURCE_RESET)
                 .request(MediaType.APPLICATION_JSON_TYPE).post(null);
         handleStatusInfo(response.getStatusInfo());
     }

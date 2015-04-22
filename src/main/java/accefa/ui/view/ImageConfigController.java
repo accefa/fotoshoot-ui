@@ -17,8 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
-import accefa.service.RaspiService;
-import accefa.service.RaspiServiceException;
+import accefa.service.image.ImageService;
+import accefa.service.image.ImageServiceException;
 import accefa.ui.model.ImageConfigModel;
 
 import com.google.common.eventbus.EventBus;
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 
 public class ImageConfigController {
 
-   private final RaspiService service;
+   private final ImageService service;
 
    private final ExecutorService executor;
 
@@ -89,7 +89,7 @@ public class ImageConfigController {
    private ImageView imageView;
 
    @Inject
-   public ImageConfigController(final RaspiService service, final ExecutorService executor, final EventBus eventBus) {
+   public ImageConfigController(final ImageService service, final ExecutorService executor, final EventBus eventBus) {
       this.service = service;
       this.executor = executor;
       this.eventBus = eventBus;
@@ -133,7 +133,7 @@ public class ImageConfigController {
    private void loadImageConfigModel() {
       final Task<ImageConfigModel> task = new Task<ImageConfigModel>() {
          @Override
-         protected ImageConfigModel call() throws RaspiServiceException {
+         protected ImageConfigModel call() throws ImageServiceException {
             return service.readImageConfigModel();
          }
 
@@ -190,7 +190,7 @@ public class ImageConfigController {
       titledPaneConfiguration.setDisable(true);
       final Task<Void> task = new Task<Void>() {
          @Override
-         protected Void call() throws RaspiServiceException {
+         protected Void call() throws ImageServiceException {
             service.saveImageConfigModel(imageConfigModel);
             return null;
          }
