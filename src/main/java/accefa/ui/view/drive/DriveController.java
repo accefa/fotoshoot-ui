@@ -34,6 +34,9 @@ public class DriveController {
     private Button btnDcBackward;
 
     @FXML
+    private Button btnDcOff;
+
+    @FXML
     private Button btnDcReset;
 
     @FXML
@@ -87,6 +90,11 @@ public class DriveController {
     @FXML
     void btnDcBackwardAction(final ActionEvent event) {
         dcTaskExecutor.backward();
+    }
+
+    @FXML
+    void btnDcOffAction(final ActionEvent event) {
+        dcTaskExecutor.stop();
     }
 
     @FXML

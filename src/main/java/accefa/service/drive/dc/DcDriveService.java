@@ -16,7 +16,13 @@ public interface DcDriveService {
     void backward();
 
     /**
+     * Schickt eine Anfrage um den Motor zu stoppen.
+     */
+    void stop();
+
+    /**
      * Schickt eine Anfrage um einen Reset beim Motor durchzuführen.
      */
     void reset();
+
 }

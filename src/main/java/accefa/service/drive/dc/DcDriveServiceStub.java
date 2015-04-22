@@ -48,6 +48,17 @@ public class DcDriveServiceStub implements DcDriveService {
     /*
      * (non-Javadoc)
      * 
+     * @see accefa.service.drive.dc.DcDriveService#stop()
+     */
+    @Override
+    public void stop() {
+        postInfoEvent("DC stoppt");
+        sleep();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see accefa.service.drive.dc.DcDriveService#reset()
      */
     @Override

@@ -21,6 +21,7 @@ public class DcDriveServiceRest implements DcDriveService {
     private static final String RESOURCE_FORWARD = "drive/dc/forward";
     private static final String RESOURCE_BACKWARD = "drive/dc/backward";
     private static final String RESOURCE_RESET = "drive/dc/reset";
+    private static final String RESOURCE_STOP = "drive/dc/stop";
 
     private final RaspiClientFactory clientFactory;
 
@@ -31,7 +32,7 @@ public class DcDriveServiceRest implements DcDriveService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see accefa.service.drive.dc.DcDriveService#forward()
      */
     @Override
@@ -43,7 +44,7 @@ public class DcDriveServiceRest implements DcDriveService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see accefa.service.drive.dc.DcDriveService#backward()
      */
     @Override
@@ -55,7 +56,19 @@ public class DcDriveServiceRest implements DcDriveService {
 
     /*
      * (non-Javadoc)
-     *
+     * 
+     * @see accefa.service.drive.dc.DcDriveService#stop()
+     */
+    @Override
+    public void stop() {
+        final Response response = clientFactory.getRaspiTarget().path(RESOURCE_STOP)
+                .request(MediaType.APPLICATION_JSON_TYPE).post(null);
+        handleStatusInfo(response.getStatusInfo());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see accefa.service.drive.dc.DcDriveService#reset()
      */
     @Override

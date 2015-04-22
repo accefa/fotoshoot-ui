@@ -10,7 +10,7 @@ import accefa.service.drive.dc.DcDriveService;
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 
-public class DcTaskExecutor {
+class DcTaskExecutor {
 
     private final DcDriveService dcDriveService;
 
@@ -47,6 +47,22 @@ public class DcTaskExecutor {
             @Override
             protected Void call() {
                 dcDriveService.backward();
+                return null;
+            }
+
+            @Override
+            protected void failed() {
+                postErrorEvent(exceptionProperty().get().getMessage());
+            }
+        };
+        executor.execute(task);
+    }
+
+    void stop() {
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                dcDriveService.stop();
                 return null;
             }
 
