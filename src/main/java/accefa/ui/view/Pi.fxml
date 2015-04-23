@@ -37,11 +37,8 @@
               </rowConstraints>
                <children>
                   <Label text="Raspi URL" />
-                  <Label text="Webserver URL" GridPane.rowIndex="1" />
                   <TextField fx:id="txtRaspiUrl" GridPane.columnIndex="1" GridPane.columnSpan="2" />
-                  <TextField fx:id="txtWebserverUrl" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                   <Button fx:id="btnSaveRaspiUrl" mnemonicParsing="false" onAction="#saveRaspiUrl" text="Speichern" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
-                  <Button fx:id="btnSaveWebserverUrl" mnemonicParsing="false" onAction="#saveWebserverUrl" text="Speichern" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>

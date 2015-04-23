@@ -56,26 +56,4 @@ public class ApplicationPropertiesTest {
         verify(preferences).put(ApplicationPreferences.RASPI_URL_KEY, raspiUrl);
     }
 
-    /**
-     * Test method for {@link accefa.util.ApplicationPreferences#getWebserverUrl()}.
-     */
-    @Test
-    public final void testGetWebserverUrl() {
-        final String webserverUrl = "http://192.168.1.4:8090";
-        when(
-                preferences.get(ApplicationPreferences.WEBSERVER_URL_KEY,
-                        ApplicationPreferences.WEBSERVER_URL_DEFAULT)).thenReturn(webserverUrl);
-        assertEquals(webserverUrl, applicationProperties.getWebserverUrl());
-    }
-
-    /**
-     * Test method for {@link accefa.util.ApplicationPreferences#setWebserverUrl(java.lang.String)}.
-     */
-    @Test
-    public final void testSetWebserverUrl() {
-        final String webserverUrl = "http://192.168.1.4:8090";
-        applicationProperties.setWebserverUrl(webserverUrl);
-        verify(preferences).put(ApplicationPreferences.WEBSERVER_URL_KEY, webserverUrl);
-    }
-
 }

@@ -33,8 +33,6 @@ public class ImageServiceRest implements ImageService {
     public void startProcess() throws ImageServiceException {
         try {
             final StartSignalModel model = new StartSignalModel();
-            model.setUrl(properties.getWebserverUrl() + "stopp");
-
             final Response response = clientFactory.getRaspiTarget().path(RESOURCE_START)
                     .request(MediaType.TEXT_PLAIN_TYPE)
                     .put(Entity.entity(model, MediaType.APPLICATION_JSON_TYPE));

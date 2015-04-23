@@ -56,17 +56,9 @@ public class PiController {
     @FXML
     private Button btnSaveRaspiUrl;
 
-    @FXML
-    private TextField txtWebserverUrl;
-
-    @FXML
-    private Button btnSaveWebserverUrl;
-
     private final BooleanProperty processRunningProperty = new SimpleBooleanProperty(false);
 
     private final StringProperty raspiUrlProperty = new SimpleStringProperty();
-
-    private final StringProperty webserverUrlProperty = new SimpleStringProperty();
 
     private final StringProperty stopWatchTimeMinutesProperty = new SimpleStringProperty("0m");
 
@@ -98,18 +90,14 @@ public class PiController {
     private void bindDisableProperties() {
         btnStart.disableProperty().bind(processRunningProperty);
         btnSaveRaspiUrl.disableProperty().bind(processRunningProperty);
-        btnSaveWebserverUrl.disableProperty().bind(processRunningProperty);
         btnStart.disableProperty().bind(processRunningProperty);
         btnSaveRaspiUrl.disableProperty().bind(processRunningProperty);
         txtRaspiUrl.disableProperty().bind(processRunningProperty);
-        txtWebserverUrl.disableProperty().bind(processRunningProperty);
     }
 
     private void bindUrlProperties() {
         raspiUrlProperty.set(properties.getRaspiUrl());
-        webserverUrlProperty.set(properties.getWebserverUrl());
         txtRaspiUrl.textProperty().bindBidirectional(raspiUrlProperty);
-        txtWebserverUrl.textProperty().bindBidirectional(webserverUrlProperty);
     }
 
     private void setUpEventHandling() {
@@ -200,18 +188,6 @@ public class PiController {
             saveUrlSuccessful(txtRaspiUrl);
         } else {
             saveUrlError(txtRaspiUrl);
-        }
-    }
-
-    @FXML
-    void saveWebserverUrl(final ActionEvent event) {
-        final String webserverUrl = webserverUrlProperty.get();
-
-        if (isUrlValid(webserverUrl)) {
-            properties.setWebserverUrl(webserverUrl);
-            saveUrlSuccessful(txtWebserverUrl);
-        } else {
-            saveUrlError(txtWebserverUrl);
         }
     }
 
