@@ -172,6 +172,7 @@ public class PiController {
                         public void run() {
                             eventBus.post(new ErrorEvent(ex.getMessage()));
                             ex.printStackTrace();
+                            eventBus.post(new ProcessStoppedEvent());
                         }
                     });
                 }
