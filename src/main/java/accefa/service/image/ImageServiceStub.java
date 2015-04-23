@@ -1,9 +1,5 @@
 package accefa.service.image;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-
 import accefa.ui.model.ImageConfigModel;
 
 // TODO Eigentlich sollte nicht im /src/main/java sein - da nur Testmock Implemenation.
@@ -29,14 +25,6 @@ public class ImageServiceStub implements ImageService {
     @Override
     public void startProcess() throws ImageServiceException {
         sleep();
-        try {
-            final URL myURL = new URL("http://localhost:8080/stopp");
-            final URLConnection myURLConnection = myURL.openConnection();
-            myURLConnection.connect();
-            myURLConnection.getContent();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

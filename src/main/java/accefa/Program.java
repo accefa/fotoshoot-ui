@@ -16,7 +16,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import accefa.guice.FotoShootModule;
 import accefa.guice.FotoShootModuleFactory;
-import accefa.server.RestServerController;
 import accefa.ui.view.ActionOverviewController;
 import accefa.ui.view.ImageConfigController;
 import accefa.ui.view.PiController;
@@ -61,13 +60,10 @@ public class Program extends Application {
       primaryStage.setScene(new Scene(rootLayout));
       maximize(primaryStage);
       primaryStage.show();
-
-      injector.getInstance(RestServerController.class).start();
    }
 
    @Override
    public void stop() {
-      injector.getInstance(RestServerController.class).shutdown();
       injector.getInstance(ExecutorService.class).shutdownNow();
       Platform.exit();
    }

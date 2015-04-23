@@ -3,7 +3,6 @@ package accefa.guice;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import accefa.server.RestServerController;
 import accefa.service.RaspiClientFactory;
 import accefa.util.ApplicationPreferences;
 
@@ -36,7 +35,6 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
         final EventBus globalEventBus = new EventBus("Global Event Bus");
         bind(EventBus.class).toInstance(globalEventBus);
 
-        bind(RestServerController.class).asEagerSingleton();
         bind(ApplicationPreferences.class).asEagerSingleton();
         bind(RaspiClientFactory.class).asEagerSingleton();
 

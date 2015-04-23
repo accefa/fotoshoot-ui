@@ -165,6 +165,16 @@ public class PiController {
                                 }
                             });
                         }
+                        
+                        @Override
+                        protected void succeeded() {
+                        	Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    eventBus.post(new ProcessStoppedEvent());
+                                }
+                            });
+                        }
                     };
                     executor.execute(task);
                 } catch (final Exception ex) {
