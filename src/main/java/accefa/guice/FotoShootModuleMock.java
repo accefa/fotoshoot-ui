@@ -7,7 +7,7 @@ import accefa.service.drive.dc.DcDriveServiceStub;
 import accefa.service.drive.stp.StpDriveService;
 import accefa.service.drive.stp.StpDriveServiceStub;
 import accefa.service.general.GeneralService;
-import accefa.service.general.GeneralServiceRest;
+import accefa.service.general.GeneralServiceStub;
 import accefa.service.image.ImageService;
 import accefa.service.image.ImageServiceStub;
 
@@ -35,7 +35,7 @@ public class FotoShootModuleMock extends AbstractFotoShootModule {
 
 	@Override
 	protected void configureGeneralService() {
-		bind(GeneralService.class).to(GeneralServiceRest.class);
+		bind(GeneralService.class).to(GeneralServiceStub.class);
 	}
 
 }
