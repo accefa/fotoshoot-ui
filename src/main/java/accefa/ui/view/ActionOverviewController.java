@@ -3,10 +3,6 @@ package accefa.ui.view;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -17,6 +13,7 @@ import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
 import accefa.event.ProcessStartedEvent;
 import accefa.event.ProcessStoppedEvent;
+import accefa.ui.model.LogModel;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -25,24 +22,21 @@ import com.google.common.eventbus.Subscribe;
  */
 public class ActionOverviewController {
 
-   class ActionModel {
+   @FXML
+   private TableView<LogModel> tableActions;
 
-      private final StringProperty message = new SimpleStringProperty();
-      private final ObjectProperty<LocalDateTime> time = new SimpleObjectProperty<>(LocalDateTime.now());
+   @FXML
+   private TableColumn<LogModel, LocalDateTime> colTime;
 
-      public ActionModel(final String message) {
-         this.message.set(message);
-      }
-
-      public StringProperty messageProperty() {
-         return message;
-      }
-
-      public ObjectProperty<LocalDateTime> timePropertY() {
-         return time;
-      }
-   }
-
+   @FXML
+   private TableColumn<LogModel, String> colMessage;
+   
+   @FXML
+   private TableColumn<LogModel, String> colLevel;
+   
+   @FXML
+   private TableColumn<LogModel, String> colSource;
+   
    @FXML
    private void initialize() {
       tableActions.setPlaceholder(new Text(""));
@@ -51,7 +45,7 @@ public class ActionOverviewController {
       // Custom rendering of the table cell.
       final DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
       colTime.setCellFactory(column -> {
-         return new TableCell<ActionModel, LocalDateTime>() {
+         return new TableCell<LogModel, LocalDateTime>() {
             @Override
             protected void updateItem(final LocalDateTime item, final boolean empty) {
                super.updateItem(item, empty);
@@ -64,39 +58,32 @@ public class ActionOverviewController {
 
       colTime.setCellValueFactory(cellData -> cellData.getValue().timePropertY());
       colMessage.setCellValueFactory(cellData -> cellData.getValue().messageProperty());
+      colLevel.setCellValueFactory(cellData -> cellData.getValue().levelProperty());
+      colSource.setCellValueFactory(cellData -> cellData.getValue().sourceProperty());
 
       colTime.prefWidthProperty().set(150);
       colMessage.prefWidthProperty().bind(
             tableActions.widthProperty().subtract(colTime.prefWidthProperty()).subtract(2));
    }
 
-   @FXML
-   private TableView<ActionModel> tableActions;
-
-   @FXML
-   private TableColumn<ActionModel, LocalDateTime> colTime;
-
-   @FXML
-   private TableColumn<ActionModel, String> colMessage;
-
    @Subscribe
    public void recordErrorEvent(final ErrorEvent event) {
-      tableActions.getItems().add(new ActionModel(event.getMessage()));
+      tableActions.getItems().add(new LogModel(event.getMessage(), "ERROR", "Client"));
    }
 
    @Subscribe
    public void recordInfoEvent(final InfoEvent event) {
-      tableActions.getItems().add(new ActionModel(event.getMessage()));
+      tableActions.getItems().add(new LogModel(event.getMessage(), "ERROR", "Client"));
    }
 
    @Subscribe
    public void recordProcessStartedEvent(final ProcessStartedEvent event) {
-      tableActions.getItems().add(new ActionModel("Prozess gestartet"));
+      tableActions.getItems().add(new LogModel("Prozess gestartet", "INFO", "Client"));
    }
 
    @Subscribe
    public void recordProcessStoppedEvent(final ProcessStoppedEvent event) {
-      tableActions.getItems().add(new ActionModel("Prozess beendet"));
+      tableActions.getItems().add(new LogModel("Prozess beendet", "INFO", "Client"));
    }
 
 }
