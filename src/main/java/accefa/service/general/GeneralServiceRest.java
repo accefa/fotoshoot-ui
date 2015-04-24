@@ -1,5 +1,7 @@
 package accefa.service.general;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
@@ -8,6 +10,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.StatusType;
 
+import jersey.repackaged.com.google.common.collect.Lists;
 import accefa.service.RaspiClientFactory;
 import accefa.service.ServiceException;
 import accefa.ui.model.LogModel;
@@ -18,6 +21,8 @@ import com.google.inject.Inject;
 public class GeneralServiceRest implements GeneralService {
 
 	private static final String RESOURCE_START = "start";
+	
+	private static final String RESOURCE_LOGGER = "logger";
 
 	private final RaspiClientFactory clientFactory;
 
@@ -41,8 +46,14 @@ public class GeneralServiceRest implements GeneralService {
 
 	@Override
 	public List<LogModel> getLogs() throws ServiceException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			final String log = clientFactory.getRaspiTarget()
+					.path(RESOURCE_LOGGER).request(MediaType.TEXT_PLAIN_TYPE)
+					.get(String.class);
+			return parseText(log);
+		} catch (final RuntimeException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	private void handleStatusInfo(final StatusType status) {
@@ -51,5 +62,28 @@ public class GeneralServiceRest implements GeneralService {
             throw new RuntimeException("Error " + statusCode + " - " + status.getReasonPhrase());
         }
     }
+	
+	private List<LogModel> parseText(String text) {
+		List<LogModel> models = Lists.newArrayList();
+		String lines[] = text.split("\\r?\\n");
+		for (String line : lines) {
+			String words[] = line.split("\\s+");
+			String date = words[0];
+			String time = words[1];
+			String level = words[2];
+			String message = "";
+			for (int i = 3; i < words.length; i++) {
+				message += words[i] + " ";
+			}
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			LocalDateTime dateTime = LocalDateTime.parse(date + " " + time, formatter);
+			
+			LogModel model = new LogModel(message.trim(), level.trim(), "Server");
+			model.setTime(dateTime);
+			models.add(model);
+		}
+		return models;
+	}
 	
 }

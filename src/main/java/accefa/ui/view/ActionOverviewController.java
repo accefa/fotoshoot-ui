@@ -2,7 +2,9 @@ package accefa.ui.view;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutorService;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -13,15 +15,24 @@ import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
 import accefa.event.ProcessStartedEvent;
 import accefa.event.ProcessStoppedEvent;
+import accefa.service.ServiceException;
+import accefa.service.general.GeneralService;
+import accefa.service.image.ImageService;
 import accefa.ui.model.LogModel;
 
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.google.inject.Inject;
 
 /**
  * Controller für die Item Overview Klasse.
  */
 public class ActionOverviewController {
 
+   private GeneralService service;
+   
+   private ExecutorService executor;
+	
    @FXML
    private TableView<LogModel> tableActions;
 
@@ -36,6 +47,12 @@ public class ActionOverviewController {
    
    @FXML
    private TableColumn<LogModel, String> colSource;
+   
+   @Inject
+   public ActionOverviewController(final GeneralService service, final ExecutorService executor, final EventBus eventBus) {
+      this.service = service;
+      this.executor = executor;
+   }
    
    @FXML
    private void initialize() {
@@ -64,6 +81,8 @@ public class ActionOverviewController {
       colTime.prefWidthProperty().set(150);
       colMessage.prefWidthProperty().bind(
             tableActions.widthProperty().subtract(colTime.prefWidthProperty()).subtract(2));
+      
+      loadData();
    }
 
    @Subscribe
@@ -84,6 +103,19 @@ public class ActionOverviewController {
    @Subscribe
    public void recordProcessStoppedEvent(final ProcessStoppedEvent event) {
       tableActions.getItems().add(new LogModel("Prozess beendet", "INFO", "Client"));
+   }
+   
+   private void loadData() {
+	   Platform.runLater(new Runnable() {
+		@Override
+		public void run() {
+			try {
+				tableActions.getItems().addAll(service.getLogs());
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		}
+	});
    }
 
 }

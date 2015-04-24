@@ -22,6 +22,10 @@ public class LogModel {
        this.source.set(source);
        this.level.set(level);
     }
+    
+    public void setTime(LocalDateTime localDateTime) {
+    	this.time.set(localDateTime);
+    }
 
     public StringProperty messageProperty() {
        return message;
