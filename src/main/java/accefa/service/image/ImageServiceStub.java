@@ -40,4 +40,13 @@ public class ImageServiceStub implements ImageService {
         }
     }
 
+	@Override
+	public void shoot() throws ImageServiceException {
+		try {
+            Thread.sleep(SLEEP_TIME);
+        } catch (final InterruptedException e) {
+            // Egal wenn unterbrochen
+        }
+	}
+
 }

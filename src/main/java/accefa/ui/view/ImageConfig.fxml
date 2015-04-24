@@ -40,7 +40,7 @@
                   <Slider fx:id="sliderCropX" majorTickUnit="50.0" max="500.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Slider fx:id="sliderLineY" majorTickUnit="50.0" max="800.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" value="400.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Slider fx:id="sliderLineH" majorTickUnit="5.0" max="50.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" value="5.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Button fx:id="btnReloadImage" mnemonicParsing="false" text="Speichern" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                  <Button onAction="#saveImageConfig" fx:id="btnSave" mnemonicParsing="false" text="Speichern" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
                   <CheckBox fx:id="toogleGreyscale" mnemonicParsing="false" text="Aktiviert" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
                <padding>
@@ -51,11 +51,16 @@
       </TitledPane>
       <TitledPane fx:id="titledPaneImage" text="Bild" VBox.vgrow="ALWAYS">
          <content>
-            <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-               <viewport>
-                  <Rectangle2D width="600.0" />
-               </viewport>
-            </ImageView>
+         	<VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+               		<viewport>
+                  		<Rectangle2D width="600.0" />
+               		</viewport>
+            	</ImageView>
+                 <Button onAction="#shoot" fx:id="btnShoot" mnemonicParsing="false" text="Foto schiessen" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" /> 
+               </children>
+            </VBox>
          </content>
          <VBox.margin>
             <Insets />

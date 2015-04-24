@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,11 +18,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
+import accefa.event.NewBaseUrlEvent;
 import accefa.service.image.ImageService;
 import accefa.service.image.ImageServiceException;
 import accefa.ui.model.ImageConfigModel;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 
 public class ImageConfigController {
@@ -83,8 +86,11 @@ public class ImageConfigController {
    private Slider sliderLineH;
 
    @FXML
-   private Button btnReloadImage;
+   private Button btnSave;
 
+   @FXML
+   private Button btnShoot;
+   
    @FXML
    private ImageView imageView;
 
@@ -99,22 +105,32 @@ public class ImageConfigController {
    private void initialize() {
       loadData();
    }
+   
+   @Subscribe
+   public void recordNewBaseUrlEvent(NewBaseUrlEvent event) {
+	   loadData();
+   }
 
    private void loadData() {
       imageConfigModel = new ImageConfigModel();
       bindProperties(imageConfigModel);
       loadImageConfigModel();
       imageView.setImage(getDefaultImage());
-
-      btnReloadImage.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-         @Override
-         public void handle(final MouseEvent event) {
-            saveImageConfigModel();
-            loadImageConfigModel();
-         }
-      });
    }
 
+   @FXML
+   void saveImageConfig(final ActionEvent event) {
+	   saveImageConfigModel();
+       loadImageConfigModel();
+   }
+   
+   @FXML
+   void shoot(final ActionEvent event) {
+	   saveImageConfigModel();
+       shoot();
+       loadImageConfigModel();
+   }
+   
    private void loadImage(final String url) {
       Image image = new Image(url);
       if (image.isError()) {
@@ -184,14 +200,14 @@ public class ImageConfigController {
    }
 
    /**
-    * Sendet die Daten an den Server.
+    * Macht ein Foto
     */
-   private void saveImageConfigModel() {
-      titledPaneConfiguration.setDisable(true);
+   private void shoot() {
       final Task<Void> task = new Task<Void>() {
          @Override
          protected Void call() throws ImageServiceException {
-            service.saveImageConfigModel(imageConfigModel);
+        	titledPaneConfiguration.getParent().setDisable(true);
+            service.shoot();
             return null;
          }
 
@@ -212,7 +228,42 @@ public class ImageConfigController {
             Platform.runLater(new Runnable() {
                @Override
                public void run() {
-                  titledPaneConfiguration.setDisable(false);
+            	  eventBus.post(new InfoEvent("Neues Foto wurde gemacht."));
+                  titledPaneConfiguration.getParent().setDisable(false);
+               }
+            });
+         }
+      };
+      executor.execute(task);
+   }
+   
+   /**
+    * Sendet die Daten an den Server.
+    */
+   private void saveImageConfigModel() {
+      final Task<Void> task = new Task<Void>() {
+         @Override
+         protected Void call() throws ImageServiceException {
+            service.saveImageConfigModel(imageConfigModel);
+            return null;
+         }
+
+         @Override
+         protected void failed() {
+            Platform.runLater(new Runnable() {
+               @Override
+               public void run() {
+                  eventBus.post(new ErrorEvent(exceptionProperty().get().getMessage()));
+                  exceptionProperty().get().printStackTrace();
+               }
+            });
+         }
+
+         @Override
+         protected void succeeded() {
+            Platform.runLater(new Runnable() {
+               @Override
+               public void run() {
                   eventBus.post(new InfoEvent("Konfiguration wurde gespeichert"));
                }
             });

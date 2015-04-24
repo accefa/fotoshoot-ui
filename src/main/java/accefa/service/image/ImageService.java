@@ -37,4 +37,9 @@ public interface ImageService {
 	 */
 	String getImageUrl();
 
+	/**
+	 * Macht ein Foto.
+	 */
+	void shoot() throws ImageServiceException;
+
 }

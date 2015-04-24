@@ -24,6 +24,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 
 import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
+import accefa.event.NewBaseUrlEvent;
 import accefa.event.ProcessStartedEvent;
 import accefa.event.ProcessStoppedEvent;
 import accefa.service.image.ImageService;
@@ -200,6 +201,7 @@ public class PiController {
     private void saveUrlSuccessful(final TextField textField) {
         textField.setStyle("-fx-base: #ffffff");
         eventBus.post(new InfoEvent("Die URL wurde gespeichert."));
+        eventBus.post(new NewBaseUrlEvent());
     }
 
     private void saveUrlError(final TextField textField) {

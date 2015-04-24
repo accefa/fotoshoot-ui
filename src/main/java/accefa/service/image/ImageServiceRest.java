@@ -85,4 +85,15 @@ public class ImageServiceRest implements ImageService {
         }
     }
 
+	@Override
+	public void shoot() throws ImageServiceException {
+		try {
+            final Response response = clientFactory.getRaspiTarget().path(RESOURCE_CAMERA)
+                    .request(MediaType.TEXT_PLAIN).post(null);
+            handleStatusInfo(response.getStatusInfo());
+        } catch (final RuntimeException e) {
+            throw new ImageServiceException(e);
+        }
+	}
+
 }
