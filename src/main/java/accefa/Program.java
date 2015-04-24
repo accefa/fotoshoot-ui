@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -58,6 +59,7 @@ public class Program extends Application {
       rootLayout.setCenter(createTabPane());
       primaryStage.setTitle(ROOT_TITLE);
       primaryStage.setScene(new Scene(rootLayout));
+      primaryStage.getIcons().add(new Image(this.getClass().getClassLoader().getResourceAsStream("Tennisball.png")));
       maximize(primaryStage);
       primaryStage.show();
    }
