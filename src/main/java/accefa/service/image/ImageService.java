@@ -1,5 +1,6 @@
 package accefa.service.image;
 
+import accefa.service.ServiceException;
 import accefa.ui.model.ImageConfigModel;
 
 /**
@@ -15,20 +16,14 @@ public interface ImageService {
 	 *            Bild Konfiguration.
 	 */
 	void saveImageConfigModel(ImageConfigModel model)
-			throws ImageServiceException;
+			throws ServiceException;
 
 	/**
 	 * Lädt die aktuelle Bild Konfiguration.
 	 *
 	 * @return Bild Konfiguration.
 	 */
-	ImageConfigModel readImageConfigModel() throws ImageServiceException;
-
-	/**
-	 * Startet den Ballabwurf Prozesse.
-	 *
-	 */
-	void startProcess() throws ImageServiceException;
+	ImageConfigModel readImageConfigModel() throws ServiceException;
 
 	/**
 	 * Gibt die URL des Bildes zurück.
@@ -40,6 +35,6 @@ public interface ImageService {
 	/**
 	 * Macht ein Foto.
 	 */
-	void shoot() throws ImageServiceException;
+	void shoot() throws ServiceException;
 
 }

@@ -27,8 +27,9 @@ import accefa.event.InfoEvent;
 import accefa.event.NewBaseUrlEvent;
 import accefa.event.ProcessStartedEvent;
 import accefa.event.ProcessStoppedEvent;
+import accefa.service.ServiceException;
+import accefa.service.general.GeneralService;
 import accefa.service.image.ImageService;
-import accefa.service.image.ImageServiceException;
 import accefa.util.ApplicationPreferences;
 
 import com.google.common.eventbus.EventBus;
@@ -37,7 +38,9 @@ import com.google.inject.Inject;
 
 public class PiController {
 
-    private final ImageService service;
+    private final ImageService imageService;
+    
+    private final GeneralService generalService;
 
     private final ExecutorService executor;
 
@@ -69,11 +72,12 @@ public class PiController {
 
     @Inject
     public PiController(final ImageService service, final ExecutorService executor,
-            final ApplicationPreferences properties, final EventBus eventBus) {
-        this.service = service;
+            final ApplicationPreferences properties, final EventBus eventBus, GeneralService generalService) {
+        this.imageService = service;
         this.executor = executor;
         this.properties = properties;
         this.eventBus = eventBus;
+        this.generalService = generalService;
     }
 
     @FXML
@@ -138,8 +142,8 @@ public class PiController {
 
                     final Task<Void> task = new Task<Void>() {
                         @Override
-                        protected Void call() throws ImageServiceException {
-                            service.startProcess();
+                        protected Void call() throws ServiceException {
+                            generalService.start();
                             return null;
                         }
 

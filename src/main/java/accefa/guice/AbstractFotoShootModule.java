@@ -19,13 +19,15 @@ import com.google.inject.spi.TypeListener;
  */
 public abstract class AbstractFotoShootModule extends AbstractModule {
 
-    protected abstract void configureRaspiService();
+    protected abstract void configureImageService();
 
     protected abstract void configureBldcDriveService();
 
     protected abstract void configureDcDriveService();
 
     protected abstract void configureStpDriveService();
+    
+    protected abstract void configureGeneralService();
 
     @Override
     protected void configure() {
@@ -54,7 +56,8 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
             }
         });
 
-        configureRaspiService();
+        configureGeneralService();
+        configureImageService();
         configureBldcDriveService();
         configureDcDriveService();
         configureStpDriveService();

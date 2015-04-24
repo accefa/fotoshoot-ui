@@ -6,6 +6,8 @@ import accefa.service.drive.dc.DcDriveService;
 import accefa.service.drive.dc.DcDriveServiceRest;
 import accefa.service.drive.stp.StpDriveService;
 import accefa.service.drive.stp.StpDriveServiceRest;
+import accefa.service.general.GeneralService;
+import accefa.service.general.GeneralServiceRest;
 import accefa.service.image.ImageService;
 import accefa.service.image.ImageServiceRest;
 
@@ -15,7 +17,7 @@ import accefa.service.image.ImageServiceRest;
 public class FotoShootModule extends AbstractFotoShootModule {
 
     @Override
-    protected void configureRaspiService() {
+    protected void configureImageService() {
         bind(ImageService.class).to(ImageServiceRest.class);
     }
 
@@ -33,5 +35,10 @@ public class FotoShootModule extends AbstractFotoShootModule {
     protected void configureStpDriveService() {
         bind(StpDriveService.class).to(StpDriveServiceRest.class);
     }
+
+	@Override
+	protected void configureGeneralService() {
+		bind(GeneralService.class).to(GeneralServiceRest.class);
+	}
 
 }

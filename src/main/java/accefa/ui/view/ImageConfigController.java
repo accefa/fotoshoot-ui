@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -15,12 +14,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import accefa.event.ErrorEvent;
 import accefa.event.InfoEvent;
 import accefa.event.NewBaseUrlEvent;
+import accefa.service.ServiceException;
 import accefa.service.image.ImageService;
-import accefa.service.image.ImageServiceException;
 import accefa.ui.model.ImageConfigModel;
 
 import com.google.common.eventbus.EventBus;
@@ -149,7 +147,7 @@ public class ImageConfigController {
    private void loadImageConfigModel() {
       final Task<ImageConfigModel> task = new Task<ImageConfigModel>() {
          @Override
-         protected ImageConfigModel call() throws ImageServiceException {
+         protected ImageConfigModel call() throws ServiceException {
             return service.readImageConfigModel();
          }
 
@@ -205,7 +203,7 @@ public class ImageConfigController {
    private void shoot() {
       final Task<Void> task = new Task<Void>() {
          @Override
-         protected Void call() throws ImageServiceException {
+         protected Void call() throws ServiceException {
         	titledPaneConfiguration.getParent().setDisable(true);
             service.shoot();
             return null;
@@ -243,7 +241,7 @@ public class ImageConfigController {
    private void saveImageConfigModel() {
       final Task<Void> task = new Task<Void>() {
          @Override
-         protected Void call() throws ImageServiceException {
+         protected Void call() throws ServiceException {
             service.saveImageConfigModel(imageConfigModel);
             return null;
          }

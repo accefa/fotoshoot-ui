@@ -1,5 +1,6 @@
 package accefa.service.image;
 
+import accefa.service.ServiceException;
 import accefa.ui.model.ImageConfigModel;
 
 // TODO Eigentlich sollte nicht im /src/main/java sein - da nur Testmock Implemenation.
@@ -8,23 +9,18 @@ public class ImageServiceStub implements ImageService {
     private static final int SLEEP_TIME = 3000;
 
     @Override
-    public void saveImageConfigModel(final ImageConfigModel model) throws ImageServiceException {
+    public void saveImageConfigModel(final ImageConfigModel model) throws ServiceException {
         sleep();
     }
 
     @Override
-    public ImageConfigModel readImageConfigModel() throws ImageServiceException {
+    public ImageConfigModel readImageConfigModel() throws ServiceException {
         sleep();
         final ImageConfigModel model = new ImageConfigModel();
         model.setContrast(80);
         model.setGreyscale(true);
         model.setGreyscaleThreshold(400);
         return model;
-    }
-
-    @Override
-    public void startProcess() throws ImageServiceException {
-        sleep();
     }
 
     @Override
@@ -41,7 +37,7 @@ public class ImageServiceStub implements ImageService {
     }
 
 	@Override
-	public void shoot() throws ImageServiceException {
+	public void shoot() throws ServiceException {
 		try {
             Thread.sleep(SLEEP_TIME);
         } catch (final InterruptedException e) {
