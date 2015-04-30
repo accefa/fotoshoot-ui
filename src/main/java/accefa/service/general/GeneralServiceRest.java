@@ -54,10 +54,11 @@ public class GeneralServiceRest implements GeneralService {
 			final String log = clientFactory.getRaspiTarget()
 					.path(RESOURCE_LOGGER).request(MediaType.TEXT_PLAIN_TYPE)
 					.get(String.class);
-			
+
 			List<LogModel> currentLogOnServer = parseText(log);
 			List<LogModel> newLogsForClient = Lists.newArrayList();
 			for (LogModel serverLogModel : currentLogOnServer) {
+
 				if (!currentLogOnClient.contains(serverLogModel)) {
 					currentLogOnClient.add(serverLogModel);
 					newLogsForClient.add(serverLogModel);

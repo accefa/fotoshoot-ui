@@ -48,7 +48,8 @@ public class LogModel {
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(time, level, source, message);
+		return Objects.hashCode(time.get(), level.get(), source.get(),
+				message.get());
 	}
 
 	@Override
@@ -56,21 +57,24 @@ public class LogModel {
 		if (obj == null) {
 			return false;
 		}
+
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
+
 		final LogModel other = (LogModel) obj;
 
-		return Objects.equal(time, other.time)
-				&& Objects.equal(level, other.level)
-				&& Objects.equal(source, other.source)
-				&& Objects.equal(message, other.message);
+		return Objects.equal(time.get(), other.time.get())
+				&& Objects.equal(level.get(), other.level.get())
+				&& Objects.equal(source.get(), other.source.get())
+				&& Objects.equal(message.get(), other.message.get());
 	}
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).addValue(time).addValue(level)
-				.addValue(source).addValue(message).toString();
+		return Objects.toStringHelper(this).addValue(time.get())
+				.addValue(level.get()).addValue(source.get())
+				.addValue(message.get()).toString();
 	}
 
 }
