@@ -82,24 +82,30 @@ public class GeneralServiceRest implements GeneralService {
 		Set<LogModel> models = Sets.newHashSet();
 		String lines[] = text.split("\\r?\\n");
 		for (String line : lines) {
-			String words[] = line.split("\\s+");
-			String date = words[0];
-			String time = words[1];
-			String level = words[2];
-			String message = "";
-			for (int i = 3; i < words.length; i++) {
-				message += words[i] + " ";
+			try {
+				String words[] = line.split("\\s+");
+				String date = words[0];
+				String time = words[1];
+				String level = words[2];
+				String message = "";
+				for (int i = 3; i < words.length; i++) {
+					message += words[i] + " ";
+				}
+
+				DateTimeFormatter formatter = DateTimeFormatter
+						.ofPattern("dd/MM/yyyy HH:mm:ss");
+				LocalDateTime dateTime = LocalDateTime.parse(date + " " + time,
+						formatter);
+
+				LogModel model = new LogModel(message.trim(), level.trim(),
+						"Server");
+				model.setTime(dateTime);
+				models.add(model);
+			} catch (RuntimeException e) {
+				models.add(new LogModel(
+						"Nachricht konnte nicht geladen werden", "INFO",
+						"Server"));
 			}
-
-			DateTimeFormatter formatter = DateTimeFormatter
-					.ofPattern("dd/MM/yyyy HH:mm:ss");
-			LocalDateTime dateTime = LocalDateTime.parse(date + " " + time,
-					formatter);
-
-			LogModel model = new LogModel(message.trim(), level.trim(),
-					"Server");
-			model.setTime(dateTime);
-			models.add(model);
 		}
 		return Lists.newArrayList(models);
 	}
