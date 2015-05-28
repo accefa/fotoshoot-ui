@@ -36,11 +36,11 @@ public class Program extends Application {
    private static final String DRIVES_LAYOUT = "Drives.fxml";
    private static final String DRIVES_TITLE = "Motoren";
    private static final String ACTION_LOG_LAYOUT = "ActionOverview.fxml";
-   private static final String ACTION_LOG_TITLE = "Aktions-Log";
+   private static final String ACTION_LOG_TITLE = "Log";
    private static final String IMAGE_CONFIG_LAYOUT = "ImageConfig.fxml";
    private static final String IMAGE_CONFIG_TITLE = "Bild-Erkennung";
    private static final String PI_LAYOUT = "Pi.fxml";
-   private static final String PI_TITLE = "Pi";
+   private static final String PI_TITLE = "Ballwurf";
    private static final String ROOT_LAYOUT = "RootLayout.fxml";
    private static final String ROOT_TITLE = "Foto-Shoot";
 
@@ -79,8 +79,8 @@ public class Program extends Application {
       final List<Tab> tabs = new ArrayList<Tab>();
       tabs.add(createTabPi());
       tabs.add(createTabImageRecognition());
-      tabs.add(createTabActionLog());
       tabs.add(createTabDrives());
+      tabs.add(createTabActionLog());
       for (final Tab tab : tabs) {
          tab.setClosable(false);
          tabPane.getTabs().add(tab);
