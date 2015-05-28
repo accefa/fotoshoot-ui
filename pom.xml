@@ -1,9 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>accefa</groupId>
+	<groupId>com.github.accefa</groupId>
 	<artifactId>fotoshoot-ui</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
+	<name>Produktentwicklung 2</name>
+	<url>https://github.com/accefa/fotoshoot-ui</url>
+	<description>Java UI für das Modul Produktentwicklung 2 an der Hochschule Luzern.</description>
+	<organization>
+		<name>Hochschule Luzern </name>
+		<url>http://www.hslu.ch</url>
+	</organization>
+	<scm>
+		<url>https://github.com/accefa/fotoshoot-ui</url>
+	</scm>
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/accefa/fotoshoot-ui</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/accefa/fotoshoot-ui</url>
+	</ciManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -71,4 +89,33 @@
 			<version>2.17</version>
 		</dependency>
 	</dependencies>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.18.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.15</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
