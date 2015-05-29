@@ -17,16 +17,15 @@ public class GeneralServiceStub implements GeneralService {
 	@Override
 	public List<LogModel> getLogs() throws ServiceException {
 		List<LogModel> models = Lists.newArrayList();
-		models.add(new LogModel("Server Log 1", "INFO", "Server"));
-		models.add(new LogModel("Server Log 2", "INFO", "Server"));
-		models.add(new LogModel("Server Log 3", "INFO", "Server"));
-		models.add(new LogModel("Server Log 4", "INFO", "Server"));
-		models.add(new LogModel("Server Log 5", "INFO", "Server"));
-
-		LogModel model = new LogModel("Server Log 699", "Error", "Server");
-		model.setTime(LocalDateTime.of(2010, 11, 6, 12, 56));
-		models.add(model);
-
+		models.add(new LogModel("Ballwurf starten", "INFO", "Server"));
+		models.add(new LogModel("Korb erkennen", "INFO", "Server"));
+		models.add(new LogModel("Stepper 14320 Schritte nach links", "INFO", "Server"));
+		models.add(new LogModel("Schwungrad in Schwung bringen", "INFO", "Server"));
+		models.add(new LogModel("Ballnachschub aktivieren", "INFO", "Server"));
+		models.add(new LogModel("Ballwurf beendet", "INFO", "Server"));
+		for (LogModel model : models) {
+			model.setTime(LocalDateTime.of(2015, 5, 22, 12, 56));
+		}
 		return models;
 	}
 

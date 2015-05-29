@@ -96,7 +96,7 @@ public class ActionOverviewController {
 
 	@Subscribe
 	public void recordInfoEvent(final InfoEvent event) {
-		addNewLog(event.getMessage(), "ERROR", "Client");
+		addNewLog(event.getMessage(), "INFO", "Client");
 	}
 
 	@Subscribe
