@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.accefa</groupId>
 	<artifactId>fotoshoot-ui</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Produktentwicklung 2</name>
 	<url>https://github.com/accefa/fotoshoot-ui</url>
 	<description>Java UI für das Modul Produktentwicklung 2 an der Hochschule Luzern.</description>
