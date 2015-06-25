@@ -65,7 +65,7 @@
                   <Button fx:id="btnStpStart" minWidth="50.0" mnemonicParsing="false" onAction="#btnStpStartAction" text="Start" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Button fx:id="btnStpReset" minWidth="50.0" mnemonicParsing="false" onAction="#btnStpResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Label text="Schritte" />
-                  <Slider fx:id="sliderStp" min="-100.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Slider fx:id="sliderStp" min="-8000.0" max="8000.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                </children>
             </GridPane>
          </content>
