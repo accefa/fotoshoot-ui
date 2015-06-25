@@ -27,111 +27,110 @@ import com.google.inject.Inject;
  */
 public class ActionOverviewController {
 
-	private GeneralService service;
+    private final GeneralService service;
 
-	@FXML
-	private Button btnReload;
+    @FXML
+    private Button btnReload;
 
-	@FXML
-	private TableView<LogModel> tableActions;
+    @FXML
+    private TableView<LogModel> tableActions;
 
-	@FXML
-	private TableColumn<LogModel, LocalDateTime> colTime;
+    @FXML
+    private TableColumn<LogModel, LocalDateTime> colTime;
 
-	@FXML
-	private TableColumn<LogModel, String> colMessage;
+    @FXML
+    private TableColumn<LogModel, String> colMessage;
 
-	@FXML
-	private TableColumn<LogModel, String> colLevel;
+    @FXML
+    private TableColumn<LogModel, String> colLevel;
 
-	@FXML
-	private TableColumn<LogModel, String> colSource;
+    @FXML
+    private TableColumn<LogModel, String> colSource;
 
-	@Inject
-	public ActionOverviewController(final GeneralService service) {
-		this.service = service;
-	}
+    @Inject
+    public ActionOverviewController(final GeneralService service) {
+        this.service = service;
+    }
 
-	@FXML
-	public void reloadLog(ActionEvent event) {
-		loadData();
-	}
+    @FXML
+    public void reloadLog(final ActionEvent event) {
+        loadData();
+    }
 
-	@FXML
-	private void initialize() {
-		tableActions.setItems(FXCollections.observableArrayList());
+    @FXML
+    private void initialize() {
+        tableActions.setItems(FXCollections.observableArrayList());
 
-		// Custom rendering of the table cell.
-		final DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-		colTime.setCellFactory(column -> {
-			return new TableCell<LogModel, LocalDateTime>() {
-				@Override
-				protected void updateItem(final LocalDateTime item,
-						final boolean empty) {
-					super.updateItem(item, empty);
-					if (item != null && !empty) {
-						setText(myDateFormatter.format(item));
-					}
-				}
-			};
-		});
+        // Custom rendering of the table cell.
+        final DateTimeFormatter myDateFormatter = DateTimeFormatter
+                .ofPattern("dd.MM.yyyy HH:mm:ss");
+        colTime.setCellFactory(column -> {
+            return new TableCell<LogModel, LocalDateTime>() {
+                @Override
+                protected void updateItem(final LocalDateTime item, final boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null && !empty) {
+                        setText(myDateFormatter.format(item));
+                    }
+                }
+            };
+        });
 
-		colTime.setCellValueFactory(cellData -> cellData.getValue().timePropertY());
-		colMessage.setCellValueFactory(cellData -> cellData.getValue().messageProperty());
-		colLevel.setCellValueFactory(cellData -> cellData.getValue().levelProperty());
-		colSource.setCellValueFactory(cellData -> cellData.getValue().sourceProperty());
+        colTime.setCellValueFactory(cellData -> cellData.getValue().timePropertY());
+        colMessage.setCellValueFactory(cellData -> cellData.getValue().messageProperty());
+        colLevel.setCellValueFactory(cellData -> cellData.getValue().levelProperty());
+        colSource.setCellValueFactory(cellData -> cellData.getValue().sourceProperty());
 
-		colTime.prefWidthProperty().set(150);
-		colMessage.prefWidthProperty().bind(tableActions.widthProperty().subtract(colTime.prefWidthProperty()).subtract(2));
+        colTime.prefWidthProperty().set(150);
+        colMessage.prefWidthProperty().bind(
+                tableActions.widthProperty().subtract(colTime.prefWidthProperty()).subtract(2));
 
-		tableActions.getSortOrder().add(colTime);
+        tableActions.getSortOrder().add(colTime);
+    }
 
-		loadData();
-	}
+    @Subscribe
+    public void recordErrorEvent(final ErrorEvent event) {
+        addNewLog(event.getMessage(), "ERROR", "Client");
+    }
 
-	@Subscribe
-	public void recordErrorEvent(final ErrorEvent event) {
-		addNewLog(event.getMessage(), "ERROR", "Client");
-	}
+    @Subscribe
+    public void recordInfoEvent(final InfoEvent event) {
+        addNewLog(event.getMessage(), "INFO", "Client");
+    }
 
-	@Subscribe
-	public void recordInfoEvent(final InfoEvent event) {
-		addNewLog(event.getMessage(), "INFO", "Client");
-	}
+    @Subscribe
+    public void recordProcessStartedEvent(final ProcessStartedEvent event) {
+        addNewLog("Prozess gestartet", "INFO", "Client");
+    }
 
-	@Subscribe
-	public void recordProcessStartedEvent(final ProcessStartedEvent event) {
-		addNewLog("Prozess gestartet", "INFO", "Client");
-	}
+    @Subscribe
+    public void recordProcessStoppedEvent(final ProcessStoppedEvent event) {
+        addNewLog("Prozess beendet", "INFO", "Client");
+    }
 
-	@Subscribe
-	public void recordProcessStoppedEvent(final ProcessStoppedEvent event) {
-		addNewLog("Prozess beendet", "INFO", "Client");
-	}
-	
-	private void addNewLog(String message, String level, String source) {
-		tableActions.getItems().add(new LogModel(message, level, source));
-		resort();
-	}
+    private void addNewLog(final String message, final String level, final String source) {
+        tableActions.getItems().add(new LogModel(message, level, source));
+        resort();
+    }
 
-	private void loadData() {
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					tableActions.getItems().addAll(service.getLogs());
-					resort();
-				} catch (ServiceException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private void loadData() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    tableActions.getItems().addAll(service.getLogs());
+                    resort();
+                } catch (final ServiceException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	private void resort() {
-		tableActions.getSortOrder().add(colTime);
-		colTime.setSortType(TableColumn.SortType.DESCENDING);
-		colTime.setSortable(true);
-	}
+    private void resort() {
+        tableActions.getSortOrder().add(colTime);
+        colTime.setSortType(TableColumn.SortType.DESCENDING);
+        colTime.setSortable(true);
+    }
 
 }

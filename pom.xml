@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.accefa</groupId>
 	<artifactId>fotoshoot-ui</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Produktentwicklung 2</name>
 	<url>https://github.com/accefa/fotoshoot-ui</url>
 	<description>Java UI für das Modul Produktentwicklung 2 an der Hochschule Luzern.</description>
@@ -32,6 +32,41 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>accefa.Program</Main-Class>
+										<X-Compile-Source-JDK>${maven.compile.java.version}</X-Compile-Source-JDK>
+										<X-Compile-Target-JDK>${maven.compile.java.version}</X-Compile-Target-JDK>
+									</manifestEntries>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
