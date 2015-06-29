@@ -22,7 +22,7 @@
                   <Button fx:id="btnBldcOn" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcOnAction" text="An" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Button fx:id="btnBldcOff" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcOffAction" text="Aus" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Button fx:id="btnBldcReset" minWidth="50.0" mnemonicParsing="false" onAction="#btnBldcResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Label text="RPM" />
+                  <Label fx:id="lblRpm" text="RPM" />
                   <Slider fx:id="sliderBldc" majorTickUnit="1000.0" max="20000.0" minorTickCount="100" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                </children>
             </GridPane>
@@ -64,8 +64,8 @@
                <children>
                   <Button fx:id="btnStpStart" minWidth="50.0" mnemonicParsing="false" onAction="#btnStpStartAction" text="Start" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                   <Button fx:id="btnStpReset" minWidth="50.0" mnemonicParsing="false" onAction="#btnStpResetAction" text="Reset" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Label text="Schritte" />
-                  <Slider fx:id="sliderStp" min="-8000.0" max="8000.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                  <Label fx:id="lblSteps" text="Schritte" />
+                  <Slider fx:id="sliderStp" majorTickUnit="1000.0" max="10000.0" min="-10000.0" minorTickCount="100" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                </children>
             </GridPane>
          </content>
