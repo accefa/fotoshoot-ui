@@ -3,6 +3,7 @@ package accefa.guice;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import accefa.service.JinglePlayer;
 import accefa.service.RaspiClientFactory;
 import accefa.util.ApplicationPreferences;
 
@@ -26,7 +27,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
     protected abstract void configureDcDriveService();
 
     protected abstract void configureStpDriveService();
-    
+
     protected abstract void configureGeneralService();
 
     @Override
@@ -39,6 +40,7 @@ public abstract class AbstractFotoShootModule extends AbstractModule {
 
         bind(ApplicationPreferences.class).asEagerSingleton();
         bind(RaspiClientFactory.class).asEagerSingleton();
+        bind(JinglePlayer.class).asEagerSingleton();
 
         // Alle Controller registrieren. Damit müssen sich die Controller nicht
         // mehr selber registrieren. Es werden alle Objekte registriert, welche

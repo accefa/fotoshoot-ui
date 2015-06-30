@@ -39,7 +39,7 @@ import com.google.inject.Inject;
 public class PiController {
 
     private final ImageService imageService;
-    
+
     private final GeneralService generalService;
 
     private final ExecutorService executor;
@@ -72,7 +72,8 @@ public class PiController {
 
     @Inject
     public PiController(final ImageService service, final ExecutorService executor,
-            final ApplicationPreferences properties, final EventBus eventBus, GeneralService generalService) {
+            final ApplicationPreferences properties, final EventBus eventBus,
+            final GeneralService generalService) {
         this.imageService = service;
         this.executor = executor;
         this.properties = properties;
@@ -158,10 +159,10 @@ public class PiController {
                                 }
                             });
                         }
-                        
+
                         @Override
                         protected void succeeded() {
-                        	Platform.runLater(new Runnable() {
+                            Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
                                     eventBus.post(new ProcessStoppedEvent());
