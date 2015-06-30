@@ -11,124 +11,121 @@ import com.google.inject.Inject;
 
 public class DriveController {
 
-	private final BldcTaskExecutor bldcTaskExecutor;
+    private final BldcTaskExecutor bldcTaskExecutor;
 
-	private final DcTaskExecutor dcTaskExecutor;
+    private final DcTaskExecutor dcTaskExecutor;
 
-	private final StpTaskExecutor stpTaskExecutor;
+    private final StpTaskExecutor stpTaskExecutor;
 
-	@FXML
-	private Slider sliderBldc;
+    @FXML
+    private Slider sliderBldc;
 
-	@FXML
-	private Button btnBldcOn;
+    @FXML
+    private Button btnBldcOn;
 
-	@FXML
-	private Button btnBldcOff;
+    @FXML
+    private Button btnBldcOff;
 
-	@FXML
-	private Button btnBldcReset;
+    @FXML
+    private Button btnBldcReset;
 
-	@FXML
-	private Button btnDcForward;
+    @FXML
+    private Button btnDcForward;
 
-	@FXML
-	private Button btnDcBackward;
+    @FXML
+    private Button btnDcBackward;
 
-	@FXML
-	private Button btnDcOff;
+    @FXML
+    private Button btnDcOff;
 
-	@FXML
-	private Button btnDcReset;
+    @FXML
+    private Button btnDcReset;
 
-	@FXML
-	private Slider sliderStp;
+    @FXML
+    private Slider sliderStp;
 
-	@FXML
-	private Button btnStpStart;
+    @FXML
+    private Button btnStpStart;
 
-	@FXML
-	private Button btnStpReset;
+    @FXML
+    private Button btnStpReset;
 
-	@FXML
-	private Label lblSteps;
+    @FXML
+    private Label lblSteps;
 
-	@FXML
-	private Label lblRpm;
+    @FXML
+    private Label lblRpm;
 
-	@Inject
-	public DriveController(final BldcTaskExecutor bldcTaskExecutor,
-			final DcTaskExecutor dcTaskExecutor,
-			final StpTaskExecutor stpTaskExecutor) {
-		this.bldcTaskExecutor = bldcTaskExecutor;
-		this.dcTaskExecutor = dcTaskExecutor;
-		this.stpTaskExecutor = stpTaskExecutor;
-	}
+    @Inject
+    public DriveController(final BldcTaskExecutor bldcTaskExecutor,
+            final DcTaskExecutor dcTaskExecutor, final StpTaskExecutor stpTaskExecutor) {
+        this.bldcTaskExecutor = bldcTaskExecutor;
+        this.dcTaskExecutor = dcTaskExecutor;
+        this.stpTaskExecutor = stpTaskExecutor;
+    }
 
-	@FXML
-	private void initialize() {
-		btnBldcOff.setDisable(true);
+    @FXML
+    private void initialize() {
+        btnBldcOff.setDisable(true);
 
-		lblSteps.textProperty().bind(
-				Bindings.concat("Schritte (")
-						.concat(sliderStp.valueProperty().asString("%.0f"))
-						.concat(")"));
+        lblSteps.textProperty().bind(
+                Bindings.concat("Schritte (").concat(sliderStp.valueProperty().asString("%.0f"))
+                        .concat(")"));
 
-		lblRpm.textProperty().bind(
-				Bindings.concat("RPM (")
-						.concat(sliderBldc.valueProperty().asString("%.0f"))
-						.concat(")"));
-	}
+        lblRpm.textProperty().bind(
+                Bindings.concat("RPM (").concat(sliderBldc.valueProperty().asString("%.0f"))
+                        .concat(")"));
+    }
 
-	@FXML
-	void btnBldcOnAction(final ActionEvent event) {
-		bldcTaskExecutor.start((int) sliderBldc.getValue());
-		btnBldcOn.setDisable(true);
-		btnBldcOff.setDisable(false);
-		btnBldcReset.setDisable(true);
-	}
+    @FXML
+    void btnBldcOnAction(final ActionEvent event) {
+        bldcTaskExecutor.start((int) sliderBldc.getValue());
+        btnBldcOn.setDisable(true);
+        btnBldcOff.setDisable(false);
+        btnBldcReset.setDisable(true);
+    }
 
-	@FXML
-	void btnBldcOffAction(final ActionEvent event) {
-		bldcTaskExecutor.stop();
-		btnBldcOn.setDisable(false);
-		btnBldcOff.setDisable(true);
-		btnBldcReset.setDisable(false);
-	}
+    @FXML
+    void btnBldcOffAction(final ActionEvent event) {
+        bldcTaskExecutor.stop();
+        btnBldcOn.setDisable(false);
+        btnBldcOff.setDisable(true);
+        btnBldcReset.setDisable(false);
+    }
 
-	@FXML
-	void btnBldcResetAction(final ActionEvent event) {
-		bldcTaskExecutor.reset();
-	}
+    @FXML
+    void btnBldcResetAction(final ActionEvent event) {
+        bldcTaskExecutor.reset();
+    }
 
-	@FXML
-	void btnDcForwardAction(final ActionEvent event) {
-		dcTaskExecutor.forward();
-	}
+    @FXML
+    void btnDcForwardAction(final ActionEvent event) {
+        dcTaskExecutor.forward();
+    }
 
-	@FXML
-	void btnDcBackwardAction(final ActionEvent event) {
-		dcTaskExecutor.backward();
-	}
+    @FXML
+    void btnDcBackwardAction(final ActionEvent event) {
+        dcTaskExecutor.backward();
+    }
 
-	@FXML
-	void btnDcOffAction(final ActionEvent event) {
-		dcTaskExecutor.stop();
-	}
+    @FXML
+    void btnDcOffAction(final ActionEvent event) {
+        dcTaskExecutor.stop();
+    }
 
-	@FXML
-	void btnDcResetAction(final ActionEvent event) {
-		dcTaskExecutor.reset();
-	}
+    @FXML
+    void btnDcResetAction(final ActionEvent event) {
+        dcTaskExecutor.reset();
+    }
 
-	@FXML
-	void btnStpStartAction(final ActionEvent event) {
-		stpTaskExecutor.start((int) sliderStp.getValue());
-	}
+    @FXML
+    void btnStpStartAction(final ActionEvent event) {
+        stpTaskExecutor.start((int) (sliderStp.getValue() * -1));
+    }
 
-	@FXML
-	void btnStpResetAction(final ActionEvent event) {
-		stpTaskExecutor.reset();
-	}
+    @FXML
+    void btnStpResetAction(final ActionEvent event) {
+        stpTaskExecutor.reset();
+    }
 
 }
